@@ -18,7 +18,7 @@ class Vec2 {
 	}
 
 	length(): number {
-		return Math.sqrt(this.x * this.x + this.y * this.y);
+		return Math.sqrt(this.x ** 2 + this.y ** 2);
 	}
 
 	dist(rhs: Vec2) {
