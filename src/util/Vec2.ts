@@ -20,8 +20,15 @@ class Vec2 {
 		return new Vec2(this.x / rhs, this.y / rhs);
 	}
 
-	dist(): number {
+	length(): number {
 		return Math.sqrt(this.x * this.x + this.y * this.y);
+	}
+
+	dist(rhs: Vec2) {
+		let dx: number = this.x - rhs.x;
+		let dy: number = this.y - rhs.y;
+
+		return Math.sqrt(dx*dx + dy*dy);
 	}
 
 	dot(rhs: Vec2): number {
@@ -41,7 +48,7 @@ class Vec2 {
 	}
 
 	normal(): Vec2 {
-		return this.div(this.dist());
+		return this.div(this.length());
 	}
 
 	x: number;
