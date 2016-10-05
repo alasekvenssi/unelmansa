@@ -21,11 +21,8 @@ class Vec2 {
 		return Math.sqrt(this.x ** 2 + this.y ** 2);
 	}
 
-	dist(rhs: Vec2) {
-		let dx: number = this.x - rhs.x;
-		let dy: number = this.y - rhs.y;
-
-		return Math.sqrt(dx*dx + dy*dy);
+	distance(rhs: Vec2): number {
+		return Math.sqrt((this.x - rhs.x)**2 + (this.y - rhs.y)**2);
 	}
 
 	dot(rhs: Vec2): number {
@@ -36,7 +33,7 @@ class Vec2 {
 		return this.x * rhs.y - this.y * rhs.x;
 	}
 
-	cuboidArea(rhs: Vec2): number {
+	parallelogramArea(rhs: Vec2): number {
 		return Math.abs(this.cross(rhs));
 	}
 
