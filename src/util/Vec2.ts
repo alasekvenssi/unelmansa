@@ -1,26 +1,23 @@
 class Vec2 {
-	constructor(x: number = 0, y: number = 0) {
-		this.x = x;
-		this.y = y;
-	}
+	constructor(public x: number = 0, public y: number = 0) { }
 
 	add(rhs: Vec2): Vec2 {
 		return new Vec2(this.x + rhs.x, this.y + rhs.y);
 	}
 
-	sub(rhs: Vec2): Vec2 {
+	substract(rhs: Vec2): Vec2 {
 		return new Vec2(this.x - rhs.x, this.y - rhs.y);
 	}
 
-	mul(rhs: number): Vec2 {
+	multiply(rhs: number): Vec2 {
 		return new Vec2(this.x * rhs, this.y * rhs);
 	}
 
-	div(rhs: number): Vec2 {
+	divide(rhs: number): Vec2 {
 		return new Vec2(this.x / rhs, this.y / rhs);
 	}
 
-	dist(): number {
+	length(): number {
 		return Math.sqrt(this.x * this.x + this.y * this.y);
 	}
 
@@ -43,7 +40,4 @@ class Vec2 {
 	normal(): Vec2 {
 		return this.div(this.dist());
 	}
-
-	x: number;
-	y: number;
 }
