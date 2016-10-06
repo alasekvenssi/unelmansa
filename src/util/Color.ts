@@ -1,12 +1,12 @@
 export class Color {
-	constructor(public r: number = 0, public g: number = 0, public b: number = 0, public a: number = 1) {}
+	constructor(public r: number = 0, public g: number = 0, public b: number = 0, public a: number = 255) {}
 
 	getRGB(): string {
 		return `rgb(${this.r}, ${this.g}, ${this.b})`;
 	}
 
 	getRGBA(): string {
-		return`rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+		return`rgba(${this.r}, ${this.g}, ${this.b}, ${this.a/255})`;
 	}
 
 	toString(): string {
@@ -14,7 +14,7 @@ export class Color {
 	}
 
 	isValid(): boolean {
-		if(this.r < 0 || this.r > 255 || this.g < 0 || this.g > 255 || this.b < 0 || this.b > 255 || this.a < 0 || this.a > 1) {
+		if(this.r < 0 || this.r > 255 || this.g < 0 || this.g > 255 || this.b < 0 || this.b > 255 || this.a < 0 || this.a > 255) {
 			return false;
 		} else {
 			return true;
