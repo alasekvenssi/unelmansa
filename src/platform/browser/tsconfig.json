@@ -4,6 +4,7 @@
 		"noImplicitReturns": true,
 		"outDir": "../../../platform/browser/",
 		"outFile": "../../../platform/browser/app.js",
+		"module": "amd",
 		"pretty": true
 	},
 	"include": [
