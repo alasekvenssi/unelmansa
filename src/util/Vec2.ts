@@ -5,15 +5,15 @@ export class Vec2 {
 		return new Vec2(this.x + rhs.x, this.y + rhs.y);
 	}
 
-	substract(rhs: Vec2): Vec2 {
+	sub(rhs: Vec2): Vec2 {
 		return new Vec2(this.x - rhs.x, this.y - rhs.y);
 	}
 
-	multiply(rhs: number): Vec2 {
+	mul(rhs: number): Vec2 {
 		return new Vec2(this.x * rhs, this.y * rhs);
 	}
 
-	divide(rhs: number): Vec2 {
+	div(rhs: number): Vec2 {
 		return new Vec2(this.x / rhs, this.y / rhs);
 	}
 
@@ -25,6 +25,18 @@ export class Vec2 {
 		return Math.sqrt((this.x - rhs.x)**2 + (this.y - rhs.y)**2);
 	}
 
+	sin(rhs: Vec2): number {
+		return this.cross(rhs) / this.length() / rhs.length();
+	}
+
+	cos(rhs: Vec2): number {
+		return this.dot(rhs) / this.length() / rhs.length();
+	}
+
+	projection(rhs: Vec2): Vec2 {
+		return rhs.normal().mul(this.dot(rhs) / rhs.length());
+	}
+
 	dot(rhs: Vec2): number {
 		return this.x * rhs.x + this.y * rhs.y;
 	}
@@ -33,15 +45,7 @@ export class Vec2 {
 		return this.x * rhs.y - this.y * rhs.x;
 	}
 
-	parallelogramArea(rhs: Vec2): number {
-		return Math.abs(this.cross(rhs));
-	}
-
-	triangleArea(rhs: Vec2): number {
-		return this.parallelogramArea(rhs) / 2;
-	}
-
 	normal(): Vec2 {
-		return this.divide(this.length());
+		return this.div(this.length());
 	}
 }
