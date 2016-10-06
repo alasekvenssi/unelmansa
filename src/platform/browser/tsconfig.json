@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"noImplicitAny": true,
+		"outDir": "../../../platform/browser/",
+		"outFile": "../../../platform/browser/app.js",
+		"pretty": true,
+		"rootDir": "../../../",
+	},
+	"include": [
+		"src/platform/browser/app.ts"
+	],
+}
