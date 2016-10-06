@@ -38,10 +38,10 @@ export class Vec2 {
 	}
 
 	triangleArea(rhs: Vec2): number {
-		return this.cuboidArea(rhs) / 2;
+		return this.parallelogramArea(rhs) / 2;
 	}
 
 	normal(): Vec2 {
-		return this.div(this.length());
+		return this.divide(this.length());
 	}
 }
