@@ -4,10 +4,9 @@
 		"noImplicitReturns": true,
 		"outDir": "../../../platform/browser/",
 		"outFile": "../../../platform/browser/app.js",
-		"pretty": true,
-		"rootDir": "../../../",
+		"pretty": true
 	},
 	"include": [
-		"src/platform/browser/app.ts"
-	],
+		"app.ts"
+	]
 }
