@@ -5,7 +5,7 @@ enum Shape {
 	Circle
 }
 
-interface boundingBox {
+interface BoundingBox {
 	shape: Shape;
 	
 	min?: Vec2;
@@ -16,7 +16,7 @@ interface boundingBox {
 }
 
 
-export function areIntersecting(lhs: boundingBox, rhs: boundingBox): boolean {
+export function areIntersecting(lhs: BoundingBox, rhs: BoundingBox): boolean {
 	if(lhs.shape == Shape.Circle && rhs.shape == Shape.Circle) {
 		return circleVsCircle(lhs, rhs);
 	}
@@ -38,8 +38,8 @@ export function areIntersecting(lhs: boundingBox, rhs: boundingBox): boolean {
 	}
 }
 
-function circleVsRectangle(lhs: boundingBox, rhs: boundingBox): boolean {
-	let CircleAABB :boundingBox = {
+function circleVsRectangle(lhs: BoundingBox, rhs: BoundingBox): boolean {
+	let CircleAABB :BoundingBox = {
 		shape: Shape.Rectangle, 
 		min: lhs.position.substract(new Vec2(lhs.radius, lhs.radius)), 
 		max: lhs.position.add(new Vec2(lhs.radius, lhs.radius))
@@ -47,11 +47,11 @@ function circleVsRectangle(lhs: boundingBox, rhs: boundingBox): boolean {
 	return rectangleVsRectangle(CircleAABB, rhs);
 }
 
-function circleVsCircle(lhs: boundingBox, rhs: boundingBox): boolean {
+function circleVsCircle(lhs: BoundingBox, rhs: BoundingBox): boolean {
 	return lhs.position.distance(rhs.position) <= lhs.radius + rhs.radius;
 }
 
-function rectangleVsRectangle(lhs: boundingBox, rhs: boundingBox): boolean {
+function rectangleVsRectangle(lhs: BoundingBox, rhs: BoundingBox): boolean {
 
 	if(lhs.max.x < rhs.min.x || lhs.min.x > rhs.max.x) {
 		return false;
