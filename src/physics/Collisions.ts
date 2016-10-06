@@ -7,8 +7,8 @@ enum Shape {
 
 interface Rectangular {
 	shape: Shape;
-	max: Vec2;
 	min: Vec2;
+	max: Vec2;
 }
 
 interface Circle{
@@ -17,22 +17,22 @@ interface Circle{
 	position: Vec2;
 }
 
-export function areIntersecting(lhs: any, rhs: any): boolean {
 
+export function areIntersecting(lhs: any, rhs: any): boolean {
 	if(lhs.shape == Shape.Circle && rhs.shape == Shape.Circle) {
-		return circleCircleIntersecting(lhs, rhs);
+		return circleVsCircle(lhs, rhs);
 	}
 
 	else if(lhs.shape == Shape.Circle && rhs.shape == Shape.Rectangular) {
-		return circleRectangularIntersecting(lhs, rhs);
+		return circleVsRectangular(lhs, rhs);
 	}
 
 	else if(lhs.shape == Shape.Rectangular && rhs.shape == Shape.Circle) {
-		return circleRectangularIntersecting(rhs, lhs);
+		return circleVsRectangular(rhs, lhs);
 	}
 
 	else if(lhs.shape == Shape.Rectangular && rhs.shape == Shape.Rectangular) {
-		rectangularRectangularIntersecting(lhs, rhs);
+		return rectangularVsRectangular(lhs, rhs);
 	}
 
 	else {
@@ -40,21 +40,28 @@ export function areIntersecting(lhs: any, rhs: any): boolean {
 	}
 }
 
-function circleRectangularIntersecting(lhs: Circle, rhs: Rectangular): boolean {
-	return true; // TODO
+function circleVsRectangular(lhs: Circle, rhs: Rectangular): boolean {
+	let CircleAABB :Rectangular = {
+		shape: Shape.Rectangular, 
+		min: lhs.position.substract(new Vec2(lhs.radius, lhs.radius)), 
+		max: lhs.position.add(new Vec2(lhs.radius, lhs.radius))
+	};
+	return rectangularVsRectangular(CircleAABB, rhs);
 }
 
-function circleCircleIntersecting(lhs: Circle, rhs: Circle): boolean {
+function circleVsCircle(lhs: Circle, rhs: Circle): boolean {
 	return lhs.position.distance(rhs.position) <= lhs.radius + rhs.radius;
 }
 
-function rectangularRectangularIntersecting(lhs: Rectangular, rhs: Rectangular): boolean {
-	return true; // TODO
+function rectangularVsRectangular(lhs: Rectangular, rhs: Rectangular): boolean {
+
+	if(lhs.max.x < rhs.min.x || lhs.min.x > rhs.max.x) {
+		return false;
+	}
+	
+	else if(lhs.max.y < rhs.min.y || lhs.min.y > rhs.max.y){
+		return false;
+	}
+
+	return true;
 }
-
-
-let x: Circle = {shape: Shape.Circle, radius: 5, position: new Vec2(0,0)};
-let y: Circle = {shape: Shape.Circle, radius: 5, position: new Vec2(0,11)};
-
-
-console.log(areIntersecting(x, y));
