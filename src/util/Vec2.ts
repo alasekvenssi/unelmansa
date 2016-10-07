@@ -1,3 +1,6 @@
+import {MathUtil} from "./Math"
+import {Matrix2}  from "./Matrix2"
+
 export class Vec2 {
 	constructor(public x: number = 0, public y: number = 0) { }
 
@@ -47,5 +50,14 @@ export class Vec2 {
 
 	normal(): Vec2 {
 		return this.div(this.length());
+	}
+
+	print(): void {
+		console.log([MathUtil.round(this.x), MathUtil.round(this.y)]);
+		console.log('-');
+	}
+
+	toMatrix(): Matrix2 {
+		return new Matrix2(2, 1).set(0, 0, this.x).set(1, 0, this.y);
 	}
 }

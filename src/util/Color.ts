@@ -34,7 +34,7 @@ export class Color {
 
 		array = temp.split(',', 5);
 		if(array.length != 3 && array.length != 4) {
-			return Color.Transparent;
+			throw `Invalid amout of ','`;
 		}
 
 		result = new Color(parseInt(array[0], 10), parseInt(array[1], 10), parseInt(array[2], 10));
