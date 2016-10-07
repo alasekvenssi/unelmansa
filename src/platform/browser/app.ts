@@ -1,4 +1,6 @@
+import {Matrix2} from "../../util/Matrix2"
 import {Vec2} from "../../util/Vec2"
 
-let v: Vec2 = new Vec2(3, 5).normal();
-console.log(v.x, v.y);
+let m: Matrix2 = Matrix2.ones(2, 2);
+m.pow(2).print();
+m.print();

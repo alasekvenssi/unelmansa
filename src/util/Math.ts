@@ -1,3 +1,5 @@
+import {Arrays} from "./Arrays"
+
 export class MathUtil {
 	static round(x: number, precision: number = MathUtil.Epsilon): number {
 		let temp: number = 10**precision;
@@ -5,11 +7,9 @@ export class MathUtil {
 	}
 
 	static roundForEach(array: number[]): number[] {
-		array.forEach(function (value: number, index: number, arr: number[]): void {
+		return Arrays.forEachInPlace(array, function (value: number, index: number, arr: number[]): void {
 			array[index] = MathUtil.round(value);
 		});
-
-		return array;
 	}
 
 	static roundArray(array: number[]): number[] {
