@@ -1,6 +1,13 @@
 import {TransformMatrix} from "./TransformMatrix"
 import {MathUtil}        from "./Math"
 
+type CloneOperator = (y: number, x: number, InArray: number[][], OutArray: number[][]) => void;
+type ApplyOperator = (y: number, x: number, array: number[][]) => void;
+
+function defaultCloneOperator(y: number, x: number, InArray: number[][], OutArray: number[][]): void {
+	OutArray[y][x] = InArray[y][x];
+}
+
 export class Matrix2 extends Array<Array<number>> {
 	constructor(private h: number = 0, private w: number = 0, value: number = 0) {
 		super(h);
@@ -30,15 +37,39 @@ export class Matrix2 extends Array<Array<number>> {
 		return result;
 	}
 
+	clone(op: CloneOperator = defaultCloneOperator): Matrix2 {
+		let result: Matrix2 = new Matrix2(this.getHeight(), this.getWidth());
+		
+		for(let y: number = 0; y < this.h; ++y) {
+			for(let x: number = 0; x < this.w; ++x) {
+				op(y, x, this, result);
+			}
+		}
+
+		return result;
+	}
+
+	apply(op: ApplyOperator) {
+		for(let y: number = 0; y < this.h; ++y) {
+			for(let x: number = 0; x < this.w; ++x) {
+				op(y, x, this);
+			}
+		}
+	}
+
 	toTransformMatrix(): TransformMatrix {
 		if(this.getWidth() != 3 || this.getHeight() != 3) {
 			throw `Invalid matrix size`;
+		} else if(this[2][0] != 0 || this[2][1] != 0) {
+			throw `Invalid last row`;
+		} else if(this[2][2] == 0) {
+			throw 'Invalid scale';
 		}
 
 		let result: TransformMatrix = new TransformMatrix();
 		for(let y: number = 0; y < this.h-1; ++y) {
 			for(let x: number = 0; x < this.w; ++x) {
-				result[y][x] = this[y][x];
+				result[y][x] = this[y][x] / this[2][2];
 			}
 		}
 

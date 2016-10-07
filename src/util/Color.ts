@@ -42,7 +42,11 @@ export class Color {
 			result.a = parseFloat(array[3]);
 		}
 
-		return result.isValid() ? result : Color.Transparent;
+		if(!result.isValid()) {
+			throw `Invalid params`;
+		}
+
+		return result;
 	}
 
 	public static readonly Black:       Color = new Color(0  , 0  , 0     );

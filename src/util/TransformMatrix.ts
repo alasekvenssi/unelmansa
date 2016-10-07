@@ -56,6 +56,7 @@ export class TransformMatrix extends Array<Array<number>> {
 
 	toMatrix(): Matrix2 {
 		let result: Matrix2 = new Matrix2(3, 3, 0);
+		
 		for(let y: number = 0; y < TransformMatrix.h; ++y) {
 			for(let x: number = 0; x < TransformMatrix.w; ++x) {
 				result[y][x] = this[y][x];
