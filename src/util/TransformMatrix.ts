@@ -9,7 +9,10 @@ function defaultCloneOperator(y: number, x: number, InArray: number[][], OutArra
 }
 
 export default class TransformMatrix extends Array<Array<number>> {
-	constructor(x11: number = 0, x12: number = 0, x13: number = 0, x21: number = 0, x22: number = 0, x23: number = 0) {
+	constructor(
+		x11: number = 1, x12: number = 0, x13: number = 0,
+		x21: number = 0, x22: number = 1, x23: number = 0
+	) {
 		super(TransformMatrix.h);
 	
 		for(let y: number = 0; y < TransformMatrix.h; ++y) {
