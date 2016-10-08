@@ -2,6 +2,7 @@ import {Context2D} from "../../graphics/Context2D"
 import CanvasWindow from "../../graphics/browser/CanvasWindow"
 import CanvasContext2D from "../../graphics/browser/CanvasContext2D"
 import Color from "../../util/Color"
+import {Font} from "../../util/Font"
 
 let view = new CanvasWindow(window, 2);
 let ctx = view.context;
@@ -21,7 +22,8 @@ function draw() {
 	requestAnimationFrame(draw);
 
 	let now = Date.now();
-	document.title = `${Math.round(1000/(now-lastTime))} fps`;
+	ctx.resetTransform().alpha(1).fillColor(Color.Black).font(new Font("Courier New", 50));
+	ctx.drawText(10, 10, `${Math.round(1000/(now-lastTime))} fps`, "hanging", true, false);
 	lastTime = now;
 }
 draw();
