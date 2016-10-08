@@ -22,9 +22,42 @@ export default class Color {
 	}
 
 	static fromString(colorString: string): Color {
+		colorString = colorString.trim();
+
+		if(colorString.length == 0) {
+			return Color.Transparent;
+		}
+
+		let result: Color = new Color();
+
+		if((colorString.length == 7 || colorString.length == 9) && colorString[0] == '#') {
+			let colors: string[] = ["", "", ""];
+			for(let i: number = 0; i < 6; ++i) {
+				let colorsIdx: number = Math.floor(i/2);
+				colors[colorsIdx] += colorString[i+1].toUpperCase();
+			}
+
+			console.log("DEBUG ", colors);
+			result.r = parseInt(colors[0], 16);
+			result.g = parseInt(colors[1], 16);
+			result.b = parseInt(colors[2], 16);
+		}
+
+		if(colorString.length == 9 && colorString[0] == '#') {
+			let alpha: string = (colorString[7] + colorString[8]).toUpperCase();
+			result.a = parseInt(alpha, 16);
+		}
+
+		if(colorString[0] == '#') {
+			if(!result.isValid()) {
+				throw `Invalid params`;
+			}
+
+			return result;
+		}
+
 		let temp: string = "";
 		let array: string[];
-		let result: Color;
 
 		for(let i: number = 0; i < colorString.length; ++i) {
 			if(!isNaN(parseInt(colorString[i], 10)) || colorString[i] == ',' || colorString[i] == '.') {
