@@ -6,6 +6,8 @@ export interface Simulable {
 
 	mass: number;
 	elasticity: number;
+	friction: number;
+
 	velocity: Vec2;
 	acceleration: Vec2;
 	move(timeInterval: number): void;

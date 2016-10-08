@@ -2,7 +2,8 @@ import Vec2 from "../util/Vec2"
 
 export enum Shape {
 	AABB,
-	Circle
+	Circle,
+	Muscle
 }
 
 interface BoundingBox {
@@ -17,7 +18,12 @@ interface BoundingBox {
 
 
 export function areIntersecting(lhs: BoundingBox, rhs: BoundingBox): boolean {
-	if(lhs.shape == Shape.Circle && rhs.shape == Shape.Circle) {
+	
+	if(lhs.shape == Shape.Muscle || rhs.shape == Shape.Muscle) {
+		return false;
+	}
+
+	else if(lhs.shape == Shape.Circle && rhs.shape == Shape.Circle) {
 		return circleVsCircle(lhs, rhs);
 	}
 
