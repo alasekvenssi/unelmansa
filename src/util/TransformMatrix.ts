@@ -2,6 +2,12 @@ import Matrix2       from "./Matrix2"
 import * as MathUtil from "./Math"
 import Vec2          from "./Vec2"
 
+type CloneOperator = (y: number, x: number, InArray: number[][], OutArray: number[][]) => void;
+
+function defaultCloneOperator(y: number, x: number, InArray: number[][], OutArray: number[][]): void {
+	OutArray[y][x] = InArray[y][x];
+}
+
 export default class TransformMatrix extends Array<Array<number>> {
 	constructor(x11: number = 0, x12: number = 0, x13: number = 0, x21: number = 0, x22: number = 0, x23: number = 0) {
 		super(TransformMatrix.h);
@@ -72,6 +78,18 @@ export default class TransformMatrix extends Array<Array<number>> {
 			console.log(MathUtil.roundArray(this[y]));
 		}
 		console.log('-');
+	}
+
+	clone(op: CloneOperator = defaultCloneOperator): TransformMatrix {
+		let result: TransformMatrix = new TransformMatrix();
+		
+		for(let y: number = 0; y < TransformMatrix.h; ++y) {
+			for(let x: number = 0; x < TransformMatrix.w; ++x) {
+				op(y, x, this, result);
+			}
+		}
+
+		return result;
 	}
 
 	static translate(x: number, y: number): TransformMatrix {
