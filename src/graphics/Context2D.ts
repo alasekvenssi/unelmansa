@@ -1,10 +1,12 @@
 import Color from "../util/Color"
 import Vec2 from "../util/Vec2"
+import {Font} from "../util/Font"
 import TransformMatrix from "../util/TransformMatrix"
 import * as Strings from "../util/Strings"
 
 export type LineCap = "butt" | "round" | "square";
 export type LineJoin = "miter" | "round" | "bevel";
+export type TextBaseline = "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom";
 
 // TODO: text, images, line dash, gradients, patterns
 
@@ -13,9 +15,10 @@ export abstract class Context2D {
 	abstract height(): number;
 
 	abstract clearRect(x: number, y: number, width: number, height: number): this;
-	abstract drawRect(x: number, y: number, width: number, height: number, fill: boolean, stroke: boolean): this;
 
+	abstract drawRect(x: number, y: number, width: number, height: number, fill: boolean, stroke: boolean): this;
 	abstract drawPath(fill: boolean, stroke: boolean): this;
+	abstract drawText(x: number, y: number, text: string, baseline: string, fill: boolean, stroke: boolean): this;
 
 	abstract beginPath(startX: number, startY: number): this;
 	abstract closePath(): this;
@@ -45,6 +48,9 @@ export abstract class Context2D {
 	abstract shadowColor(color: Color): this;
 	abstract shadowOffset(): Vec2;
 	abstract shadowOffset(x: number, y: number): this;
+
+	abstract font(): Font;
+	abstract font(font: Font): this;
 
 	abstract alpha(): number;
 	abstract alpha(val: number): this;
