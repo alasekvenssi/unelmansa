@@ -1,5 +1,6 @@
 import Color from "../../util/Color"
 import Vec2 from "../../util/Vec2"
+import {Font} from "../../util/Font"
 import TransformMatrix from "../../util/TransformMatrix"
 import {LineCap, LineJoin, Context2D} from "../Context2D"
 
@@ -16,15 +17,21 @@ export default class CanvasContext2D extends Context2D {
 	clearRect(x: number, y: number, width: number, height: number): this {
 		this.ctx.clearRect(x, y, width, height); return this;
 	}
+
 	drawRect(x: number, y: number, width: number, height: number, fill: boolean, stroke: boolean): this {
 		if (fill) { this.ctx.fillRect(x, y, width, height); }
 		if (stroke) { this.ctx.strokeRect(x, y, width, height); }
 		return this;
 	}
-
 	drawPath(fill: boolean, stroke: boolean): this {
 		if (fill) { this.ctx.fill(); }
 		if (stroke) { this.ctx.stroke(); }
+		return this;
+	}
+	drawText(x: number, y: number, text: string, baseline: string, fill: boolean, stroke: boolean): this {
+		this.ctx.textBaseline = baseline;
+		if (fill) { this.ctx.fillText(text, x, y); }
+		if (stroke) { this.ctx.strokeText(text, x, y); }
 		return this;
 	}
 
@@ -134,6 +141,15 @@ export default class CanvasContext2D extends Context2D {
 			return this;
 		}
 		return new Vec2(this.ctx.shadowOffsetX, this.ctx.shadowOffsetY);
+	}
+
+	font(): Font;
+	font(font: Font): this;
+	font(font?: Font): any {
+		if (font) {
+			this.ctx.font = font.toString(); return this;
+		}
+		return Font.fromString(this.ctx.font);
 	}
 
 	alpha(): number;
