@@ -1,6 +1,6 @@
-import {Vec2} from "../util/Vec2"
+import Vec2 from "../util/Vec2"
 
-enum Shape {
+export enum Shape {
 	AABB,
 	Circle
 }
@@ -13,8 +13,6 @@ interface BoundingBox {
 
 	radius?: number;
 	position?: Vec2;
-
-	vector?: Vec2;
 }
 
 
