@@ -7,6 +7,7 @@
 		"outDir": "../../../platform/browser/",
 		"outFile": "../../../platform/browser/app.js",
 		"module": "amd",
+		"sourceMap": true,
 		"pretty": true
 	},
 	"include": [
