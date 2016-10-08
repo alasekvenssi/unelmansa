@@ -37,7 +37,6 @@ export default class Color {
 				colors[colorsIdx] += colorString[i+1].toUpperCase();
 			}
 
-			console.log("DEBUG ", colors);
 			result.r = parseInt(colors[0], 16);
 			result.g = parseInt(colors[1], 16);
 			result.b = parseInt(colors[2], 16);
