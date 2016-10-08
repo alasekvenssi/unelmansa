@@ -1,6 +1,7 @@
 import {Context2D} from "../../graphics/Context2D"
 import CanvasWindow from "../../graphics/browser/CanvasWindow"
 import CanvasContext2D from "../../graphics/browser/CanvasContext2D"
+import WebImage from "../../graphics/browser/WebImage"
 import Color from "../../util/Color"
 import {Font} from "../../util/Font"
 
@@ -11,12 +12,15 @@ let angle = 0;
 let lastTime = Date.now();
 setInterval(() => { angle += (Math.PI / 360)*2; }, 20);
 
+let img = new WebImage("test.jpg");
+
 function draw() {
 	ctx.reset().fillColor(Color.Yellow).strokeColor(Color.Black).lineWidth(3).alpha(0.95);
 
 	for (let x = 0; x <= 25; x++) {
 		for (let y = 0; y <= 25; y++) {
 			ctx.resetTransform().translate(200*x, 200*y).rotate(angle*(((x+y)%2)*2-1)).drawRect(0, 0, 200, 200, true, true);
+			ctx.alpha(0.5).drawImage(img, 0, 0, 200, 200).alpha(0.95);
 		}
 	}
 	requestAnimationFrame(draw);
