@@ -3,12 +3,13 @@ import Vec2 from "../util/Vec2"
 import {Font} from "../util/Font"
 import TransformMatrix from "../util/TransformMatrix"
 import * as Strings from "../util/Strings"
+import {Image} from "./Image"
 
 export type LineCap = "butt" | "round" | "square";
 export type LineJoin = "miter" | "round" | "bevel";
 export type TextBaseline = "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom";
 
-// TODO: text, images, line dash, gradients, patterns
+// TODO: line dash, gradients, patterns
 
 export abstract class Context2D {
 	abstract width(): number;
@@ -19,6 +20,11 @@ export abstract class Context2D {
 	abstract drawRect(x: number, y: number, width: number, height: number, fill: boolean, stroke: boolean): this;
 	abstract drawPath(fill: boolean, stroke: boolean): this;
 	abstract drawText(x: number, y: number, text: string, baseline: string, fill: boolean, stroke: boolean): this;
+
+	abstract drawImage(img: Image, x: number, y: number): this;
+	abstract drawImage(img: Image, x: number, y: number, width: number, height: number): this;
+	abstract drawImage(img: Image, x: number, y: number, width: number, height: number,
+		sx: number, sy: number, sourceWidth: number, sourceHeight: number): this;
 
 	abstract beginPath(startX: number, startY: number): this;
 	abstract closePath(): this;

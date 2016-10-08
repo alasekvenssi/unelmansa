@@ -3,6 +3,8 @@ import Vec2 from "../../util/Vec2"
 import {Font} from "../../util/Font"
 import TransformMatrix from "../../util/TransformMatrix"
 import {LineCap, LineJoin, Context2D} from "../Context2D"
+import {Image} from "../Image"
+import WebImage from "./WebImage"
 
 export default class CanvasContext2D extends Context2D {
 	constructor(public ctx: CanvasRenderingContext2D) { super(); }
@@ -32,6 +34,27 @@ export default class CanvasContext2D extends Context2D {
 		this.ctx.textBaseline = baseline;
 		if (fill) { this.ctx.fillText(text, x, y); }
 		if (stroke) { this.ctx.strokeText(text, x, y); }
+		return this;
+	}
+
+	drawImage(img: Image, x: number, y: number): this;
+	drawImage(img: Image, x: number, y: number, width: number, height: number): this;
+	drawImage(img: Image, x: number, y: number, width: number, height: number,
+		sx: number, sy: number, sourceWidth: number, sourceHeight: number): this;
+	drawImage(img: Image, x: number, y: number, width?: number, height?: number,
+		sx?: number, sy?: number, sourceWidth?: number, sourceHeight?: number): this {
+
+		if (img instanceof WebImage) {
+			if (sx && sy && sourceWidth && sourceHeight) {
+				this.ctx.drawImage(img.image, sx, sy, sourceWidth, sourceHeight, x, y, width, height);
+			} else if (width && height) {
+				this.ctx.drawImage(img.image, x, y, width, height);
+			} else {
+				this.ctx.drawImage(img.image, x, y);
+			}
+		} else {
+			throw "Unsupported image";
+		}
 		return this;
 	}
 
