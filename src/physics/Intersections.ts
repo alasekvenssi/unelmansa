@@ -6,13 +6,13 @@ export enum Shape {
 }
 
 interface BoundingBox {
-	shape: Shape;
+	readonly shape: Shape;
 	
-	min?: Vec2;
-	max?: Vec2;
+	readonly min?: Vec2;
+	readonly max?: Vec2;
 
-	radius?: number;
-	position?: Vec2;
+	readonly radius?: number;
+	readonly position?: Vec2;
 }
 
 

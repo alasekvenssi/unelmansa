@@ -3,11 +3,11 @@ import Intersections = require("./Intersections");
 
 interface physicalBody {
 
-	shape: Intersections.Shape;
+	readonly shape: Intersections.Shape;
 
 	velocity: Vec2;
-	mass: number;
-	elasticity: number;
+	readonly mass: number;
+	readonly elasticity: number;
 }
 
 export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
