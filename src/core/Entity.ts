@@ -50,8 +50,8 @@ class CreatureMuscle extends Entity {
 		this.rightBone.acceleration.add(forceDirection.mul(this.strength*(this.getCurrentLength() - length)));
 	}
 
-	move(): void {
-		throw("Not implemented");
+	move(timeInterval: number): void {
+		return;
 	}
 
 	getCurrentLength(): number
@@ -74,7 +74,7 @@ class Ground extends Entity {
 	min: Vec2;
 	max: Vec2;
 
-	move(): void {
+	move(timeInterval: number): void {
 		return;
 	}
 
