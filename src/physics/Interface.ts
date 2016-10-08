@@ -1,7 +1,7 @@
 import Vec2 from "../util/Vec2";
-import Intersections = require("../physics/Intersections");
+import Intersections = require("./Intersections");
 
-interface Simulable {
+export interface Simulable {
 	shape: Intersections.Shape;
 
 	mass: number;
@@ -16,5 +16,5 @@ interface Simulable {
 	radius?: number;
 	position?: Vec2;
 
-	affect(affectedObjects: Simulable[]): void; 
+	affect?(affectedObjects: Simulable[]): void;
 }
