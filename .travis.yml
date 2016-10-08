@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - "4.1"
+before_install:
+ - npm install -g typescript@2.0
+script:
+  - bash ./compile-browser
+  - bash ./travis-deploy.sh
