@@ -8,6 +8,7 @@
 		"outFile": "../../../platform/browser/app.js",
 		"module": "amd",
 		"sourceMap": true,
+		"inlineSources": true,
 		"pretty": true
 	},
 	"include": [
