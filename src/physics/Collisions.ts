@@ -1,9 +1,6 @@
 import Vec2 from "../util/Vec2";
 import Intersections = require("./Intersections");
 
-import { areIntersecting } from "./Intersections";
-
-
 interface physicalBody {
 
 	shape: Intersections.Shape;
