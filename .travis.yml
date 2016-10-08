@@ -6,3 +6,5 @@ before_install:
 script:
   - bash ./compile-browser.sh
   - bash ./travis-deploy.sh
+notifications:
+  email: false
