@@ -1,7 +1,7 @@
-import {MathUtil} from "./Math"
-import {Matrix2}  from "./Matrix2"
+import * as MathUtil from "./Math"
+import Matrix2       from "./Matrix2"
 
-export class Vec2 {
+export default class Vec2 {
 	constructor(public x: number = 0, public y: number = 0) { }
 
 	add(rhs: Vec2): Vec2 {

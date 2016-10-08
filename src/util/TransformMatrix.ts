@@ -1,8 +1,8 @@
-import {Matrix2}  from "./Matrix2"
-import {MathUtil} from "./Math"
-import {Vec2}     from "./Vec2"
+import Matrix2       from "./Matrix2"
+import * as MathUtil from "./Math"
+import Vec2          from "./Vec2"
 
-export class TransformMatrix extends Array<Array<number>> {
+export default class TransformMatrix extends Array<Array<number>> {
 	constructor(x11: number = 0, x12: number = 0, x13: number = 0, x21: number = 0, x22: number = 0, x23: number = 0) {
 		super(TransformMatrix.h);
 	

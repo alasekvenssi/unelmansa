@@ -1,5 +1,5 @@
-import {TransformMatrix} from "./TransformMatrix"
-import {MathUtil}        from "./Math"
+import TransformMatrix from "./TransformMatrix"
+import * as MathUtil   from "./Math"
 
 type CloneOperator = (y: number, x: number, InArray: number[][], OutArray: number[][]) => void;
 type ApplyOperator = (y: number, x: number, array: number[][]) => void;
@@ -8,7 +8,7 @@ function defaultCloneOperator(y: number, x: number, InArray: number[][], OutArra
 	OutArray[y][x] = InArray[y][x];
 }
 
-export class Matrix2 extends Array<Array<number>> {
+export default class Matrix2 extends Array<Array<number>> {
 	constructor(private h: number = 0, private w: number = 0, value: number = 0) {
 		super(h);
 
