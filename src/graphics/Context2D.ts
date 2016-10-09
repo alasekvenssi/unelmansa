@@ -4,12 +4,11 @@ import {Font} from "../util/Font"
 import TransformMatrix from "../util/TransformMatrix"
 import * as Strings from "../util/Strings"
 import {Image} from "./Image"
+import {Gradient} from "./Gradient"
 
 export type LineCap = "butt" | "round" | "square";
 export type LineJoin = "miter" | "round" | "bevel";
 export type TextBaseline = "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom";
-
-// TODO: line dash, gradients, patterns
 
 export abstract class Context2D {
 	abstract width(): number;
@@ -47,6 +46,9 @@ export abstract class Context2D {
 	abstract fillColor(color: Color): this;
 	abstract strokeColor(): Color;
 	abstract strokeColor(color: Color): this;
+
+	abstract fillGradient(val: Gradient): this;
+	abstract strokeGradient(val: Gradient): this;
 
 	abstract shadowBlur(): number;
 	abstract shadowBlur(level: number): this;

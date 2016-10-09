@@ -5,6 +5,7 @@ import TransformMatrix from "../../util/TransformMatrix"
 import {LineCap, LineJoin, Context2D} from "../Context2D"
 import {Image} from "../Image"
 import WebImage from "./WebImage"
+import {Gradient, LinearGradient, RadialGradient} from "../Gradient"
 
 export default class CanvasContext2D extends Context2D {
 	protected currentTransform: TransformMatrix = new TransformMatrix(1, 0, 0, 0, 1, 0);
@@ -138,6 +139,35 @@ export default class CanvasContext2D extends Context2D {
 			return Color.fromString(<string>this.ctx.strokeStyle);
 		}
 		return undefined;
+	}
+
+	fillGradient(val: Gradient): this {
+		this.ctx.fillStyle = this.toCanvasGradient(val);
+		return this;
+	}
+	strokeGradient(val: Gradient): this {
+		this.ctx.strokeStyle = this.toCanvasGradient(val);
+		return this;
+	}
+
+	private toCanvasGradient(val: Gradient): CanvasGradient {
+		let gradient: CanvasGradient;
+
+		if (val instanceof LinearGradient) {
+			gradient = this.ctx.createLinearGradient(val.startPoint.x, val.startPoint.y, val.endPoint.x, val.endPoint.y);
+		} else if (val instanceof RadialGradient) {
+			gradient = this.ctx.createRadialGradient(
+				val.startCenter.x, val.startCenter.y, val.startRadius,
+				val.endCenter.x, val.endCenter.y, val.endRadius
+			);
+		} else {
+			throw "Unsupported gradient type";
+		}
+
+		for (let stop of val.stops) {
+			gradient.addColorStop(stop.offset, stop.color.toString());
+		}
+		return gradient;
 	}
 
 	shadowBlur(): number;
