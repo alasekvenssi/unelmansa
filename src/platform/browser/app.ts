@@ -20,15 +20,15 @@ class TestRect implements Renderable {
 let rotation = new TransformMatrix();
 let group = new RenderGroup();
 
-for (let x = 0; x <= 25; x++) {
-	for (let y = 0; y <= 25; y++) {
+for (let x = -1; x <= 20; x++) {
+	for (let y = -1; y <= 20; y++) {
 		group.items[group.items.length] = new RenderTransform(TransformMatrix.translate(100*x, 100*y),
 			new RenderTransform(rotation, new TestRect()));
 	}
 }
 
 let view = new CanvasWindow(window, 2);
-new Renderer(view.context, group, 2, true);
+new Renderer(view.context, group, 2, true).start();
 
 setInterval(() => {
 	let matrix = rotation.mul(TransformMatrix.rotate((Math.PI / 360)*2));
