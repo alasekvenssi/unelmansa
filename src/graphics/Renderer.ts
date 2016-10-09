@@ -2,43 +2,61 @@ import {Context2D} from "./Context2D"
 import {Renderable} from "./Renderable"
 import Color from "../util/Color"
 import {Font} from "../util/Font"
-
-const FPS_SAMPLES = 10;
+import * as Arrays from "../util/Arrays"
 
 export default class Renderer {
-	private fpsCounter: Array<number>;
-	private fpsCounterPos = 0;
-	private fpsCounterSum = 0;
-	private lastTime = Date.now();
+	private frameRequestID: number;
+	private fpsCounter = new FpsCounter(10);
 
-	constructor(public context: Context2D, public item: Renderable, public scale: number = 1, public drawFps: boolean = false) {
-		this.fpsCounter = new Array<number>(4);
-		for (let i = 0; i < FPS_SAMPLES; i++) { this.fpsCounter[i] = 0; }
-
-		requestAnimationFrame(() => this.renderLoop());
-	}
+	constructor(public context: Context2D, public item: Renderable, public scale: number = 1, public drawFps: boolean = false) {}
 
 	protected renderLoop() {
 		this.context.reset().scale(this.scale, this.scale);
 		this.item.render(this.context);
 
+		this.fpsCounter.countTick();
+		if (this.drawFps) {
+			this.context.resetTransform().scale(this.scale, this.scale)
+			this.context.alpha(1).fillColor(Color.Black).font(new Font("Courier New", 20));
+			this.context.drawText(10, 10, `${this.averageFps()} fps`, "hanging", true, false);
+		}
+
+		this.start(); // request next frame
+	}
+
+	start() {
+		this.frameRequestID = requestAnimationFrame(() => this.renderLoop());
+	}
+	stop() {
+		cancelAnimationFrame(this.frameRequestID);
+	}
+
+	averageFps(): number {
+		return this.fpsCounter.fps();
+	}
+}
+
+class FpsCounter {
+	private times: number[];
+	private pos = 0;
+	private sum = 0;
+	private lastTime = Date.now();
+
+	constructor(samples: number) {
+		this.times = Arrays.fillArray(new Array<number>(samples), 0, samples, 0);
+	}
+
+	countTick() {
 		let now = Date.now();
 		let diff = now - this.lastTime;
 		this.lastTime = now;
 
-		this.fpsCounterSum += diff - this.fpsCounter[this.fpsCounterPos];
-		this.fpsCounter[this.fpsCounterPos] = diff;
-		this.fpsCounterPos = (this.fpsCounterPos + 1) % FPS_SAMPLES;
-
-		if (this.drawFps) {
-			this.context.resetTransform().scale(this.scale, this.scale).alpha(1).fillColor(Color.Black).font(new Font("Courier New", 20));
-			this.context.drawText(10, 10, `${this.averageFps()} fps`, "hanging", true, false);
-		}
-
-		requestAnimationFrame(() => this.renderLoop());
+		this.sum += diff - this.times[this.pos];
+		this.times[this.pos] = diff;
+		this.pos = (this.pos + 1) % this.times.length;
 	}
 
-	averageFps(): number {
-		return Math.round(FPS_SAMPLES*1000 / this.fpsCounterSum);
+	fps(): number {
+		return Math.round(this.times.length*1000 / this.sum);
 	}
 }
