@@ -9,10 +9,10 @@ export class RenderTransform implements Renderable {
 	constructor(public transform: TransformMatrix, public item: Renderable) {}
 
 	render(ctx: Context2D) {
-		let old = ctx.transformMatrix();
+		ctx.save();
 		ctx.transform(this.transform);
 		this.item.render(ctx);
-		ctx.transformMatrix(old);
+		ctx.restore();
 	}
 }
 

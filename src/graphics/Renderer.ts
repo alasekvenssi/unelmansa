@@ -12,13 +12,17 @@ export default class Renderer {
 
 	protected renderLoop() {
 		this.context.reset().scale(this.scale, this.scale);
-		this.item.render(this.context);
+
+		if (this.item) {
+			this.context.save();
+			this.item.render(this.context);
+			this.context.restore();
+		}
 
 		this.fpsCounter.countTick();
 		if (this.drawFps) {
-			this.context.resetTransform().scale(this.scale, this.scale)
-			this.context.alpha(1).fillColor(Color.Black).font(new Font("Courier New", 20));
-			this.context.drawText(10, 10, `${this.averageFps()} fps`, "hanging", true, false);
+			this.context.fillColor(Color.Black).font(new Font("Courier New", 20));
+			this.context.drawText(10, 10, this.averageFps() + " fps", "hanging", true, false);
 		}
 
 		this.start(); // request next frame
