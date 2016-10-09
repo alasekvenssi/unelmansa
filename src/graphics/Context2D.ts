@@ -61,29 +61,17 @@ export abstract class Context2D {
 	abstract alpha(): number;
 	abstract alpha(val: number): this;
 
-	protected currentTransform: TransformMatrix = new TransformMatrix(1, 0, 0, 0, 1, 0);
-	protected onTransformChanged(): void {}
+	abstract transformMatrix(): TransformMatrix;
+	abstract transformMatrix(val: TransformMatrix): this;
+	abstract transform(val: TransformMatrix): this;
+
+	abstract save(): this;
+	abstract restore(): this;
 
 	reset(): this {
 		return this.resetTransform().clearRect(0, 0, this.width(), this.height());
 	}
 
-	transformMatrix(): TransformMatrix;
-	transformMatrix(val: TransformMatrix): this;
-	transformMatrix(val?: TransformMatrix): this|TransformMatrix {
-		if (val) {
-			this.currentTransform = val.clone();
-			this.onTransformChanged();
-			return this;
-		}
-		return this.currentTransform.clone();
-	}
-
-	transform(val: TransformMatrix): this {
-		this.currentTransform = this.currentTransform.mul(val);
-		this.onTransformChanged();
-		return this;
-	}
 	resetTransform(): this {
 		return this.transformMatrix(new TransformMatrix());
 	}

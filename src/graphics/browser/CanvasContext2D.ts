@@ -7,6 +7,9 @@ import {Image} from "../Image"
 import WebImage from "./WebImage"
 
 export default class CanvasContext2D extends Context2D {
+	protected currentTransform: TransformMatrix = new TransformMatrix(1, 0, 0, 0, 1, 0);
+	protected transformHistory = new Array<TransformMatrix>();
+
 	constructor(public ctx: CanvasRenderingContext2D) { super(); }
 
 	width(): number {
@@ -187,5 +190,34 @@ export default class CanvasContext2D extends Context2D {
 	protected onTransformChanged() {
 		let m = this.currentTransform;
 		this.ctx.setTransform(m[0][0], m[1][0], m[0][1], m[1][1], m[0][2], m[1][2]);
+	}
+
+	transformMatrix(): TransformMatrix;
+	transformMatrix(val: TransformMatrix): this;
+	transformMatrix(val?: TransformMatrix): this|TransformMatrix {
+		if (val) {
+			this.currentTransform = val.clone();
+			this.onTransformChanged();
+			return this;
+		}
+		return this.currentTransform.clone();
+	}
+
+	transform(val: TransformMatrix): this {
+		this.currentTransform = this.currentTransform.mul(val);
+		this.onTransformChanged();
+		return this;
+	}
+
+	save(): this {
+		this.transformHistory.push(this.currentTransform);
+		this.ctx.save();
+		return this;
+	}
+
+	restore(): this {
+		this.ctx.restore();
+		this.transformMatrix(this.transformHistory.pop());
+		return this;
 	}
 }
