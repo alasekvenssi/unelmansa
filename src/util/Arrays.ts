@@ -33,3 +33,7 @@ export function filter<T>(array: T[], filter: ForEachFilterType<T>): T[] {
 	}
 	return filtered;
 }
+
+export function remove<T>(array: T[], target: T): T[] {
+	return filterInPlace(array, (elem: T) => { return elem !== target; });
+}
