@@ -90,4 +90,11 @@ export abstract class Context2D {
 	skew(x: number, y: number): this {
 		return this.transform(TransformMatrix.skew(x, y))
 	}
+
+	fillRGBA(r: number = 0, g: number = 0, b: number = 0, a: number = 255): this {
+		return this.fillColor(new Color(r, g, b, a));
+	}
+	strokeRGBA(r: number = 0, g: number = 0, b: number = 0, a: number = 255): this {
+		return this.strokeColor(new Color(r, g, b, a));
+	}
 }
