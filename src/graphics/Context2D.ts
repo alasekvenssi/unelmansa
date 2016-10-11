@@ -98,11 +98,11 @@ export abstract class Context2D {
 		return this.strokeColor(new Color(r, g, b, a));
 	}
 
-	drawCircle(centerX: number, centerY: number, radius: number, fill: boolean, stroke: boolean) {
-		this.beginPath().pathArc(centerX, centerY, radius, 0, Math.PI*2).drawPath(fill, stroke);
+	drawCircle(centerX: number, centerY: number, radius: number, fill: boolean, stroke: boolean): this {
+		return this.beginPath().pathArc(centerX, centerY, radius, 0, Math.PI*2).drawPath(fill, stroke);
 	}
 
-	drawLine(x1: number, y1: number, x2: number, y2: number, fill: boolean, stroke: boolean) {
-		this.beginPath(x1, y1).pathLine(x2, y2).drawPath(fill, stroke);
+	drawLine(x1: number, y1: number, x2: number, y2: number, fill: boolean, stroke: boolean): this {
+		return this.beginPath(x1, y1).pathLine(x2, y2).drawPath(fill, stroke);
 	}
 }
