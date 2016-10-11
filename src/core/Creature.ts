@@ -10,7 +10,16 @@ export class Creature extends Entity {
 		super();
 	}
 
-	movable(): boolean { return true; } // movable are its parts, creature is just group
+	movable(): boolean { return false; } // movable are its parts, creature is just group
+
+	forEachSimulable(callback: (object: Simulable)=>void): void {
+		for (let muscle of this.muscles) {
+			callback(muscle);
+		}
+		for (let bone of this.bones) {
+			callback(bone);
+		}
+	}
 }
 
 export class CreatureBone extends Entity {

@@ -17,8 +17,12 @@ export abstract class Entity implements Renderable, Simulable {
 	bounding(): any { return undefined; }
 	movable(): boolean { return true; }
 
+	forEachSimulable(callback: (object: Simulable)=>void): void {
+		callback(this);
+	}
+
 	render(context: Context2D): void {}
-	update(): void {}
+	update(timeDelta: number): void {}
 
 	affect(physical: Simulable[]): void {}
 }
