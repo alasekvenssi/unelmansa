@@ -25,7 +25,7 @@ export abstract class Context2D {
 	abstract drawImage(img: Image, x: number, y: number, width: number, height: number,
 		sx: number, sy: number, sourceWidth: number, sourceHeight: number): this;
 
-	abstract beginPath(startX: number, startY: number): this;
+	abstract beginPath(startX?: number, startY?: number): this;
 	abstract closePath(): this;
 	abstract movePath(startX: number, startY: number): this;
 

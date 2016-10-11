@@ -62,7 +62,7 @@ export default class CanvasContext2D extends Context2D {
 		return this;
 	}
 
-	beginPath(startX: number, startY: number): this {
+	beginPath(startX: number = 0, startY: number = 0): this {
 		this.ctx.beginPath();
 		this.ctx.moveTo(startX, startY);
 		return this;
