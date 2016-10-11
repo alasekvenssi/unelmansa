@@ -32,8 +32,10 @@ export class Scene implements Renderable {
 	}
 
 	render(context: Context2D) {
+		context.save().scale(1, -1); // flip Y coordinate
 		for (let entity of this.entities) {
 			entity.render(context);
 		}
+		context.restore();
 	}
 }

@@ -1,4 +1,5 @@
-import Vec2 from "../util/Vec2";
+import Vec2 from "../util/Vec2"
+import Color from "../util/Color"
 import {Renderable} from "../graphics/Renderable"
 import {Context2D} from "../graphics/Context2D"
 import {Simulable} from "../physics/Interface"
@@ -44,5 +45,9 @@ export class Ground extends Entity {
 				affectedObject.acceleration.add(new Vec2(0,-10))
 			}
 		}
+	}
+
+	render(context: Context2D): void {
+		context.fillRGBA(0, 127, 0).drawRect(-100000, -100000, 200000, 100000, true, false);
 	}
 }
