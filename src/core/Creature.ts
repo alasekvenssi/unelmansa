@@ -13,7 +13,7 @@ export class Creature extends Entity {
 	movable(): boolean { return true; } // movable are its parts, creature is just group
 }
 
-class CreatureBone extends Entity {
+export class CreatureBone extends Entity {
 	constructor(
 		position: Vec2 = new Vec2(0,0), public radius: number = 1, 
 		_mass: number = 1, _elasticity: number = 1, _friction: number = 0
@@ -26,7 +26,7 @@ class CreatureBone extends Entity {
 	}
 }
 
-class CreatureMuscle extends Entity {
+export class CreatureMuscle extends Entity {
 	targetLength: number; // current target length
 
 	constructor(

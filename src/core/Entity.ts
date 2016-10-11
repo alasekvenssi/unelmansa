@@ -3,7 +3,7 @@ import {Renderable} from "../graphics/Renderable"
 import {Context2D} from "../graphics/Context2D"
 import {Simulable} from "../physics/Interface"
 
-export abstract class Entity implements Renderable {
+export abstract class Entity implements Renderable, Simulable {
 	velocity: Vec2 = new Vec2(0, 0);
 	acceleration: Vec2 = new Vec2(0, 0);
 
