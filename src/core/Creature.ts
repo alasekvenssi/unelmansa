@@ -1,0 +1,55 @@
+import Vec2 from "../util/Vec2"
+import {Entity} from "./Entity"
+import {Simulable} from "../physics/Interface"
+
+export class Creature extends Entity {
+	constructor(
+		public bones: CreatureBone[] = new Array<CreatureBone>(),
+		public muscles: CreatureMuscle[] = new Array<CreatureMuscle>()
+	) {
+		super();
+	}
+
+	movable(): boolean { return true; } // movable are its parts, creature is just group
+}
+
+class CreatureBone extends Entity {
+	constructor(
+		position: Vec2 = new Vec2(0,0), public radius: number = 1, 
+		_mass: number = 1, _elasticity: number = 1, _friction: number = 0
+	) {
+		super(position, _mass, _elasticity, _friction);
+	}
+
+	bounding() {
+		throw "Not implemented"; // Circle
+	}
+}
+
+class CreatureMuscle extends Entity {
+	targetLength: number; // current target length
+
+	constructor(
+		public bone1: CreatureBone,
+		public bone2: CreatureBone,
+		public minLength: number,
+		public maxLength: number,
+		public strength: number = 1
+	) {
+		super();
+		this.targetLength = maxLength;
+	}
+
+	movable(): boolean { return false; }
+
+	bonesDistance(): number {
+		return this.bone1.position.distance(this.bone2.position);
+	}
+
+	affect(affectedObjects: Simulable[]): void {
+		let forceDirection: Vec2 = this.bone1.position.sub(this.bone2.position).normal();
+
+		this.bone1.acceleration.add(forceDirection.mul(this.strength*(this.targetLength - this.bonesDistance())));
+		this.bone2.acceleration.add(forceDirection.mul(this.strength*(this.bonesDistance() - this.targetLength)));
+	}
+}
