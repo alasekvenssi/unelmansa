@@ -35,6 +35,6 @@ renderer.start();
 
 setInterval(
 	() => {
-		scene.update(1/60);
-	}, 1000/60
+		scene.update(1/120);
+	}, 1000/120
 );
