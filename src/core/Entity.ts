@@ -16,10 +16,10 @@ export abstract class Entity implements Renderable, Simulable {
 	) {}
 
 	bounding(): any { return undefined; }
-	movable(): boolean { return true; }
+	movable(): boolean { return this.mass == Infinity; }
 
 	forEachSimulable(callback: (object: Simulable)=>void): void {
-		callback(this);
+		callback(this);	
 	}
 
 	render(context: Context2D): void {}
@@ -37,11 +37,11 @@ export class Ground extends Entity {
 		throw "Not implemented"; // AABB(-Infinity, -Infinity, Infinity, 0)
 	}
 
-	movable(): boolean { return false; }
+	// movable(): boolean { return false; }
 
 	affect(affectedObjects: Simulable[]): void {
 		for (let affectedObject of affectedObjects) {
-			if(affectedObject.mass != Infinity) {
+			if(affectedObject.movable()) {
 				affectedObject.acceleration.add(new Vec2(0,-10))
 			}
 		}
