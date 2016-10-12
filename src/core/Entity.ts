@@ -1,89 +1,53 @@
-import Vec2 from "../util/Vec2";
-import Intersections = require("../physics/Intersections");
-import * as Sim from "../physics/Interface";
+import Vec2 from "../util/Vec2"
+import Color from "../util/Color"
+import {Renderable} from "../graphics/Renderable"
+import {Context2D} from "../graphics/Context2D"
+import {Simulable} from "../physics/Interface"
 
-abstract class Entity {
-	shape: Intersections.Shape;
-
-	mass: number;
-	elasticity: number;
-	friction: number;	
-
+export abstract class Entity implements Renderable, Simulable {
 	velocity: Vec2 = new Vec2(0, 0);
 	acceleration: Vec2 = new Vec2(0, 0);
-	abstract move(timeInterval: number): void;
 
-	abstract affect(affectedObjects: Sim.Simulable[]): void;
+	constructor(
+		public position: Vec2 = new Vec2(0, 0),
+		public mass: number = 0,
+		public elasticity: number = 0,
+		public friction: number = 0
+	) {}
+
+	bounding(): any { return undefined; }
+	movable(): boolean { return true; }
+
+	forEachSimulable(callback: (object: Simulable)=>void): void {
+		callback(this);
+	}
+
+	render(context: Context2D): void {}
+	update(timeDelta: number): void {}
+
+	affect(physical: Simulable[]): void {}
 }
 
-class CreatureBone extends Entity {
-	constructor(public position: Vec2 = new Vec2(0,0), public radius: number = 1, 
-		_mass: number = 1, _elasticity: number = 1, _friction: number = 0) {
-		super();
-		this.shape = Intersections.Shape.Circle;
-		this.mass = _mass;
-		this.elasticity = _elasticity;
-		this.friction = _friction;
-	}
-
-	affect(affectedObjects: Sim.Simulable[]): void {
-		return;
-	}
-
-	move(timeInterval: number): void {
-		this.velocity.add(this.acceleration);
-		this.position.add(this.velocity.mul(timeInterval));
-		this.acceleration = new Vec2(0, 0);
-	}
-}
-
-class CreatureMuscle extends Entity {
-	constructor(public leftBone: CreatureBone, public rightBone: CreatureBone, public strength: number = 1, 
-		public length: number = 2sudo) {
-		super();
-		this.shape = Intersections.Shape.Muscle;
-	}
-
-	affect(affectedObjects: Sim.Simulable[]): void {
-		let forceDirection: Vec2 = this.leftBone.position.sub(this.rightBone.position).normal();
-
-		this.leftBone.acceleration.add(forceDirection.mul(this.strength*(length - this.getCurrentLength())));
-		this.rightBone.acceleration.add(forceDirection.mul(this.strength*(this.getCurrentLength() - length)));
-	}
-
-	move(timeInterval: number): void {
-		return;
-	}
-
-	getCurrentLength(): number
-	{
-		return this.leftBone.position.distance(this.rightBone.position);
-	}
-}
-
-class Ground extends Entity {
-	
+export class Ground extends Entity {
 	constructor(_elasticity: number = 1) {
-		super();
-		this.elasticity = _elasticity;
-		this.mass = Infinity;
-		this.shape = Intersections.Shape.AABB;
-		this.min = new Vec2(-Infinity, -Infinity);
-		this.max = new Vec2(Infinity, 0);
+		super(new Vec2(0, 0), Infinity, _elasticity, 1);
 	}
 
-	min: Vec2;
-	max: Vec2;
-
-	move(timeInterval: number): void {
-		return;
+	bounding(): any {
+		throw "Not implemented"; // AABB(-Infinity, -Infinity, Infinity, 0)
 	}
 
-	affect(affectedObjects: Sim.Simulable[]): void {
+	movable(): boolean { return false; }
+
+	affect(affectedObjects: Simulable[]): void {
 		for (let affectedObject of affectedObjects) {
 			if(affectedObject.mass != Infinity) {
 				affectedObject.acceleration.add(new Vec2(0,-10))
 			}
 		}
+	}
+
+	render(context: Context2D): void {
+		context.fillRGBA(0, 127, 0).drawRect(-100000, -100000, 200000, 100000, true, false);
 	}
 }

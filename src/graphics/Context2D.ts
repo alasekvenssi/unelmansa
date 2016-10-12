@@ -25,14 +25,14 @@ export abstract class Context2D {
 	abstract drawImage(img: Image, x: number, y: number, width: number, height: number,
 		sx: number, sy: number, sourceWidth: number, sourceHeight: number): this;
 
-	abstract beginPath(startX: number, startY: number): this;
+	abstract beginPath(startX?: number, startY?: number): this;
 	abstract closePath(): this;
 	abstract movePath(startX: number, startY: number): this;
 
 	abstract pathLine(endX: number, endY: number): this;
 	abstract pathBezier(cp1X: number, cp1Y: number, cp2X: number, cp2Y: number, endX: number, endY: number): this;
 	abstract pathQuadratic(cpX: number, cpY: number, endX: number, endY: number): this;
-	abstract pathArc(centerX: number, centerY: number, radius: number, startAngle: number, endAngle: number, antiClockwise: boolean): this;
+	abstract pathArc(centerX: number, centerY: number, radius: number, startAngle: number, endAngle: number, antiClockwise?: boolean): this;
 	abstract pathArcByControlPoints(x1: number, y1: number, x2: number, y2: number, radius: number): this;
 
 	abstract lineWidth(): number;
@@ -89,5 +89,20 @@ export abstract class Context2D {
 	}
 	skew(x: number, y: number): this {
 		return this.transform(TransformMatrix.skew(x, y))
+	}
+
+	fillRGBA(r: number = 0, g: number = 0, b: number = 0, a: number = 255): this {
+		return this.fillColor(new Color(r, g, b, a));
+	}
+	strokeRGBA(r: number = 0, g: number = 0, b: number = 0, a: number = 255): this {
+		return this.strokeColor(new Color(r, g, b, a));
+	}
+
+	drawCircle(centerX: number, centerY: number, radius: number, fill: boolean, stroke: boolean): this {
+		return this.beginPath().pathArc(centerX, centerY, radius, 0, Math.PI*2).drawPath(fill, stroke);
+	}
+
+	drawLine(x1: number, y1: number, x2: number, y2: number, fill: boolean, stroke: boolean): this {
+		return this.beginPath(x1, y1).pathLine(x2, y2).drawPath(fill, stroke);
 	}
 }

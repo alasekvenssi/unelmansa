@@ -62,9 +62,11 @@ export default class CanvasContext2D extends Context2D {
 		return this;
 	}
 
-	beginPath(startX: number, startY: number): this {
+	beginPath(startX?: number, startY?: number): this {
 		this.ctx.beginPath();
-		this.ctx.moveTo(startX, startY);
+		if (startX !== undefined && startY !== undefined) {
+			this.ctx.moveTo(startX, startY);
+		}
 		return this;
 	}
 	closePath(): this {
@@ -83,7 +85,7 @@ export default class CanvasContext2D extends Context2D {
 	pathQuadratic(cpX: number, cpY: number, endX: number, endY: number): this {
 		this.ctx.quadraticCurveTo(cpX, cpY, endX, endY); return this;
 	}
-	pathArc(centerX: number, centerY: number, radius: number, startAngle: number, endAngle: number, antiClockwise: boolean): this {
+	pathArc(centerX: number, centerY: number, radius: number, startAngle: number, endAngle: number, antiClockwise: boolean = false): this {
 		this.ctx.arc(centerX, centerY, radius, startAngle, endAngle, antiClockwise); return this;
 	}
 	pathArcByControlPoints(x1: number, y1: number, x2: number, y2: number, radius: number): this {

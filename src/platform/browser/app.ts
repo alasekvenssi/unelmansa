@@ -1,40 +1,34 @@
-import {Context2D} from "../../graphics/Context2D"
+import {Scene} from "../../core/Scene"
+import {Ground} from "../../core/Entity"
+import {Creature, CreatureBone, CreatureMuscle} from "../../core/Creature"
 import CanvasWindow from "../../graphics/browser/CanvasWindow"
-import CanvasContext2D from "../../graphics/browser/CanvasContext2D"
-import WebImage from "../../graphics/browser/WebImage"
-import Color from "../../util/Color"
-import {Font} from "../../util/Font"
-import TransformMatrix from "../../util/TransformMatrix"
 import Renderer from "../../graphics/Renderer"
-import {Renderable, RenderGroup, RenderTransform} from "../../graphics/Renderable"
+import {RenderTransform} from "../../graphics/Renderable"
+import TransformMatrix from "../../util/TransformMatrix"
+import Vec2 from "../../util/Vec2"
 
-let img = new WebImage("test.jpg");
 
-class TestRect implements Renderable {
-	render(ctx: Context2D) {
-		ctx.fillColor(Color.Yellow).strokeColor(Color.Black).lineWidth(1);
-		ctx.alpha(0.95).drawRect(0, 0, 100, 100, true, true).alpha(0.5).drawImage(img, 0, 0, 100, 100);
-	}
-};
+let stefan = new Creature();
 
-let rotation = new TransformMatrix();
-let group = new RenderGroup();
+stefan.bones.push(new CreatureBone(new Vec2(0, 250), 20));
+stefan.bones.push(new CreatureBone(new Vec2(170, 420), 20));
+stefan.bones.push(new CreatureBone(new Vec2(300, 180), 20));
+stefan.bones.push(new CreatureBone(new Vec2(350, 390), 20));
 
-for (let x = -1; x <= 20; x++) {
-	for (let y = -1; y <= 20; y++) {
-		group.items[group.items.length] = new RenderTransform(TransformMatrix.translate(100*x, 100*y),
-			new RenderTransform(rotation, new TestRect()));
-	}
-}
+stefan.muscles.push(new CreatureMuscle(stefan.bones[0], stefan.bones[1], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[2], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[0], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[3], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[3], 50, 100));
+
+
+let scene = new Scene();
+scene.addEntity(new Ground());
+scene.addEntity(stefan);
+
+let camera = new RenderTransform(TransformMatrix.translate(500, 600), scene);
 
 let view = new CanvasWindow(window, 2);
-new Renderer(view.context, group, 2, true).start();
+let renderer = new Renderer(view.context, camera, 2, true);
 
-setInterval(() => {
-	let matrix = rotation.mul(TransformMatrix.rotate((Math.PI / 360)*2));
-	for (let y = 0; y < 2; y++) {
-		for (let x = 0; x < 3; x++) {
-			rotation[y][x] = matrix[y][x];
-		}
-	}
-}, 20);
+renderer.start();
