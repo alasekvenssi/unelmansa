@@ -20,8 +20,19 @@ export default class Vec2 {
 		return new Vec2(this.x / rhs, this.y / rhs);
 	}
 
-	length(): number {
-		return Math.sqrt(this.x ** 2 + this.y ** 2);
+	length(): number;
+	length(l: number): this;
+	length(l?: number): any {
+		if(l == undefined) {
+			return Math.sqrt(this.x ** 2 + this.y ** 2);
+		} else {
+			let len: number = this.length();
+			if(len == 0) {
+				throw "Vec2 must have length for this operation";	
+			}
+
+			return this.scale(l/len);
+		}
 	}
 
 	distance(rhs: Vec2): number {
@@ -59,5 +70,18 @@ export default class Vec2 {
 
 	toMatrix(): Matrix2 {
 		return new Matrix2(2, 1).set(0, 0, this.x).set(1, 0, this.y);
+	}
+
+	scale(s: number): this {
+		this.x *= s;
+		this.y *= s;
+		return this;
+	}
+
+	perpendicular(): Vec2[] {
+		return [
+			new Vec2(-this.y, this.x),
+			new Vec2(this.y, -this.x)
+		];
 	}
 }
