@@ -1,5 +1,5 @@
 import Vec2 from "../util/Vec2";
-import Intersections = require("./Intersections");
+import * as Intersections from "./Intersections";
 
 export interface Simulable {
 	mass: number;
