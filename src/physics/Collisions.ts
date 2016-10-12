@@ -35,12 +35,15 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x)).mul(1-lhs.friction);
 
 
+			lhs.position = lhs.position.add(Intersections.intersectionDelta(lhs.bounding(), rhs.bounding()));
+			rhs.position = rhs.position.sub(Intersections.intersectionDelta(lhs.bounding(), rhs.bounding()));
+
 			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
 			rhs.velocity = rhsVelocityOrthogontal.add(rhsVelocityTangent);
 		}
 
 		else if(lhs.mass != Infinity && rhs.mass == Infinity) {
-			lhs.position.y -= Intersections.intersectionDelta(lhs.bounding(), rhs.bounding());
+			lhs.position = lhs.position.sub(Intersections.intersectionDelta(lhs.bounding(), rhs.bounding()));
 
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul(coefficientOfRestitution + 1).sub(
 				lhs.velocity.projection(normal).mul(coefficientOfRestitution));
@@ -48,7 +51,6 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x));
 
 			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
-
 		}
 
 		else if(lhs.mass == Infinity && rhs.mass != Infinity) {

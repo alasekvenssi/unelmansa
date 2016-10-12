@@ -42,7 +42,7 @@ export class Ground extends Entity {
 		for (let affectedObject of affectedObjects) {
 			if(affectedObject.movable()) {
 				affectedObject.acceleration = affectedObject.acceleration.add(new Vec2(0,-1))
-				// console.log("A: ", affectedObject.acceleration);
+				// affectedObject.position = affectedObject.position.sub(Intersections.intersectionDelta(affectedObject.bounding(), this.bounding()));
 			}
 		}
 	}

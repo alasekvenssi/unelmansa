@@ -70,9 +70,15 @@ function AABBVsAABB(lhs: AABB, rhs: AABB): boolean {
 	return true;
 }
 
-export function intersectionDelta(lhs: Bounding, rhs: Bounding): number {
+export function intersectionDelta(lhs: Bounding, rhs: Bounding): Vec2 {
 	if(lhs instanceof Circle && rhs instanceof AABB) {
-		return lhs.position.y - rhs.max.y - lhs.radius;
+		return new Vec2(0, lhs.position.y - rhs.max.y - lhs.radius);
 	}
-	return 0;
+	if(lhs instanceof AABB && rhs instanceof Circle) {
+		return intersectionDelta(rhs, lhs);
+	}
+	if(lhs instanceof Circle && rhs instanceof Circle) {
+		return lhs.position.sub(rhs.position).normal().mul(lhs.radius + rhs.radius - lhs.position.distance(rhs.position));
+	}
+	return new Vec2(0,0);
 }
