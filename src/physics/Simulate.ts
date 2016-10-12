@@ -4,7 +4,7 @@ import * as Intersections from "./Intersections";
 import Vec2 from "../util/Vec2"
 
 export default function Simulate(simulables: Interface.Simulable[], timeDelta: number) : void {
-	// console.log("I see you fagot");
+
 	for (let i = 0; i < simulables.length; i++) {
 		for (let j = i + 1; j < simulables.length; ++j) {
 			Collide(simulables[i], simulables[j]);
@@ -15,7 +15,6 @@ export default function Simulate(simulables: Interface.Simulable[], timeDelta: n
 		physical.affect(simulables);
 
 		physical.velocity = physical.velocity.add(physical.acceleration);
-		console.log(physical.velocity);
 		physical.acceleration = new Vec2(0, 0);
 		physical.position = physical.position.add(physical.velocity);
 	}

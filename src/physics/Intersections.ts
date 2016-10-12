@@ -69,3 +69,10 @@ function AABBVsAABB(lhs: AABB, rhs: AABB): boolean {
 
 	return true;
 }
+
+export function intersectionDelta(lhs: Bounding, rhs: Bounding): number {
+	if(lhs instanceof Circle && rhs instanceof AABB) {
+		return lhs.position.y - rhs.max.y - lhs.radius;
+	}
+	return 0;
+}

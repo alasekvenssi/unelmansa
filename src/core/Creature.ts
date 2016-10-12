@@ -37,7 +37,7 @@ export class Creature extends Entity {
 export class CreatureBone extends Entity {
 	constructor(
 		position: Vec2 = new Vec2(0,0), public radius: number = 1, 
-		_mass: number = 1, _elasticity: number = 1, _friction: number = 0
+		_mass: number = 1, _elasticity: number = 0.75, _friction: number = 0
 	) {
 		super(position, _mass, _elasticity, _friction);
 	}
@@ -61,7 +61,7 @@ export class CreatureMuscle extends Entity {
 		public bone2: CreatureBone,
 		public minLength: number,
 		public maxLength: number,
-		public strength: number = 1
+		public strength: number = 0.05
 	) {
 		super();
 		this.targetLength = maxLength;
@@ -76,8 +76,8 @@ export class CreatureMuscle extends Entity {
 	affect(affectedObjects: Simulable[]): void {
 		let forceDirection: Vec2 = this.bone1.position.sub(this.bone2.position).normal();
 
-		this.bone1.acceleration.add(forceDirection.mul(this.strength*(this.targetLength - this.bonesDistance())));
-		this.bone2.acceleration.add(forceDirection.mul(this.strength*(this.bonesDistance() - this.targetLength)));
+		this.bone1.acceleration = this.bone1.acceleration.add(forceDirection.mul(this.strength*(this.targetLength - this.bonesDistance())));
+		this.bone2.acceleration = this.bone2.acceleration.add(forceDirection.mul(this.strength*(this.bonesDistance() - this.targetLength)));
 	}
 
 	render(context: Context2D): void {

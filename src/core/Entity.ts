@@ -31,7 +31,7 @@ export abstract class Entity implements Renderable, Simulable {
 
 export class Ground extends Entity {
 	constructor(_elasticity: number = 1) {
-		super(new Vec2(0, 0), Infinity, _elasticity, 1);
+		super(new Vec2(0, 0), Infinity, _elasticity, 0.5);
 	}
 
 	bounding(): Intersections.Bounding {
@@ -41,7 +41,7 @@ export class Ground extends Entity {
 	affect(affectedObjects: Simulable[]): void {
 		for (let affectedObject of affectedObjects) {
 			if(affectedObject.movable()) {
-				affectedObject.acceleration = affectedObject.acceleration.add(new Vec2(0,-0.1))
+				affectedObject.acceleration = affectedObject.acceleration.add(new Vec2(0,-1))
 				// console.log("A: ", affectedObject.acceleration);
 			}
 		}

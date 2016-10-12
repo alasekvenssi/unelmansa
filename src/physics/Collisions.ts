@@ -2,9 +2,11 @@ import Vec2 from "../util/Vec2";
 import * as Intersections from "./Intersections";
 
 interface physicalBody {
+	position: Vec2;
 	velocity: Vec2;
 	mass: number;
 	elasticity: number;
+	friction: number;
 	bounding(): Intersections.Bounding;
 }
 
@@ -24,13 +26,13 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * rhs.mass).add(
 				lhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
 
-			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x));
+			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x)).mul(1-lhs.friction);
 
 
 			let rhsVelocityOrthogontal: Vec2 = lhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * lhs.mass).sub(
 				rhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
 
-			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x));
+			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x)).mul(1-lhs.friction);
 
 
 			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
@@ -38,6 +40,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 		}
 
 		else if(lhs.mass != Infinity && rhs.mass == Infinity) {
+			lhs.position.y -= Intersections.intersectionDelta(lhs.bounding(), rhs.bounding());
 
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul(coefficientOfRestitution + 1).sub(
 				lhs.velocity.projection(normal).mul(coefficientOfRestitution));

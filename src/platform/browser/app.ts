@@ -11,15 +11,15 @@ import Vec2 from "../../util/Vec2"
 let stefan = new Creature();
 
 stefan.bones.push(new CreatureBone(new Vec2(0, 250), 20));
-// stefan.bones.push(new CreatureBone(new Vec2(170, 420), 20));
-// stefan.bones.push(new CreatureBone(new Vec2(300, 180), 20));
-// stefan.bones.push(new CreatureBone(new Vec2(350, 390), 20));
+stefan.bones.push(new CreatureBone(new Vec2(170, 420), 20));
+stefan.bones.push(new CreatureBone(new Vec2(300, 180), 20, 1, 0.75, 0.5));
+stefan.bones.push(new CreatureBone(new Vec2(350, 390), 20));
 
-// stefan.muscles.push(new CreatureMuscle(stefan.bones[0], stefan.bones[1], 50, 100));
-// stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[2], 50, 100));
-// stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[0], 50, 100));
-// stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[3], 50, 100));
-// stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[3], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[0], stefan.bones[1], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[2], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[0], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[3], 50, 100));
+stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[3], 50, 100));
 
 
 let scene = new Scene();
