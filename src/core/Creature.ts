@@ -3,6 +3,7 @@ import {Entity} from "./Entity"
 import {Simulable} from "../physics/Interface"
 import {Context2D} from "../graphics/Context2D"
 import Color from "../util/Color"
+import * as Intersections from "../physics/Intersections"
 
 export class Creature extends Entity {
 	constructor(
@@ -41,8 +42,8 @@ export class CreatureBone extends Entity {
 		super(position, _mass, _elasticity, _friction);
 	}
 
-	bounding() {
-		throw "Not implemented"; // Circle
+	bounding() : Intersections.Bounding {
+		return new Intersections.Circle(this.position, this.radius); // Circle
 	}
 
 	render(context: Context2D): void {

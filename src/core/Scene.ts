@@ -3,6 +3,7 @@ import {Entity} from "./Entity"
 import {Simulable} from "../physics/Interface"
 import {Context2D} from "../graphics/Context2D"
 import * as Arrays from "../util/Arrays"
+import Simulate from "../physics/Simulate"
 
 export class Scene implements Renderable {
 	entities: Entity[] = new Array<Entity>();
@@ -28,7 +29,7 @@ export class Scene implements Renderable {
 		for (let entity of this.entities) {
 			entity.update(timeDelta);
 		}
-		// Simulate();
+		Simulate(this.physical, timeDelta);
 	}
 
 	render(context: Context2D) {

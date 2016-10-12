@@ -3,6 +3,7 @@ import Color from "../util/Color"
 import {Renderable} from "../graphics/Renderable"
 import {Context2D} from "../graphics/Context2D"
 import {Simulable} from "../physics/Interface"
+import * as Intersections from "../physics/Intersections"
 
 export abstract class Entity implements Renderable, Simulable {
 	velocity: Vec2 = new Vec2(0, 0);
@@ -15,8 +16,8 @@ export abstract class Entity implements Renderable, Simulable {
 		public friction: number = 0
 	) {}
 
-	bounding(): any { return undefined; }
-	movable(): boolean { return this.mass == Infinity; }
+	bounding(): Intersections.Bounding { return undefined; }
+	movable(): boolean { return this.mass != Infinity; }
 
 	forEachSimulable(callback: (object: Simulable)=>void): void {
 		callback(this);	
@@ -33,16 +34,15 @@ export class Ground extends Entity {
 		super(new Vec2(0, 0), Infinity, _elasticity, 1);
 	}
 
-	bounding(): any {
-		throw "Not implemented"; // AABB(-Infinity, -Infinity, Infinity, 0)
+	bounding(): Intersections.Bounding {
+		return new Intersections.AABB(new Vec2(-Infinity, -Infinity), new Vec2(Infinity, 0));
 	}
-
-	// movable(): boolean { return false; }
 
 	affect(affectedObjects: Simulable[]): void {
 		for (let affectedObject of affectedObjects) {
 			if(affectedObject.movable()) {
-				affectedObject.acceleration.add(new Vec2(0,-10))
+				affectedObject.acceleration = affectedObject.acceleration.add(new Vec2(0,-0.1))
+				// console.log("A: ", affectedObject.acceleration);
 			}
 		}
 	}
