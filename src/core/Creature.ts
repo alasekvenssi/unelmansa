@@ -61,7 +61,7 @@ export class CreatureMuscle extends Entity {
 		public bone2: CreatureBone,
 		public minLength: number,
 		public maxLength: number,
-		public strength: number = 0.03
+		public strength: number = 1
 	) {
 		super();
 		this.targetLength = maxLength;

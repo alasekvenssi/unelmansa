@@ -14,8 +14,8 @@ export default function Simulate(simulables: Interface.Simulable[], timeDelta: n
 	for (let physical of simulables) {
 		physical.affect(simulables);
 
-		physical.velocity = physical.velocity.add(physical.acceleration);
+		physical.velocity = physical.velocity.add(physical.acceleration.mul(timeDelta));
 		physical.acceleration = new Vec2(0, 0);
-		physical.position = physical.position.add(physical.velocity);
+		physical.position = physical.position.add(physical.velocity.mul(timeDelta));
 	}
 }
