@@ -2,53 +2,65 @@ import Vec2 from "../util/Vec2";
 import Intersections = require("./Intersections");
 
 interface physicalBody {
-
-	readonly shape: Intersections.Shape;
-
 	velocity: Vec2;
-	readonly mass: number;
-	readonly elasticity: number;
+	mass: number;
+	elasticity: number;
+	bounding(): Intersections.Bounding;
 }
 
 export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
-	if(Intersections.areIntersecting(lhs, rhs)) {
+	if(Intersections.areIntersecting(lhs.bounding(), rhs.bounding())) {
 
 		let coefficientOfRestitution: number = (lhs.elasticity + rhs.elasticity)/2;
-		
+		let normal: Vec2 = normalVector(lhs.bounding(), rhs.bounding());
+
 		if(lhs.mass == Infinity && rhs.mass == Infinity) {
 			return;
 		}
 
-		else if(lhs.mass != Infinity && rhs.mass != Infinity) {
-			let LhsVelocity: Vec2 = new Vec2(lhs.velocity.x, lhs.velocity.y);
+		if(lhs.mass != Infinity && rhs.mass != Infinity) {
+			let normal: Vec2 = normalVector(lhs.bounding(), rhs.bounding());
+
+			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * rhs.mass).add(
+				lhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
+
+			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x));
 
 
-			lhs.velocity.x = (lhs.mass * lhs.velocity.x + rhs.mass * rhs.velocity.x + 
-				rhs.mass * coefficientOfRestitution * (rhs.velocity.x - lhs.velocity.x))/
-				(lhs.mass + rhs.mass);
+			let rhsVelocityOrthogontal: Vec2 = lhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * lhs.mass).sub(
+				rhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
 
-			lhs.velocity.y = (lhs.mass * lhs.velocity.y + rhs.mass * rhs.velocity.y + 
-				rhs.mass * coefficientOfRestitution * (rhs.velocity.y - lhs.velocity.y))/
-				(lhs.mass + rhs.mass);
+			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x));
 
 
-			rhs.velocity.y = (rhs.mass * rhs.velocity.y + lhs.mass * LhsVelocity.y + 
-				lhs.mass * coefficientOfRestitution * (LhsVelocity.y - rhs.velocity.y))/
-				(rhs.mass + lhs.mass);
-
-			rhs.velocity.x = (rhs.mass * rhs.velocity.x + lhs.mass * LhsVelocity.x + 
-				lhs.mass * coefficientOfRestitution * (LhsVelocity.x - rhs.velocity.x))/
-				(rhs.mass + lhs.mass);
+			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
+			rhs.velocity = rhsVelocityOrthogontal.add(rhsVelocityTangent);
 		}
 
 		else if(lhs.mass != Infinity && rhs.mass == Infinity) {
-			lhs.velocity.x = rhs.velocity.x + coefficientOfRestitution*(rhs.velocity.x - lhs. velocity.x);
-			lhs.velocity.y = rhs.velocity.y + coefficientOfRestitution*(rhs.velocity.y - lhs. velocity.y);
-		}
 
+			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul(coefficientOfRestitution + 1).sub(
+				lhs.velocity.projection(normal).mul(coefficientOfRestitution));
+
+			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x));
+
+			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
+
+		}
 
 		else if(lhs.mass == Infinity && rhs.mass != Infinity) {
 			Collide(rhs, lhs);
-		}		
+		}
+	}
+}
+
+function normalVector(lhs: Intersections.Bounding, rhs: Intersections.Bounding)
+{
+	if(lhs instanceof Intersections.Circle && rhs instanceof Intersections.Circle) {
+		let orthogontal: Vec2 = lhs.position.sub(rhs.position).normal();
+		return orthogontal;
+	}
+	else {
+		return new Vec2(0,1);
 	}
 }

@@ -1,8 +1,8 @@
 import Vec2 from "../util/Vec2"
 
-abstract class Bounding {}
+export abstract class Bounding {}
 
-class Circle extends Bounding{
+export class Circle extends Bounding{
 	constructor(
 		public position: Vec2,
 		public radius: number) {
@@ -10,7 +10,7 @@ class Circle extends Bounding{
 	}
 }
 
-class AABB extends Bounding{
+export class AABB extends Bounding{
 	constructor(
 		public min: Vec2,
 		public max: Vec2) {
