@@ -41,7 +41,7 @@ export class Ground extends Entity {
 	affect(affectedObjects: Simulable[]): void {
 		for (let affectedObject of affectedObjects) {
 			if(affectedObject.movable()) {
-				affectedObject.acceleration = affectedObject.acceleration.add(new Vec2(0,-100));
+				affectedObject.acceleration = affectedObject.acceleration.add(new Vec2(0,-1000));
 				console.log(affectedObject.acceleration);
 				// affectedObject.position = affectedObject.position.sub(Intersections.intersectionDelta(affectedObject.bounding(), this.bounding()));
 			}
