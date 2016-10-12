@@ -38,7 +38,8 @@ class CreatureBone extends Entity {
 }
 
 class CreatureMuscle extends Entity {
-	constructor(public leftBone: CreatureBone, public rightBone: CreatureBone, public strength: number = 1, public length: number = 2) {
+	constructor(public leftBone: CreatureBone, public rightBone: CreatureBone, public strength: number = 1, 
+		public length: number = 2sudo) {
 		super();
 		this.shape = Intersections.Shape.Muscle;
 	}
