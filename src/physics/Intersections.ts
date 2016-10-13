@@ -72,7 +72,7 @@ function AABBVsAABB(lhs: AABB, rhs: AABB): boolean {
 
 export function intersectionDelta(lhs: Bounding, rhs: Bounding): Vec2 {
 	if(lhs instanceof Circle && rhs instanceof AABB) {
-		return new Vec2(0, lhs.position.y - rhs.max.y - lhs.radius);
+		return new Vec2(0, lhs.radius - lhs.position.y + rhs.max.y);
 	}
 	if(lhs instanceof AABB && rhs instanceof Circle) {
 		return intersectionDelta(rhs, lhs);
