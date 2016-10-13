@@ -32,6 +32,14 @@ export class Creature extends Entity {
 			bone.render(context);
 		}
 	}
+
+	center(): Vec2 {
+		let avg = new Vec2();
+		for (let bone of this.bones) {
+			avg = avg.add(bone.position);
+		}
+		return avg.div(this.bones.length);
+	}
 }
 
 export class CreatureBone extends Entity {
