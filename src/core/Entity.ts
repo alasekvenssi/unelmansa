@@ -5,6 +5,7 @@ import {Renderable} from "../graphics/Renderable"
 import {Context2D} from "../graphics/Context2D"
 import {Simulable} from "../physics/Interface"
 import * as Intersections from "../physics/Intersections"
+import {Image} from "../graphics/Image"
 
 export abstract class Entity implements Renderable, Simulable {
 	velocity: Vec2 = new Vec2(0, 0);
@@ -31,7 +32,7 @@ export abstract class Entity implements Renderable, Simulable {
 }
 
 export class Ground extends Entity {
-	constructor(_elasticity: number = 1) {
+	constructor(public image: Image = undefined, _elasticity: number = 1) {
 		super(new Vec2(0, 0), Infinity, _elasticity, 0.5);
 	}
 
@@ -48,19 +49,28 @@ export class Ground extends Entity {
 	}
 
 	render(context: Context2D): void {
-		context.fillRGBA(0, 127, 0).drawRect(-100000, -100000, 200000, 100000, true, false);
-		for (let i = -10; i <= 10; i++) {
-			context.fillColor(Color.Black).drawRect(i*200-1, -100000, 2, 100000, true, false);
+		if (this.image) {
+			for (let i = -10; i <= 10; i++) {
+				context.save().translate(i*200-1, 0).scale(1, -1);
+				context.drawImage(this.image, 0, 0, 200, 200);
+				context.restore();
+			}
+		} else {
+			context.fillRGBA(0, 127, 0).drawRect(-100000, -100000, 200000, 100000, true, false);
 
-			context.save().translate(i*200-1, 0).scale(1, -1);
-			context.font(new Font("Arial", 30)).drawText(12, 12, i.toString(), "top", true, false);
-			context.restore();
+			for (let i = -10; i <= 10; i++) {
+				context.fillColor(Color.Black).drawRect(i*200-1, -100000, 2, 100000, true, false);
+
+				context.save().translate(i*200-1, 0).scale(1, -1);
+				context.font(new Font("Arial", 30)).drawText(12, 12, i.toString(), "top", true, false);
+				context.restore();
+			}
 		}
 	}
 }
 
 export class Air extends Entity {
-	constructor(public resistance: number = 1) {
+	constructor(public image: Image = undefined, public resistance: number = 0.5) {
 		super();
 	}
 
@@ -69,6 +79,14 @@ export class Air extends Entity {
 			if(obj.movable()) {
 				obj.acceleration = obj.acceleration.sub(obj.velocity.mul(this.resistance));
 			}
+		}
+	}
+
+	render(context: Context2D): void {
+		if (this.image) {
+			context.save().resetTransform();
+			context.drawImage(this.image, 0, 0, context.width(), context.height());
+			context.restore();
 		}
 	}
 }

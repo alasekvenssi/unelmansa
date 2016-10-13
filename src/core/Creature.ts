@@ -89,7 +89,7 @@ export class CreatureMuscle extends Entity {
 	}
 
 	render(context: Context2D): void {
-		context.strokeColor(Color.Black).lineWidth(6).drawLine(
+		context.strokeColor(Color.Black).lineWidth(15).drawLine(
 			this.bone1.position.x, this.bone1.position.y,
 			this.bone2.position.x, this.bone2.position.y, false, true
 		);
