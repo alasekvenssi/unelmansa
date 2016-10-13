@@ -24,4 +24,7 @@ export default class CanvasWindow {
 		this.canvas.width = this.hostWindow.innerWidth * this.resolution;
 		this.canvas.height = this.hostWindow.innerHeight * this.resolution;
 	}
+
+	width(): number { return this.canvas.width; }
+	height(): number { return this.canvas.height; }
 }
