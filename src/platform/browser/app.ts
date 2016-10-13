@@ -6,14 +6,16 @@ import Renderer from "../../graphics/Renderer"
 import {RenderTransform} from "../../graphics/Renderable"
 import TransformMatrix from "../../util/TransformMatrix"
 import Vec2 from "../../util/Vec2"
+import Color from "../../util/Color"
+import WebImage from "../../graphics/browser/WebImage"
 
 
 let stefan = new Creature();
 
-stefan.bones.push(new CreatureBone(new Vec2(-100, 780), 20, 1, 0.25, 1));
-stefan.bones.push(new CreatureBone(new Vec2(170, 950), 20, 1, 0.25, 1));
-stefan.bones.push(new CreatureBone(new Vec2(400, 710), 20, 1, 0.25, 1));
-stefan.bones.push(new CreatureBone(new Vec2(350, 1090), 20));
+stefan.bones.push(new CreatureBone(new Vec2(-100, 780), 40, 1, 0.5, 1));
+stefan.bones.push(new CreatureBone(new Vec2(170, 950), 40, 1, 0.5, 1));
+stefan.bones.push(new CreatureBone(new Vec2(400, 710), 40, 1, 0.5, 1));
+stefan.bones.push(new CreatureBone(new Vec2(350, 1090), 40, 1, 0.5, 1));
 
 stefan.muscles.push(new CreatureMuscle(stefan.bones[0], stefan.bones[1], 500, 500, 10));
 stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[2], 500, 500, 100));
@@ -23,8 +25,8 @@ stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[3], 110, 11
 stefan.muscles.push(new CreatureMuscle(stefan.bones[0], stefan.bones[3], 200, 200, 10));
 
 let scene = new Scene();
-scene.addEntity(new Ground());
-scene.addEntity(new Air());
+scene.addEntity(new Air(new WebImage("sky.png")));
+scene.addEntity(new Ground(new WebImage("ground.jpg")));
 scene.addEntity(stefan);
 
 let camera = new RenderTransform(TransformMatrix.translate(500, 600), scene);
