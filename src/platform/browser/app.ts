@@ -44,7 +44,3 @@ setInterval(
 		camera.transform = TransformMatrix.translate(view.width()/2-center.x, view.height() - 150);
 	}, 1000/60
 );
-, view.height() - 150);
-		}
-	}, 1000/60
-);
