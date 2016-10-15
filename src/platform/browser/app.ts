@@ -12,7 +12,7 @@ import WebImage from "../../graphics/browser/WebImage"
 
 let stefan = new Creature();
 
-stefan.bones.push(new CreatureBone(new Vec2(0, 730), 100, 200, 0.25, 1));
+stefan.bones.push(new CreatureBone(new Vec2(-100, 780), 40, 1, 0.5, 1));
 stefan.bones.push(new CreatureBone(new Vec2(170, 950), 40, 1, 0.5, 1));
 stefan.bones.push(new CreatureBone(new Vec2(400, 710), 40, 1, 0.5, 1));
 stefan.bones.push(new CreatureBone(new Vec2(350, 1090), 40, 1, 0.5, 1));
@@ -40,9 +40,11 @@ let center = stefan.center();
 
 setInterval(
 	() => {
-		for (var i = 0; i < 60/60; ++i) {
-			scene.update(1/60);
-			camera.transform = TransformMatrix.translate(view.width()/2-center.x, view.height() - 150);
+		scene.update(1/60);
+		camera.transform = TransformMatrix.translate(view.width()/2-center.x, view.height() - 150);
+	}, 1000/60
+);
+, view.height() - 150);
 		}
 	}, 1000/60
 );
