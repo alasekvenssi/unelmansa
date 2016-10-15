@@ -12,18 +12,25 @@ import WebImage from "../../graphics/browser/WebImage"
 
 let stefan = new Creature();
 
-stefan.bones.push(new CreatureBone(new Vec2(-100, 780), 40, 1, 0.5, 1));
-stefan.bones.push(new CreatureBone(new Vec2(170, 950), 40, 1, 0.5, 1));
-stefan.bones.push(new CreatureBone(new Vec2(400, 710), 40, 1, 0.5, 1));
-stefan.bones.push(new CreatureBone(new Vec2(350, 1090), 40, 1, 0.5, 1));
 
+// for (var i = 0; i <= 10; ++i) {
+for (var i = 10; i >= 0; --i) {
+	stefan.bones.push(new CreatureBone(new Vec2(0, 500+i*i*100), 50+i*i*10, 1+i*i*10, 0, 0));
+}
+
+
+// stefan.bones.push(new CreatureBone(new Vec2(0, 1000), 100, 200, 0.25, 1));
+// stefan.bones.push(new CreatureBone(new Vec2(170, 950), 40, 1, 0.5, 1));
+// stefan.bones.push(new CreatureBone(new Vec2(400, 710), 40, 1, 0.5, 1));
+// stefan.bones.push(new CreatureBone(new Vec2(350, 1090), 40, 1, 0.5, 1));
+/*
 stefan.muscles.push(new CreatureMuscle(stefan.bones[0], stefan.bones[1], 500, 500, 10));
 stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[2], 500, 500, 100));
 stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[0], 500, 500, 10));
 stefan.muscles.push(new CreatureMuscle(stefan.bones[1], stefan.bones[3], 50, 50, 10));
 stefan.muscles.push(new CreatureMuscle(stefan.bones[2], stefan.bones[3], 110, 110, 5));
 stefan.muscles.push(new CreatureMuscle(stefan.bones[0], stefan.bones[3], 200, 200, 10));
-
+*/
 let scene = new Scene();
 scene.addEntity(new Air(new WebImage("sky.png")));
 scene.addEntity(new Ground(new WebImage("ground.jpg")));
@@ -40,7 +47,9 @@ let center = stefan.center();
 
 setInterval(
 	() => {
-		scene.update(1/60);
-		camera.transform = TransformMatrix.translate(view.width()/2-center.x, view.height() - 150);
+		for (var i = 0; i < 60/60; ++i) {
+			scene.update(1/60);
+			camera.transform = TransformMatrix.translate(view.width()/2-center.x, view.height() - 150);
+		}
 	}, 1000/60
 );

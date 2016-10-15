@@ -70,12 +70,12 @@ function AABBVsAABB(lhs: AABB, rhs: AABB): boolean {
 	return true;
 }
 
-export function intersectionDelta(lhs: Bounding, rhs: Bounding): Vec2 {
+export function interpenetrationVector(lhs: Bounding, rhs: Bounding): Vec2 {
 	if(lhs instanceof Circle && rhs instanceof AABB) {
 		return new Vec2(0, lhs.radius - lhs.position.y + rhs.max.y);
 	}
 	if(lhs instanceof AABB && rhs instanceof Circle) {
-		return intersectionDelta(rhs, lhs);
+		return interpenetrationVector(rhs, lhs);
 	}
 	if(lhs instanceof Circle && rhs instanceof Circle) {
 		return lhs.position.sub(rhs.position).normal().mul(lhs.radius + rhs.radius - lhs.position.distance(rhs.position));

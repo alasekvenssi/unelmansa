@@ -4,9 +4,12 @@ import * as Intersections from "./Intersections";
 interface physicalBody {
 	position: Vec2;
 	velocity: Vec2;
+	acceleration: Vec2;
+
 	mass: number;
 	elasticity: number;
 	friction: number;
+	
 	bounding(): Intersections.Bounding;
 }
 
@@ -21,8 +24,6 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 		}
 
 		if(lhs.mass != Infinity && rhs.mass != Infinity) {
-			let normal: Vec2 = normalVector(lhs.bounding(), rhs.bounding());
-
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * rhs.mass).add(
 				lhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
 
@@ -35,15 +36,22 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x)).mul(1-lhs.friction);
 
 
-			lhs.position = lhs.position.add(Intersections.intersectionDelta(lhs.bounding(), rhs.bounding()));
-			rhs.position = rhs.position.sub(Intersections.intersectionDelta(lhs.bounding(), rhs.bounding()));
+			let interpenetration: Vec2 = Intersections.interpenetrationVector(lhs.bounding(), rhs.bounding());
+			lhs.position = lhs.position.add(interpenetration.mul(rhs.mass/(lhs.mass + rhs.mass)));
+			rhs.position = rhs.position.sub(interpenetration.mul(lhs.mass/(lhs.mass + rhs.mass)));
+
+			lhs.acceleration = lhs.acceleration.sub(rhs.acceleration.projection(normal));
+			rhs.acceleration = rhs.acceleration.sub(lhs.acceleration.projection(normal));
 
 			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
 			rhs.velocity = rhsVelocityOrthogontal.add(rhsVelocityTangent);
 		}
 
 		else if(lhs.mass != Infinity && rhs.mass == Infinity) {
-			lhs.position = lhs.position.add(Intersections.intersectionDelta(lhs.bounding(), rhs.bounding()));
+			lhs.position = lhs.position.add(Intersections.interpenetrationVector(lhs.bounding(), rhs.bounding()));
+
+			lhs.acceleration = lhs.acceleration.add(lhs.acceleration.projection(normal));
+			console.log(lhs.acceleration);
 
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul(coefficientOfRestitution + 1).sub(
 				lhs.velocity.projection(normal).mul(coefficientOfRestitution));
