@@ -27,13 +27,13 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * rhs.mass).add(
 				lhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
 
-			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x)).mul(1-lhs.friction);
+			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x));
 
 
 			let rhsVelocityOrthogontal: Vec2 = lhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * lhs.mass).sub(
 				rhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
 
-			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x)).mul(1-lhs.friction);
+			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x));
 
 
 			let interpenetration: Vec2 = Intersections.interpenetrationVector(lhs.bounding(), rhs.bounding());
