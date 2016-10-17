@@ -48,6 +48,8 @@ export class CreatureBone extends Entity {
 		_mass: number = 1, _elasticity: number = 0.75, _friction: number = 0
 	) {
 		super(position, _mass, _elasticity, _friction);
+		this.color = Color.randomRGB();
+		this.counter = 0;
 	}
 
 	bounding() : Intersections.Bounding {
@@ -55,10 +57,17 @@ export class CreatureBone extends Entity {
 	}
 
 	render(context: Context2D): void {
-		context.fillColor(Color.Yellow).strokeColor(Color.Black).lineWidth(4).drawCircle(
+		if(++this.counter % 10 == 0) {
+			this.color = Color.randomRGB();
+		}
+
+		context.fillColor(this.color).strokeColor(Color.Black).lineWidth(4).drawCircle(
 			this.position.x, this.position.y, this.radius, true, true
 		);
 	}
+
+	private counter: number;
+	private color: Color;
 }
 
 export class CreatureMuscle extends Entity {

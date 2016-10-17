@@ -21,6 +21,23 @@ export default class Color {
 		}
 	}
 
+	static randomRGB(): Color {
+		return new Color(
+			Math.floor(Math.random()*255),
+			Math.floor(Math.random()*255),
+			Math.floor(Math.random()*255)
+		);
+	}
+
+	static randomRGBA(): Color {
+		return new Color(
+			Math.floor(Math.random()*255),
+			Math.floor(Math.random()*255),
+			Math.floor(Math.random()*255),
+			Math.floor(Math.random()*255)
+		);
+	}
+
 	static fromString(colorString: string): Color {
 		colorString = colorString.trim();
 
