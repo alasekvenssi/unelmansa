@@ -17,6 +17,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 	if(Intersections.areIntersecting(lhs.bounding(), rhs.bounding())) {
 
 		let coefficientOfRestitution: number = (lhs.elasticity + rhs.elasticity)/2;
+		let coefficientOfDynamicFriction: number = (lhs.friction + rhs.friction)/2;
 		let normal: Vec2 = normalVector(lhs.bounding(), rhs.bounding());
 
 		if(lhs.mass == Infinity && rhs.mass == Infinity) {
@@ -48,15 +49,39 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 		}
 
 		else if(lhs.mass != Infinity && rhs.mass == Infinity) {
+
+			let lhsAccelerationOrthogontal: Vec2 = lhs.acceleration.projection(normal);
+			let lhsAccelerationTangent: Vec2 = lhs.acceleration.projection(new Vec2(-normal.y, normal.x));
+			// console.log(lhs.acceleration);
+			// console.log("A: ", lhsAccelerationOrthogontal.mul(lhs.mass).length());
+
+
 			lhs.position = lhs.position.add(Intersections.interpenetrationVector(lhs.bounding(), rhs.bounding()));
 
-			lhs.acceleration = lhs.acceleration.add(lhs.acceleration.projection(normal));
-			console.log(lhs.acceleration);
+			// lhs.acceleration = lhs.acceleration.sub(lhs.acceleration.projection(normal));
+			// console.log(lhs.acceleration);
 
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul(coefficientOfRestitution + 1).sub(
 				lhs.velocity.projection(normal).mul(coefficientOfRestitution));
 
 			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x));
+			// console.log("R: ", lhsVelocityTangent.normal().mul(-lhsAccelerationOrthogontal.mul(lhs.mass).length()));
+			if(lhsVelocityTangent.length() > lhsAccelerationOrthogontal.length() * lhs.mass) {
+				lhs.acceleration = lhs.acceleration.add(lhsVelocityTangent.normal().mul(-lhsAccelerationOrthogontal.mul(lhs.mass).length()));
+			}
+			else if(lhsVelocityTangent.length() > 5)
+			{
+				lhs.acceleration = lhs.acceleration.add(lhsVelocityTangent.normal().mul(-lhsAccelerationOrthogontal.mul(lhs.mass).length() * 
+					lhsVelocityTangent.length() / (lhsAccelerationOrthogontal.length() * lhs.mass)**(0.65)));
+			}
+			else
+			{
+				;
+			}
+			console.log("A: ", lhs.acceleration);
+			console.log("V: ", lhs.velocity);
+
+			// console.log("V: ", lhsVelocityOrthogontal.mul(lhs.mass), lhsVelocityTangent);
 
 			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
 		}
@@ -67,7 +92,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 	}
 }
 
-function normalVector(lhs: Intersections.Bounding, rhs: Intersections.Bounding)
+export function normalVector(lhs: Intersections.Bounding, rhs: Intersections.Bounding)
 {
 	if(lhs instanceof Intersections.Circle && rhs instanceof Intersections.Circle) {
 		let orthogontal: Vec2 = lhs.position.sub(rhs.position).normal();
