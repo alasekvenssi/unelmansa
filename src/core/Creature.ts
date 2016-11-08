@@ -40,6 +40,16 @@ export class Creature extends Entity {
 		}
 		return avg.div(this.bones.length);
 	}
+
+	update(timeDelta: number): void {
+		for(let i: number = 0; i < this.bones.length; ++i) {
+			this.bones[i].update(timeDelta);
+		}
+
+		for(let i: number = 0; i < this.muscles.length; ++i) {
+			this.muscles[i].update(timeDelta);
+		}
+	}
 }
 
 export class CreatureBone extends Entity {
@@ -72,13 +82,16 @@ export class CreatureBone extends Entity {
 
 export class CreatureMuscle extends Entity {
 	targetLength: number; // current target length
+	timer: number = 0;
 
 	constructor(
 		public bone1: CreatureBone,
 		public bone2: CreatureBone,
 		public minLength: number,
 		public maxLength: number,
-		public strength: number = 1
+		public strength: number = 1,
+		public timerInterval: number = 0.5,
+		public expandFactor: number = 0.5
 	) {
 		super();
 		this.targetLength = maxLength;
@@ -102,5 +115,12 @@ export class CreatureMuscle extends Entity {
 			this.bone1.position.x, this.bone1.position.y,
 			this.bone2.position.x, this.bone2.position.y, false, true
 		);
+	}
+
+	update(timeDelta: number): void {
+		this.timer += timeDelta
+		this.timer %= this.timerInterval
+
+		this.targetLength = (this.timer > this.timerInterval * this.expandFactor ? this.minLength : this.maxLength);
 	}
 }

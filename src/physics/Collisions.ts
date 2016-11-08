@@ -78,8 +78,8 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			{
 				;
 			}
-			console.log("A: ", lhs.acceleration);
-			console.log("V: ", lhs.velocity);
+			// console.log("A: ", lhs.acceleration);
+			// console.log("V: ", lhs.velocity);
 
 			// console.log("V: ", lhsVelocityOrthogontal.mul(lhs.mass), lhsVelocityTangent);
 
