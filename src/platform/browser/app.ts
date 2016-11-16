@@ -36,11 +36,9 @@ let renderer = new Renderer(view.context, camera, 1, true);
 
 renderer.start();
 
-let center = stefan.center();
-
 setInterval(
 	() => {
 		scene.update(1/60);
-		camera.transform = TransformMatrix.translate(view.width()/2-center.x, view.height() - 150);
+		camera.transform = TransformMatrix.translate(view.width()/2 - stefan.center().x, view.height() - 150);
 	}, 1000/60
 );

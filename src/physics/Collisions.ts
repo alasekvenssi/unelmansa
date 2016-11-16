@@ -18,6 +18,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 
 		let coefficientOfRestitution: number = (lhs.elasticity + rhs.elasticity)/2;
 		let coefficientOfDynamicFriction: number = (lhs.friction + rhs.friction)/2;
+		let coefficientOfStaticFriction: number = Math.sqrt(lhs.friction**2 + rhs.friction**2);
 		let normal: Vec2 = normalVector(lhs.bounding(), rhs.bounding());
 
 		if(lhs.mass == Infinity && rhs.mass == Infinity) {
@@ -52,36 +53,25 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 
 			let lhsAccelerationOrthogontal: Vec2 = lhs.acceleration.projection(normal);
 			let lhsAccelerationTangent: Vec2 = lhs.acceleration.projection(new Vec2(-normal.y, normal.x));
-			// console.log(lhs.acceleration);
-			// console.log("A: ", lhsAccelerationOrthogontal.mul(lhs.mass).length());
-
 
 			lhs.position = lhs.position.add(Intersections.interpenetrationVector(lhs.bounding(), rhs.bounding()));
-
-			// lhs.acceleration = lhs.acceleration.sub(lhs.acceleration.projection(normal));
-			// console.log(lhs.acceleration);
 
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul(coefficientOfRestitution + 1).sub(
 				lhs.velocity.projection(normal).mul(coefficientOfRestitution));
 
 			let lhsVelocityTangent: Vec2 = lhs.velocity.projection(new Vec2(-normal.y, normal.x));
-			// console.log("R: ", lhsVelocityTangent.normal().mul(-lhsAccelerationOrthogontal.mul(lhs.mass).length()));
-			if(lhsVelocityTangent.length() > lhsAccelerationOrthogontal.length() * lhs.mass) {
-				lhs.acceleration = lhs.acceleration.add(lhsVelocityTangent.normal().mul(-lhsAccelerationOrthogontal.mul(lhs.mass).length()));
-			}
-			else if(lhsVelocityTangent.length() > 5)
-			{
-				lhs.acceleration = lhs.acceleration.add(lhsVelocityTangent.normal().mul(-lhsAccelerationOrthogontal.mul(lhs.mass).length() * 
-					lhsVelocityTangent.length() / (lhsAccelerationOrthogontal.length() * lhs.mass)**(0.65)));
+
+			if(lhsVelocityTangent.length() > 10 * lhs.mass * lhs.friction) {
+				lhs.acceleration = lhs.acceleration.add(lhsVelocityTangent.normal().mul(
+					-lhsAccelerationOrthogontal.mul(lhs.mass * coefficientOfDynamicFriction).length()));
 			}
 			else
 			{
-				;
+				lhsVelocityTangent = new Vec2(0,0);
+				if(lhsAccelerationTangent.length() <= lhsVelocityOrthogontal.length() * coefficientOfStaticFriction * lhs.mass) {
+					lhs.acceleration = lhs.acceleration.sub(lhsAccelerationTangent);
+				}
 			}
-			// console.log("A: ", lhs.acceleration);
-			// console.log("V: ", lhs.velocity);
-
-			// console.log("V: ", lhsVelocityOrthogontal.mul(lhs.mass), lhsVelocityTangent);
 
 			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
 		}
