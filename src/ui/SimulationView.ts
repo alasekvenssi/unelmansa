@@ -54,7 +54,6 @@ export default class SimulationView extends RenderGroup {
 
 	render(ctx: Context2D) {
 		let creature = this.creatureClone;
-		console.log(creature.center());
 		this.camera.transform = TransformMatrix.translate(ctx.width()/2 - creature.center().x, ctx.height() - 150);
 
 		this.populationTxt.text = "Population: " + (this.populationId+1);
@@ -68,7 +67,7 @@ export default class SimulationView extends RenderGroup {
 		this.scene.removeEntity(this.creatureClone);
 
 		if (++this.creatureId >= this.population.population.length) {
-			// TODO: REPRODUCTION
+			this.population.makeFullCycle();
 
 			this.creatureId = 0;
 			this.populationId++;
@@ -82,7 +81,7 @@ export default class SimulationView extends RenderGroup {
 	private updateNext() {
 		for (let i = 0; i < this.speed; i++) {
 			if (this.ticks++ >= 10*60) {
-				this.nextCreature()
+				this.nextCreature();
 			}
 			this.scene.update(1/60);
 		}
