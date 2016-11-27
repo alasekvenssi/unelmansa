@@ -62,5 +62,5 @@ export default class Population {
 		this.moveAllToStartingPosition;
 	}
 
-	population: Creature[];
+	population: Creature[] = new Array<Creature>();
 }
