@@ -7,6 +7,7 @@ import * as Intersections from "../physics/Intersections"
 import * as utilMath from "../util/Math"
 import * as Consts from "./Consts"
 import DisjointNode from "../util/DisjointSet"
+import * as Generator from "./Generator"
 
 export class Creature extends Entity {
 	constructor(
@@ -160,6 +161,23 @@ export class Creature extends Entity {
 			}
 		}
 		
+		// Add random node
+		if(utilMath.randomChance(Consts.MUTATION_ADD_NODE_CHANCE)) {
+			this.bones.push(Generator.generateCreatureBone());
+			let edges : number = 0;
+
+			for(let i : number = 0; i < this.bones.length-1; ++i) {
+				if(utilMath.randomChance(Consts.MUTATION_CONNECTION_CHANCE)) {
+					this.muscles.push(Generator.generateCreatureMuscle(this.bones[i], this.bones[this.bones.length-1]));
+					edges++;
+				}
+			}
+
+			if(edges == 0) {
+				this.bones.pop();
+			}
+		}
+
 		return this;
 	}
 }
