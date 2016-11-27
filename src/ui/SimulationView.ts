@@ -17,7 +17,8 @@ export default class SimulationView extends RenderGroup {
 	private skipCreatureBtn = new Button("Skip creature", () => this.skipCreature(), -435, -15, 355, 100);
 
 	private populationTxt = new Text("", 30, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
-	private creatureTxt = new Text("", 600, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
+	private creatureTxt = new Text("", 550, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
+	private resultText = new Text("", 1000, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
 
 	scene: Scene = new Scene();
 	camera: RenderTransform;
@@ -43,6 +44,7 @@ export default class SimulationView extends RenderGroup {
 		this.items.push(this.skipCreatureBtn);
 		this.items.push(this.populationTxt);
 		this.items.push(this.creatureTxt);
+		this.items.push(this.resultText);
 
 		this.creatureClone = this.population.population[this.creatureId].clone()
 		this.scene.addEntity(this.creatureClone);
@@ -57,6 +59,7 @@ export default class SimulationView extends RenderGroup {
 
 		this.populationTxt.text = "Population: " + (this.populationId+1);
 		this.creatureTxt.text = "Creature: " + (this.creatureId+1);
+		this.resultText.text = "Result: " + this.creatureClone.center().x.toFixed(0);
 
 		super.render(ctx);
 	}
