@@ -29,8 +29,8 @@ export default function generateCreature(): Creature {
 					generated.muscles.push(new CreatureMuscle(
 						generated.bones[i],
 						generated.bones[j],
-						generated.bones[i].position.distance(generated.bones[j].position) + 50,
-						(generated.bones[i].position.distance(generated.bones[j].position) + 50)*4,
+						generated.bones[i].position.distance(generated.bones[j].position) + 5,
+						(generated.bones[i].position.distance(generated.bones[j].position) + 5)*2,
 						Math.random()*50+1,
 						Math.random()*4+1,
 						Math.random()
