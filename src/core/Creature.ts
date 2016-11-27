@@ -47,6 +47,8 @@ export class Creature extends Entity {
 	}
 
 	update(timeDelta: number): void {
+		this.updateBonesColor();
+
 		for(let i: number = 0; i < this.bones.length; ++i) {
 			this.bones[i].update(timeDelta);
 		}
@@ -71,6 +73,20 @@ export class Creature extends Entity {
 		}
 
 		return disjoint[0].getSize() == this.bones.length;
+	}
+
+	updateBonesColor(): void {
+		let maxFriction : number = 0;
+
+		for(let i : number = 0; i < this.bones.length; ++i) {
+			maxFriction = Math.max(maxFriction, this.bones[i].friction);
+		}
+
+		for(let i : number = 0; i < this.bones.length; ++i) {
+			let relative : number = this.bones[i].friction / maxFriction;
+			// this.bones[i].color = new Color(255, 255*this.bones[i].friction / maxFriction, 255*this.bones[i].friction / maxFriction);
+			this.bones[i].color = new Color(Math.round(255*relative), 255, Math.round(255*relative));
+		}
 	}
 
     clone(): Creature {
@@ -114,6 +130,7 @@ export class Creature extends Entity {
                 }
             }
         }
+
         return myClone;
     }
 
@@ -189,7 +206,6 @@ export class CreatureBone extends Entity {
 	) {
 		super(position, _mass, _elasticity, _friction);
 		this.color = Color.randomRGB();
-		this.counter = 0;
 	}
 
 	bounding() : Intersections.Bounding {
@@ -197,17 +213,12 @@ export class CreatureBone extends Entity {
 	}
 
 	render(context: Context2D): void {
-		if(++this.counter % 10 == 0) {
-			this.color = Color.randomRGB();
-		}
-
 		context.fillColor(this.color).strokeColor(Color.Black).lineWidth(4).drawCircle(
 			this.position.x, this.position.y, this.radius, true, true
 		);
 	}
 
-	private counter: number;
-	private color: Color;
+	public color: Color;
 }
 
 export class CreatureMuscle extends Entity {
