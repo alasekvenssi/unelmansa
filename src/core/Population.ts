@@ -57,18 +57,15 @@ export default class Population {
 	}
 
 	makeFullCycle() {
-		// Test() ???
-
 		this.removeSlowest();
 		let oldPopulationSize = this.population.length;
 		for (let i = 0; i < oldPopulationSize; ++i) {
 			let father: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
 			let mother: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
 
-			this.push(Breed(mother, father));
+			this.push(Breed(mother, father).mutate());
 		}
-		this.addRandomlyGeneratedCreatures(this.population.length);
-		this.moveAllToStartingPosition;
+		this.moveAllToStartingPosition();
 	}
 
 	population: Creature[] = new Array<Creature>();

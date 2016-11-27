@@ -3,7 +3,7 @@ import {CreatureBone} from "./Creature"
 import Vec2 from "../util/Vec2"
 import {CreatureMuscle} from "./Creature"
 
-export default function breed(lhs: Creature, rhs: Creature) {
+export default function breed(lhs: Creature, rhs: Creature): Creature {
 	if(lhs.bones.length != rhs.bones.length) {
 		throw "Not implemented";
 	}
