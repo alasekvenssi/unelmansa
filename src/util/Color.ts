@@ -16,6 +16,9 @@ export default class Color {
 	toInt32(): number {
 		return this.r | (this.g << 8) | (this.b << 16) | (this.a << 24);
 	}
+	toInt24(): number {
+		return this.r | (this.g << 8) | (this.b << 16);
+	}
 
 	isValid(): boolean {
 		if(this.r < 0 || this.r > 255 || this.g < 0 || this.g > 255 || this.b < 0 || this.b > 255 || this.a < 0 || this.a > 255) {
@@ -44,6 +47,9 @@ export default class Color {
 
 	static fromInt32(num: number): Color {
 		return new Color(num & 0xFF, (num >> 8) & 0xFF, (num >> 16) & 0xFF, (num >> 24) & 0xFF);
+	}
+	static fromInt24(num: number): Color {
+		return new Color(num & 0xFF, (num >> 8) & 0xFF, (num >> 16) & 0xFF);
 	}
 
 	static fromString(colorString: string): Color {
