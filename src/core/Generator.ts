@@ -34,7 +34,7 @@ export default class Generator{
 	
 	static generateCreatureBone(): CreatureBone {
 		return new CreatureBone(
-			new Vec2(Math.random()*1000 - 2000, Math.random()*1000 - 2000+2500),
+			new Vec2(Math.random()*500 - 1000, Math.random()*500 - 1000+1500),
 			Math.random()*30+10,
 			Math.random()*10+1,
 			Math.random(),
@@ -46,8 +46,8 @@ export default class Generator{
 		return new CreatureMuscle(
 			lhs,
 			rhs,
-			lhs.position.distance(rhs.position) + 5,
-			(lhs.position.distance(rhs.position) + 5) * 2,
+			lhs.position.distance(rhs.position) + 50,
+			(lhs.position.distance(rhs.position) + 50) * 3,
 			Math.random() * 50 + 1,
 			Math.random() * 4 + 1,
 			Math.random()
