@@ -1,6 +1,6 @@
 import Vec2 from "../util/Vec2"
 import Color from "../util/Color"
-import {Font} from "../util/Font"
+import {Font, FontWeight} from "../util/Font"
 import {Renderable} from "../graphics/Renderable"
 import {Context2D} from "../graphics/Context2D"
 import {Simulable} from "../physics/Interface"
@@ -50,21 +50,23 @@ export class Ground extends Entity {
 
 	render(context: Context2D): void {
 		if (this.image) {
-			for (let i = -10; i <= 10; i++) {
+			for (let i = -30; i <= 30; i++) {
 				context.save().translate(i*200-1, 0).scale(1, -1);
 				context.drawImage(this.image, 0, 0, 200, 200);
 				context.restore();
 			}
 		} else {
 			context.fillRGBA(0, 127, 0).drawRect(-100000, -100000, 200000, 100000, true, false);
+		}
 
-			for (let i = -10; i <= 10; i++) {
-				context.fillColor(Color.Black).drawRect(i*200-1, -100000, 2, 100000, true, false);
+		for (let i = -30; i <= 30; i++) {
+			context.fillColor(Color.Black).drawRect(i*200-1, -100000, 2, 100000, true, false);
 
-				context.save().translate(i*200-1, 0).scale(1, -1);
-				context.font(new Font("Arial", 30)).drawText(12, 12, i.toString(), "top", true, false);
-				context.restore();
-			}
+			context.save().translate(i*200-1, 0).scale(1, -1);
+			context.fillColor(Color.White).strokeColor(Color.Black).lineWidth(2);
+			context.font(new Font("Arial", 40, "normal", FontWeight.Bold));
+			context.drawText(12, 12, (i*200).toString(), "hanging", true, true);
+			context.restore();
 		}
 	}
 }
