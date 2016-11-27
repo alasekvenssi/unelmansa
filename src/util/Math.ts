@@ -16,5 +16,9 @@ export function roundArray(array: number[]): number[] {
 	return roundForEach(result);
 }
 
+export function randomChance(chance : number) : boolean {
+	return Math.random() <= chance;
+}
+
 const Epsilon: number = 3; // decimal place
 const AbsError: number = 10**(-Epsilon);

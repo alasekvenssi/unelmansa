@@ -4,6 +4,8 @@ import {Simulable} from "../physics/Interface"
 import {Context2D} from "../graphics/Context2D"
 import Color from "../util/Color"
 import * as Intersections from "../physics/Intersections"
+import * as utilMath from "../util/Math"
+import * as Consts from "./Consts"
 import DisjointNode from "../util/DisjointSet"
 
 export class Creature extends Entity {
@@ -68,6 +70,49 @@ export class Creature extends Entity {
 		}
 
 		return disjoint[0].getSize() == this.bones.length;
+	}
+
+	mutate(): Creature {
+		// Remove nodes
+		for(let i : number = this.bones.length-1; i >= 0; --i) {
+			if(utilMath.randomChance(Consts.MUTATION_DELETE_NODE_CHANCE)) {
+				for(let j : number = this.muscles.length-1; j >= 0; --j) {
+					if(this.muscles[j].bone1 == this.bones[i] || this.muscles[j].bone2 == this.bones[i]) {
+						this.muscles.splice(j, 1);
+					}
+				}
+				this.bones.splice(i, 1);
+			}
+		}
+
+		// Random bone friction
+		for(let i : number = 0; i < this.bones.length; ++i) {
+			if(utilMath.randomChance(Consts.MUTATION_BONE_FRICTION_CHANCE)) {
+				let diff : number = this.bones[i].friction * (Consts.MUTATION_RELATIVE_FRICTION_DIFF / 2) * Math.random();
+				diff *= (utilMath.randomChance(0.5) ? -1 : 1);
+			
+				let newFriction = this.bones[i].friction + diff;
+				newFriction = Math.min(newFriction, 1);
+				newFriction = Math.max(newFriction, 0);
+
+				this.bones[i].friction = newFriction;
+			}
+		}
+
+		// Random musscle strength
+		for(let i : number = 0; i < this.muscles.length; ++i) {
+			if(utilMath.randomChance(Consts.MUTATION_MUSCLE_STRENGTH_CHANCE)) {
+				let diff : number = this.muscles[i].strength * (Consts.MUTATION_RELATIVE_STRENGTH_DIFF / 2) * Math.random();
+				diff *= (utilMath.randomChance(0.5) ? -1 : 1);
+
+				let newStrength = this.muscles[i].strength + diff;
+				newStrength = Math.max(newStrength, 0);
+
+				this.muscles[i].strength = newStrength;
+			}
+		}
+		
+		return this;
 	}
 }
 
