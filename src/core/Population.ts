@@ -3,7 +3,7 @@ import Generate from "./Generator";
 import Vec2 from "../util/Vec2";
 
 
-class Population {
+export default class Population {
 
 	constructor(size: number = 1000) {
 		this.addRandomlyGeneratedCreatures(size);
