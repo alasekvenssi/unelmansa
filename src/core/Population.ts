@@ -3,8 +3,6 @@ import * as Generator from "./Generator";
 import Vec2 from "../util/Vec2";
 import Breed from "./Breed"
 
-
-
 export default class Population {
 
 	constructor(size: number = 1000) {
@@ -63,7 +61,15 @@ export default class Population {
 			let father: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
 			let mother: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
 
-			this.push(Breed(mother, father).mutate());
+			let kid: Creature = undefined;
+			try {
+				kid = Breed(mother, father).mutate();
+			}
+			catch (e) {
+				i--;
+				continue;
+			}
+			this.push(kid);
 		}
 		this.moveAllToStartingPosition();
 	}
