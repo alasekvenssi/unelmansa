@@ -69,7 +69,6 @@ export default function breed(lhs: Creature, rhs: Creature): Creature {
 						)
 					);
 					
-					console.log(kid.muscles[0]);
 				}
 				else if(lhsMuscle != undefined && Math.random() >= 0.5) {
 					kid.muscles.push(new CreatureMuscle(
