@@ -1,6 +1,8 @@
 import {Creature} from "./Creature"
 import * as Generator from "./Generator";
 import Vec2 from "../util/Vec2";
+import Breed from "./Breed"
+
 
 
 export default class Population {
@@ -58,6 +60,13 @@ export default class Population {
 		// Test() ???
 
 		this.removeSlowest();
+		let oldPopulationSize = this.population.length;
+		for (let i = 0; i < oldPopulationSize; ++i) {
+			let father: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
+			let mother: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
+
+			this.push(Breed(mother, father));
+		}
 		this.addRandomlyGeneratedCreatures(this.population.length);
 		this.moveAllToStartingPosition;
 	}
