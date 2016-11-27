@@ -20,6 +20,11 @@ export default class CanvasContext2D extends Context2D {
 		return this.ctx.canvas.height;
 	}
 
+	getPixel(x: number, y: number): Color {
+		let d: ImageData = this.ctx.getImageData(x, y, 1, 1);
+		return new Color(d.data[0], d.data[1], d.data[2], d.data[3]);
+	}
+
 	clearRect(x: number, y: number, width: number, height: number): this {
 		this.ctx.clearRect(x, y, width, height); return this;
 	}

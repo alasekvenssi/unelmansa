@@ -14,6 +14,8 @@ export abstract class Context2D {
 	abstract width(): number;
 	abstract height(): number;
 
+	abstract getPixel(x: number, y: number): Color;
+
 	abstract clearRect(x: number, y: number, width: number, height: number): this;
 
 	abstract drawRect(x: number, y: number, width: number, height: number, fill: boolean, stroke: boolean): this;
@@ -105,4 +107,9 @@ export abstract class Context2D {
 	drawLine(x1: number, y1: number, x2: number, y2: number, fill: boolean, stroke: boolean): this {
 		return this.beginPath(x1, y1).pathLine(x2, y2).drawPath(fill, stroke);
 	}
+
+
+	bindClick(callback: ()=>void): this { return this; }
+	popClick(): this { return this; }
+	click(x: number, y: number): this { return this; }
 }
