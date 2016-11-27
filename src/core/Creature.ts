@@ -4,6 +4,7 @@ import {Simulable} from "../physics/Interface"
 import {Context2D} from "../graphics/Context2D"
 import Color from "../util/Color"
 import * as Intersections from "../physics/Intersections"
+import DisjointNode from "../util/DisjointSet"
 
 export class Creature extends Entity {
 	constructor(
@@ -49,6 +50,23 @@ export class Creature extends Entity {
 		for(let i: number = 0; i < this.muscles.length; ++i) {
 			this.muscles[i].update(timeDelta);
 		}
+	}
+
+	isStronglyConnected(): boolean {
+		let disjoint : Array<DisjointNode> = new Array<DisjointNode>(this.bones.length);
+		
+		for(let i : number = 0; i < this.bones.length; ++i) {
+			disjoint[i] = new DisjointNode();
+		}
+
+		for(let i : number = 0; i < this.muscles.length; ++i) {
+			let lhsId : number = this.bones.indexOf(this.muscles[i].bone1);
+			let rhsId : number = this.bones.indexOf(this.muscles[i].bone2);
+
+			disjoint[lhsId].union(disjoint[rhsId]);
+		}
+
+		return disjoint[0].getSize() == this.bones.length;
 	}
 }
 
