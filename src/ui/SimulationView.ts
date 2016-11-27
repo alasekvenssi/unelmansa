@@ -13,8 +13,9 @@ import Population from "../core/Population"
 // Temporarily simulation is done here, to be moved!
 
 export default class SimulationView extends RenderGroup {
-	private skipPopulationBtn = new Button("Skip population", () => this.skipPopulation(), -15, -15, 405, 100);
-	private skipCreatureBtn = new Button("Skip creature", () => this.skipCreature(), -435, -15, 355, 100);
+	private skipPopulationBtn = new Button("Skip population", () => this.skipPopulation(), -15-520, -15, 405, 100);
+	private skip10PopulationsBtn = new Button("Skip 10 population", () => this.skip10Populations(), -50, -15, 470, 100);
+	private skipCreatureBtn = new Button("Skip creature", () => this.skipCreature(), -435-520, -15, 355, 100);
 
 	private populationTxt = new Text("", 30, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
 	private creatureTxt = new Text("", 550, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
@@ -41,6 +42,7 @@ export default class SimulationView extends RenderGroup {
 
 		this.items.push(this.camera);
 		this.items.push(this.skipPopulationBtn);
+		this.items.push(this.skip10PopulationsBtn);
 		this.items.push(this.skipCreatureBtn);
 		this.items.push(this.populationTxt);
 		this.items.push(this.creatureTxt);
@@ -84,6 +86,13 @@ export default class SimulationView extends RenderGroup {
 				this.nextCreature();
 			}
 			this.scene.update(1/60);
+		}
+	}
+
+	skip10Populations() {
+		let last =  this.populationId + 10;
+		while(this.populationId != last) {
+			this.updateNext();
 		}
 	}
 
