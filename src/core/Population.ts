@@ -7,8 +7,9 @@ class Population {
 		this.addRandomlyGeneratedCreatures(size);
 	}
 
-	sortCreatures(): void {
-		let comp = function(lhs: Creature, rhs: Creature) {
+	sortCreatures(): void {		
+		this.population.sort(
+			function(lhs: Creature, rhs: Creature) {
 			if(lhs.center().x == rhs.center().x) {
 				return 0;
 			}
@@ -18,9 +19,7 @@ class Population {
 			else {
 				return 1;
 			}
-		};
-		
-		this.population.sort(comp);
+		});
 	}
 
 	push(newCreature: Creature) {
