@@ -22,7 +22,7 @@ export default class SimulationView extends RenderGroup {
 	scene: Scene = new Scene();
 	camera: RenderTransform;
 
-	population: Population = new Population(5);
+	population: Population = new Population(1000);
 	populationId: number = 0;
 	creatureId: number = 0;
 	creatureClone: Creature;
@@ -78,7 +78,7 @@ export default class SimulationView extends RenderGroup {
 
 	private updateNext() {
 		for (let i = 0; i < this.speed; i++) {
-			if (this.ticks++ >= 5*60) {
+			if (this.ticks++ >= 10*60) {
 				this.nextCreature()
 			}
 			this.scene.update(1/60);
