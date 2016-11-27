@@ -9,7 +9,8 @@ import DisjointNode from "../util/DisjointSet"
 export class Creature extends Entity {
 	constructor(
 		public bones: CreatureBone[] = new Array<CreatureBone>(),
-		public muscles: CreatureMuscle[] = new Array<CreatureMuscle>()
+		public muscles: CreatureMuscle[] = new Array<CreatureMuscle>(),
+		public result: number = -Infinity
 	) {
 		super();
 	}

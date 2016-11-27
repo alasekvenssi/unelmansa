@@ -1,19 +1,22 @@
 import {Creature} from "./Creature"
 import Generate from "./Generator";
+import Vec2 from "../util/Vec2";
+
 
 class Population {
 
 	constructor(size: number = 1000) {
 		this.addRandomlyGeneratedCreatures(size);
+		this.moveAllToStartingPosition();
 	}
 
 	sortCreatures(): void {		
 		this.population.sort(
 			function(lhs: Creature, rhs: Creature) {
-			if(lhs.center().x == rhs.center().x) {
+			if(lhs.result == rhs.result) {
 				return 0;
 			}
-			else if(lhs.center().x < rhs.center().x) {
+			else if(lhs.result < rhs.result) {
 				return -1;
 			}
 			else {
@@ -40,11 +43,23 @@ class Population {
 		}
 	}
 
+	moveAllToStartingPosition() {
+		for(let creature of this.population) {
+			let center: Vec2 = creature.center();
+
+			for(let bone of creature.bones) {
+				bone.position = bone.position.sub(center);
+				bone.position.y = bone.position.y + 100;
+			}
+		}
+	}
+
 	makeFullCycle() {
 		// Test() ???
 
 		this.removeSlowest();
 		this.addRandomlyGeneratedCreatures(this.population.length);
+		this.moveAllToStartingPosition;
 	}
 
 	population: Creature[];
