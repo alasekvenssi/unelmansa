@@ -41,7 +41,7 @@ export default function generateCreature(): Creature {
 		}
 
 		if(generated.isStronglyConnected()) {
-			return new Creature();
+			return generated;
 		}
 	}
 }
