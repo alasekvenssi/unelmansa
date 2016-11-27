@@ -51,7 +51,7 @@ export default class Population {
 
 			for(let bone of creature.bones) {
 				bone.position = bone.position.sub(center);
-				bone.position.y = bone.position.y + 100;
+				bone.position.y = bone.position.y + 300;
 			}
 		}
 	}
