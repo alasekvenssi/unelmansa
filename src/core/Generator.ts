@@ -12,7 +12,7 @@ export default function generateCreature(): Creature {
 		let numberOfBones: number = Math.floor(3*Math.random())+3;
 		for (let i = 0; i < numberOfBones; ++i) {
 			generated.bones.push(new CreatureBone(
-				new Vec2(Math.random()*200 - 100, Math.random()*100 - 100),
+				new Vec2(Math.random()*200 - 100, Math.random()*100 - 100+1000),
 				Math.random()*30+10,
 				Math.random()*10+1,
 				Math.random(),
@@ -29,8 +29,8 @@ export default function generateCreature(): Creature {
 					generated.muscles.push(new CreatureMuscle(
 						generated.bones[i],
 						generated.bones[j],
-						generated.bones[i].position.distance(generated.bones[j].position) + 10,
-						(generated.bones[i].position.distance(generated.bones[j].position) + 10)*2,
+						generated.bones[i].position.distance(generated.bones[j].position) + 50,
+						(generated.bones[i].position.distance(generated.bones[j].position) + 50)*4,
 						Math.random()*50+1,
 						Math.random()*4+1,
 						Math.random()
