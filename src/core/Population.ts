@@ -1,5 +1,5 @@
 import {Creature} from "./Creature"
-import Generate from "./Generator";
+import * as Generator from "./Generator";
 import Vec2 from "../util/Vec2";
 
 
@@ -39,7 +39,7 @@ export default class Population {
 
 	addRandomlyGeneratedCreatures(amount: number = 1) {
 		for (let i = 0; i < amount; ++i) {
-			this.push(Generate());
+			this.push(Generator.generateCreature());
 		}
 	}
 
