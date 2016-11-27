@@ -42,7 +42,7 @@ export class InteractiveCanvasWindow {
 	public context: InteractiveContext2D;
 
 	constructor(public hostWindow: Window = window, protected resolution: number = 1) {
-		this.eventCanvas = makeFullCanvas(this.hostWindow, "0");
+		this.eventCanvas = hostWindow.document.createElement("canvas");
 		this.drawCanvas = makeFullCanvas(this.hostWindow, "10");
 
 		this.hostWindow.addEventListener("resize", () => this.onResize());
