@@ -4,6 +4,8 @@ import {Simulable} from "../physics/Interface"
 import {Context2D} from "../graphics/Context2D"
 import Color from "../util/Color"
 import * as Intersections from "../physics/Intersections"
+import * as utilMath from "../util/Math"
+import * as Consts from "./Consts"
 import DisjointNode from "../util/DisjointSet"
 
 export class Creature extends Entity {
@@ -70,48 +72,95 @@ export class Creature extends Entity {
 		return disjoint[0].getSize() == this.bones.length;
 	}
 
-	clone(): Creature {
-		let myClone = new Creature();
+    clone(): Creature {
+        let myClone = new Creature();
 
-		for(let bone of this.bones) {
-			myClone.bones.push(new CreatureBone(
-					bone.position,
-					bone.radius,
-					bone.mass,
-					bone.elasticity,
-					bone.friction
-				)
-			)
+        for(let bone of this.bones) {
+            myClone.bones.push(new CreatureBone(
+                    bone.position,
+                    bone.radius,
+                    bone.mass,
+                    bone.elasticity,
+                    bone.friction
+                )
+            )
+        }
+
+        let getMuscleIn = function(lhs: CreatureBone, rhs: CreatureBone, muscles: CreatureMuscle[]) {
+            for (let i = 0; i < muscles.length; ++i) {
+                
+                if((muscles[i].bone1 == lhs && muscles[i].bone2 == rhs) || (muscles[i].bone1 == rhs && muscles[i].bone2 == lhs)) {
+                    return muscles[i];
+                }
+            }
+            return undefined;
+        }
+
+        for (let i = 0; i < this.bones.length; ++i) {
+            for (let j = i+1; j < this.bones.length; ++j) {
+                let muscle: CreatureMuscle = getMuscleIn(this.bones[i], this.bones[j], this.muscles);
+                if(muscle != undefined) {
+                    myClone.muscles.push(new CreatureMuscle(
+                        myClone.bones[i], 
+                        myClone.bones[j],
+                        muscle.minLength,
+                        muscle.maxLength,
+                        muscle.strength,
+                        muscle.timerInterval,
+                        muscle.expandFactor
+                        )
+                    );
+                }
+            }
+        }
+        return myClone;
+    }
+
+	mutate(): Creature {
+		if(!utilMath.randomChance(Consts.MUTATION_CHANCE)) {
+			return this;
 		}
 
-		let getMuscleIn = function(lhs: CreatureBone, rhs: CreatureBone, muscles: CreatureMuscle[]) {
-			for (let i = 0; i < muscles.length; ++i) {
-				
-				if((muscles[i].bone1 == lhs && muscles[i].bone2 == rhs) || (muscles[i].bone1 == rhs && muscles[i].bone2 == lhs)) {
-					return muscles[i];
+		// Remove nodes
+		for(let i : number = this.bones.length-1; i >= 0; --i) {
+			if(utilMath.randomChance(Consts.MUTATION_DELETE_NODE_CHANCE)) {
+				for(let j : number = this.muscles.length-1; j >= 0; --j) {
+					if(this.muscles[j].bone1 == this.bones[i] || this.muscles[j].bone2 == this.bones[i]) {
+						this.muscles.splice(j, 1);
+					}
 				}
+				this.bones.splice(i, 1);
 			}
-			return undefined;
 		}
 
-		for (let i = 0; i < this.bones.length; ++i) {
-			for (let j = i+1; j < this.bones.length; ++j) {
-				let muscle: CreatureMuscle = getMuscleIn(this.bones[i], this.bones[j], this.muscles);
-				if(muscle != undefined) {
-					myClone.muscles.push(new CreatureMuscle(
-						myClone.bones[i], 
-						myClone.bones[j],
-						muscle.minLength,
-						muscle.maxLength,
-						muscle.strength,
-						muscle.timerInterval,
-						muscle.expandFactor
-						)
-					);
-				}
+		// Random bone friction
+		for(let i : number = 0; i < this.bones.length; ++i) {
+			if(utilMath.randomChance(Consts.MUTATION_BONE_FRICTION_CHANCE)) {
+				let diff : number = this.bones[i].friction * (Consts.MUTATION_RELATIVE_FRICTION_DIFF / 2) * Math.random();
+				diff *= (utilMath.randomChance(0.5) ? -1 : 1);
+			
+				let newFriction = this.bones[i].friction + diff;
+				newFriction = Math.min(newFriction, 1);
+				newFriction = Math.max(newFriction, 0);
+
+				this.bones[i].friction = newFriction;
 			}
 		}
-		return myClone;
+
+		// Random musscle strength
+		for(let i : number = 0; i < this.muscles.length; ++i) {
+			if(utilMath.randomChance(Consts.MUTATION_MUSCLE_STRENGTH_CHANCE)) {
+				let diff : number = this.muscles[i].strength * (Consts.MUTATION_RELATIVE_STRENGTH_DIFF / 2) * Math.random();
+				diff *= (utilMath.randomChance(0.5) ? -1 : 1);
+
+				let newStrength = this.muscles[i].strength + diff;
+				newStrength = Math.max(newStrength, 0);
+
+				this.muscles[i].strength = newStrength;
+			}
+		}
+		
+		return this;
 	}
 }
 
