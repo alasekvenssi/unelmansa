@@ -8,6 +8,14 @@ import * as utilMath from "../util/Math"
 import * as Consts from "./Consts"
 import DisjointNode from "../util/DisjointSet"
 import * as Generator from "./Generator"
+import PseudoGradient from "../util/PseudoGradient"
+
+let bonePseudoGradient : PseudoGradient = new PseudoGradient();
+bonePseudoGradient.insert({value: 0   , color: Color.White }); // low friction
+bonePseudoGradient.insert({value: 0.33, color: Color.Yellow});
+bonePseudoGradient.insert({value: 0.66, color: Color.Red   });
+bonePseudoGradient.insert({value: 1   , color: Color.Black }); // high friction
+bonePseudoGradient.prepare();
 
 export class Creature extends Entity {
 	constructor(
@@ -77,15 +85,15 @@ export class Creature extends Entity {
 
 	updateBonesColor(): void {
 		let maxFriction : number = 0;
-
+		let minFriction : number = 1;
 		for(let i : number = 0; i < this.bones.length; ++i) {
 			maxFriction = Math.max(maxFriction, this.bones[i].friction);
+			minFriction = Math.min(minFriction, this.bones[i].friction);
 		}
 
 		for(let i : number = 0; i < this.bones.length; ++i) {
-			let relative : number = this.bones[i].friction / maxFriction;
-			// this.bones[i].color = new Color(255, 255*this.bones[i].friction / maxFriction, 255*this.bones[i].friction / maxFriction);
-			this.bones[i].color = new Color(Math.round(255*relative), 255, Math.round(255*relative));
+			let relative : number = (this.bones[i].friction - minFriction) / (maxFriction - minFriction);
+			this.bones[i].color = bonePseudoGradient.get(relative);
 		}
 	}
 
