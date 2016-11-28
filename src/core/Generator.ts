@@ -31,13 +31,16 @@ export function generateCreature(): Creature {
 }
 
 export function generateCreatureBone(): CreatureBone {
-	return new CreatureBone(
+	let newBone: CreatureBone = new CreatureBone(
 		new Vec2(Math.random()*500 - 1000, Math.random()*500 - 1000+1500),
 		Math.random()*30+10,
 		Math.random()*10+1,
 		Math.random(),
 		Math.random()
 	);
+
+	newBone.mass = Math.PI*newBone.radius / 16;
+	return newBone
 }
 
 export function generateCreatureMuscle(lhs: CreatureBone, rhs: CreatureBone) {

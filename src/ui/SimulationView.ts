@@ -24,7 +24,7 @@ export default class SimulationView extends RenderGroup {
 	scene: Scene = new Scene();
 	camera: RenderTransform;
 
-	population: Population = new Population(1000);
+	population: Population = new Population(100);
 	populationId: number = 0;
 	creatureId: number = 0;
 	creatureClone: Creature;
