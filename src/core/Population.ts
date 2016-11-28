@@ -17,12 +17,14 @@ export default class Population {
 				return 0;
 			}
 			else if(lhs.result < rhs.result) {
-				return -1;
-			}
-			else {
 				return 1;
 			}
+			else {
+				return -1;
+			}
 		});
+
+		console.log("Best: ", this.population[0].result);
 	}
 
 	push(newCreature: Creature) {
@@ -45,6 +47,7 @@ export default class Population {
 
 	moveAllToStartingPosition() {
 		for(let creature of this.population) {
+			creature.result = -Infinity;
 			let center: Vec2 = creature.center();
 
 			for(let bone of creature.bones) {

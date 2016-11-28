@@ -68,6 +68,8 @@ export default class SimulationView extends RenderGroup {
 	private nextCreature() {
 		this.scene.removeEntity(this.creatureClone);
 
+		this.population.population[this.creatureId].result = this.creatureClone.center().x;
+
 		if (++this.creatureId >= this.population.population.length) {
 			this.population.makeFullCycle();
 
