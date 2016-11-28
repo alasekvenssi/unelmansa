@@ -90,8 +90,8 @@ export default class SimulationView extends RenderGroup {
 	}
 
 	skip10Populations() {
-		let last =  this.populationId + 10;
-		while(this.populationId != last) {
+		let last : number = this.populationId + 10;
+		while(this.populationId < last) {
 			this.updateNext();
 		}
 	}
