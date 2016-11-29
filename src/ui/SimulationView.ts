@@ -8,6 +8,7 @@ import {Scene} from "../core/Scene"
 import {Air, Ground} from "../core/Entity"
 import WebImage from "../graphics/browser/WebImage"
 import {Creature} from "../core/Creature"
+import {CreatureBone} from "../core/Creature"
 import Population from "../core/Population"
 
 // Temporarily simulation is done here, to be moved!
@@ -60,15 +61,25 @@ export default class SimulationView extends RenderGroup {
 
 		this.populationTxt.text = "Population: " + (this.populationId+1);
 		this.creatureTxt.text = "Creature: " + (this.creatureId+1);
-		this.resultText.text = "Result: " + this.creatureClone.center().x.toFixed(0);
+		
+		let fitness : number = 1000000;
+		for(let bone of this.creatureClone.bones) {
+			fitness = Math.min(fitness, bone.position.x);
+		}
+		this.resultText.text = "Result: " + fitness.toFixed(0);
 
 		super.render(ctx);
 	}
 
 	private nextCreature() {
 		this.scene.removeEntity(this.creatureClone);
+		
+		let fitness : number = 1000000;
+		for(let bone of this.creatureClone.bones) {
+			fitness = Math.min(fitness, bone.position.x);
+		}
 
-		this.population.population[this.creatureId].result = this.creatureClone.center().x;
+		this.population.population[this.creatureId].result = fitness;
 
 		if (++this.creatureId >= this.population.population.length) {
 			this.population.makeFullCycle();
