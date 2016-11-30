@@ -1,5 +1,5 @@
 import * as MathUtil from "./Math"
-import Matrix2       from "./Matrix2"
+import Matrix2 from "./Matrix2"
 
 export default class Vec2 {
 	constructor(public x: number = 0, public y: number = 0) { }
@@ -23,20 +23,20 @@ export default class Vec2 {
 	length(): number;
 	length(l: number): this;
 	length(l?: number): any {
-		if(l == undefined) {
+		if (l == undefined) {
 			return Math.sqrt(this.x ** 2 + this.y ** 2);
 		} else {
 			let len: number = this.length();
-			if(len == 0) {
-				throw "Vec2 must have length for this operation";	
+			if (len == 0) {
+				throw "Vec2 must have length for this operation";
 			}
 
-			return this.scale(l/len);
+			return this.scale(l / len);
 		}
 	}
 
 	distance(rhs: Vec2): number {
-		return Math.sqrt((this.x - rhs.x)**2 + (this.y - rhs.y)**2);
+		return Math.sqrt((this.x - rhs.x) ** 2 + (this.y - rhs.y) ** 2);
 	}
 
 	sin(rhs: Vec2): number {

@@ -1,10 +1,10 @@
 import Color from "../util/Color"
 import Vec2 from "../util/Vec2"
-import {Font} from "../util/Font"
+import { Font } from "../util/Font"
 import TransformMatrix from "../util/TransformMatrix"
 import * as Strings from "../util/Strings"
-import {Image} from "./Image"
-import {Gradient} from "./Gradient"
+import { Image } from "./Image"
+import { Gradient } from "./Gradient"
 
 export type LineCap = "butt" | "round" | "square";
 export type LineJoin = "miter" | "round" | "bevel";
@@ -101,7 +101,7 @@ export abstract class Context2D {
 	}
 
 	drawCircle(centerX: number, centerY: number, radius: number, fill: boolean, stroke: boolean): this {
-		return this.beginPath().pathArc(centerX, centerY, radius, 0, Math.PI*2).drawPath(fill, stroke);
+		return this.beginPath().pathArc(centerX, centerY, radius, 0, Math.PI * 2).drawPath(fill, stroke);
 	}
 
 	drawLine(x1: number, y1: number, x2: number, y2: number, fill: boolean, stroke: boolean): this {
@@ -109,7 +109,7 @@ export abstract class Context2D {
 	}
 
 
-	bindClick(callback: ()=>void): this { return this; }
+	bindClick(callback: () => void): this { return this; }
 	popClick(): this { return this; }
 	click(x: number, y: number): this { return this; }
 }

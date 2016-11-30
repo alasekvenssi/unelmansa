@@ -3,7 +3,7 @@ import * as Interface from "./Interface";
 import * as Intersections from "./Intersections";
 import Vec2 from "../util/Vec2"
 
-export default function Simulate(simulables: Interface.Simulable[], timeDelta: number) : void {
+export default function Simulate(simulables: Interface.Simulable[], timeDelta: number): void {
 
 	for (let physical of simulables) {
 		physical.affect(simulables);

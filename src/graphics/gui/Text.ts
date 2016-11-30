@@ -1,7 +1,7 @@
-import {Renderable} from "../Renderable"
-import {Context2D, TextBaseline} from "../Context2D"
+import { Renderable } from "../Renderable"
+import { Context2D, TextBaseline } from "../Context2D"
 import Color from "../../util/Color"
-import {Font} from "../../util/Font"
+import { Font } from "../../util/Font"
 import * as GuiUtil from "./Util"
 
 export default class Text implements Renderable {
@@ -13,7 +13,7 @@ export default class Text implements Renderable {
 		public font: Font = new Font("Arial", 60),
 		public fill: Color = Color.White,
 		public stroke: Color = Color.Black
-	) {}
+	) { }
 
 	render(ctx: Context2D) {
 		ctx.save();

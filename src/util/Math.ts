@@ -1,8 +1,8 @@
 import * as Arrays from "./Arrays"
 
 export function round(x: number, precision: number = Epsilon): number {
-	let temp: number = 10**precision;
-	return Math.round(x*temp)/temp;
+	let temp: number = 10 ** precision;
+	return Math.round(x * temp) / temp;
 }
 
 export function roundForEach(array: number[]): number[] {
@@ -16,7 +16,7 @@ export function roundArray(array: number[]): number[] {
 	return roundForEach(result);
 }
 
-export function randomChance(chance : number) : boolean {
+export function randomChance(chance: number): boolean {
 	return Math.random() <= chance;
 }
 
@@ -25,4 +25,4 @@ export function random(from: number, to: number): number { // <from, to)
 }
 
 const Epsilon: number = 3; // decimal place
-const AbsError: number = 10**(-Epsilon);
+const AbsError: number = 10 ** (-Epsilon);

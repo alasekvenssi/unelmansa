@@ -1,10 +1,10 @@
-import {Image} from "../Image"
+import { Image } from "../Image"
 
 export default class WebImage implements Image {
 	public image: HTMLImageElement;
 	private _loaded: boolean;
 
-	constructor(public source: string, onLoad?: (img: Image)=>void) {
+	constructor(public source: string, onLoad?: (img: Image) => void) {
 		this.image = document.createElement("img");
 		this._loaded = false;
 

@@ -2,11 +2,11 @@ import Vec2 from "../util/Vec2"
 import Color from "../util/Color"
 
 export class GradientColorStop {
-	constructor(public offset: number, public color: Color) {}
+	constructor(public offset: number, public color: Color) { }
 }
 
 export abstract class Gradient {
-	constructor(public stops: Array<GradientColorStop> = new Array<GradientColorStop>()) {}
+	constructor(public stops: Array<GradientColorStop> = new Array<GradientColorStop>()) { }
 
 	add(offset: number, color: Color): this {
 		this.stops.push(new GradientColorStop(offset, color));

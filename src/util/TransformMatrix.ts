@@ -1,6 +1,6 @@
-import Matrix2       from "./Matrix2"
+import Matrix2 from "./Matrix2"
 import * as MathUtil from "./Math"
-import Vec2          from "./Vec2"
+import Vec2 from "./Vec2"
 
 type CloneOperator = (y: number, x: number, InArray: number[][], OutArray: number[][]) => void;
 
@@ -14,8 +14,8 @@ export default class TransformMatrix extends Array<Array<number>> {
 		x21: number = 0, x22: number = 1, x23: number = 0
 	) {
 		super(TransformMatrix.h);
-	
-		for(let y: number = 0; y < TransformMatrix.h; ++y) {
+
+		for (let y: number = 0; y < TransformMatrix.h; ++y) {
 			this[y] = new Array<number>(TransformMatrix.w);
 		}
 
@@ -29,25 +29,25 @@ export default class TransformMatrix extends Array<Array<number>> {
 
 	mul(rhs: TransformMatrix): TransformMatrix {
 		return new TransformMatrix(
-			this[0][0]*rhs[0][0]+this[0][1]*rhs[1][0],
-			this[0][0]*rhs[0][1]+this[0][1]*rhs[1][1],
-			this[0][0]*rhs[0][2]+this[0][1]*rhs[1][2] + this[0][2],
+			this[0][0] * rhs[0][0] + this[0][1] * rhs[1][0],
+			this[0][0] * rhs[0][1] + this[0][1] * rhs[1][1],
+			this[0][0] * rhs[0][2] + this[0][1] * rhs[1][2] + this[0][2],
 
-			this[1][0]*rhs[0][0]+this[1][1]*rhs[1][0],
-			this[1][0]*rhs[0][1]+this[1][1]*rhs[1][1],
-			this[1][0]*rhs[0][2]+this[1][1]*rhs[1][2] + this[1][2]
+			this[1][0] * rhs[0][0] + this[1][1] * rhs[1][0],
+			this[1][0] * rhs[0][1] + this[1][1] * rhs[1][1],
+			this[1][0] * rhs[0][2] + this[1][1] * rhs[1][2] + this[1][2]
 		);
 	}
 
 	apply(rhs: Vec2): Vec2 {
 		return new Vec2(
-			this[0][0]*rhs.x + this[0][1]*rhs.y + this[0][2],
-			this[1][0]*rhs.x + this[1][1]*rhs.y + this[1][2]
+			this[0][0] * rhs.x + this[0][1] * rhs.y + this[0][2],
+			this[1][0] * rhs.x + this[1][1] * rhs.y + this[1][2]
 		);
 	}
 
 	set(y: number, x: number, value: number): TransformMatrix {
-		if(x < 0 || x >= TransformMatrix.w || y < 0 || y >= TransformMatrix.h) {
+		if (x < 0 || x >= TransformMatrix.w || y < 0 || y >= TransformMatrix.h) {
 			throw 'Out of range';
 		}
 
@@ -56,7 +56,7 @@ export default class TransformMatrix extends Array<Array<number>> {
 	}
 
 	get(x: number, y: number): number {
-		if(x < 0 || x >= TransformMatrix.w || y < 0 || y >= TransformMatrix.h) {
+		if (x < 0 || x >= TransformMatrix.w || y < 0 || y >= TransformMatrix.h) {
 			throw 'Out of range';
 		}
 
@@ -65,9 +65,9 @@ export default class TransformMatrix extends Array<Array<number>> {
 
 	toMatrix(): Matrix2 {
 		let result: Matrix2 = new Matrix2(3, 3, 0);
-		
-		for(let y: number = 0; y < TransformMatrix.h; ++y) {
-			for(let x: number = 0; x < TransformMatrix.w; ++x) {
+
+		for (let y: number = 0; y < TransformMatrix.h; ++y) {
+			for (let x: number = 0; x < TransformMatrix.w; ++x) {
 				result[y][x] = this[y][x];
 			}
 		}
@@ -77,7 +77,7 @@ export default class TransformMatrix extends Array<Array<number>> {
 	}
 
 	print(): void {
-		for(let y: number = 0; y < TransformMatrix.h; ++y) {
+		for (let y: number = 0; y < TransformMatrix.h; ++y) {
 			console.log(MathUtil.roundArray(this[y]));
 		}
 		console.log('-');
@@ -85,9 +85,9 @@ export default class TransformMatrix extends Array<Array<number>> {
 
 	clone(op: CloneOperator = defaultCloneOperator): TransformMatrix {
 		let result: TransformMatrix = new TransformMatrix();
-		
-		for(let y: number = 0; y < TransformMatrix.h; ++y) {
-			for(let x: number = 0; x < TransformMatrix.w; ++x) {
+
+		for (let y: number = 0; y < TransformMatrix.h; ++y) {
+			for (let x: number = 0; x < TransformMatrix.w; ++x) {
 				op(y, x, this, result);
 			}
 		}

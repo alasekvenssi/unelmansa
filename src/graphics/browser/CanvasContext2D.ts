@@ -1,11 +1,11 @@
 import Color from "../../util/Color"
 import Vec2 from "../../util/Vec2"
-import {Font} from "../../util/Font"
+import { Font } from "../../util/Font"
 import TransformMatrix from "../../util/TransformMatrix"
-import {LineCap, LineJoin, Context2D} from "../Context2D"
-import {Image} from "../Image"
+import { LineCap, LineJoin, Context2D } from "../Context2D"
+import { Image } from "../Image"
 import WebImage from "./WebImage"
-import {Gradient, LinearGradient, RadialGradient} from "../Gradient"
+import { Gradient, LinearGradient, RadialGradient } from "../Gradient"
 
 export default class CanvasContext2D extends Context2D {
 	protected currentTransform: TransformMatrix = new TransformMatrix(1, 0, 0, 0, 1, 0);
@@ -231,7 +231,7 @@ export default class CanvasContext2D extends Context2D {
 
 	transformMatrix(): TransformMatrix;
 	transformMatrix(val: TransformMatrix): this;
-	transformMatrix(val?: TransformMatrix): this|TransformMatrix {
+	transformMatrix(val?: TransformMatrix): this | TransformMatrix {
 		if (val) {
 			this.currentTransform = val.clone();
 			this.onTransformChanged();

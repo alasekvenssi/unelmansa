@@ -1,5 +1,5 @@
 import CanvasContext2D from "./CanvasContext2D"
-import {InteractiveContext2D} from "../InteractiveContext2D"
+import { InteractiveContext2D } from "../InteractiveContext2D"
 
 function makeFullCanvas(wnd: Window, zIndex: string = "10"): HTMLCanvasElement {
 	let canvas = wnd.document.createElement("canvas");
@@ -61,7 +61,7 @@ export class InteractiveCanvasWindow {
 	}
 
 	protected onClick(evt: any) {
-		this.context.click(evt.clientX*this.resolution, evt.clientY*this.resolution);
+		this.context.click(evt.clientX * this.resolution, evt.clientY * this.resolution);
 	}
 
 	width(): number { return this.drawCanvas.width; }

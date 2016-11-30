@@ -1,4 +1,4 @@
-import {Context2D} from "./Context2D"
+import { Context2D } from "./Context2D"
 import TransformMatrix from "../util/TransformMatrix"
 
 export interface Renderable {
@@ -6,7 +6,7 @@ export interface Renderable {
 }
 
 export class RenderTransform implements Renderable {
-	constructor(public transform: TransformMatrix, public item: Renderable) {}
+	constructor(public transform: TransformMatrix, public item: Renderable) { }
 
 	render(ctx: Context2D) {
 		ctx.save();

@@ -1,7 +1,7 @@
-import {Renderable} from "../graphics/Renderable"
-import {Entity} from "./Entity"
-import {Simulable} from "../physics/Interface"
-import {Context2D} from "../graphics/Context2D"
+import { Renderable } from "../graphics/Renderable"
+import { Entity } from "./Entity"
+import { Simulable } from "../physics/Interface"
+import { Context2D } from "../graphics/Context2D"
 import * as Arrays from "../util/Arrays"
 import Simulate from "../physics/Simulate"
 

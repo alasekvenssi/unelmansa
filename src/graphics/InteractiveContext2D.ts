@@ -1,13 +1,13 @@
-import {LineCap, LineJoin, TextBaseline, Context2D} from "./Context2D"
+import { LineCap, LineJoin, TextBaseline, Context2D } from "./Context2D"
 import Color from "../util/Color"
 import Vec2 from "../util/Vec2"
-import {Font} from "../util/Font"
+import { Font } from "../util/Font"
 import TransformMatrix from "../util/TransformMatrix"
-import {Image} from "./Image"
-import {Gradient} from "./Gradient"
+import { Image } from "./Image"
+import { Gradient } from "./Gradient"
 
 class EventListEntry {
-	constructor(public upper: number, public callback: ()=>void) {}
+	constructor(public upper: number, public callback: () => void) { }
 };
 
 export class InteractiveContext2D extends Context2D {
@@ -26,9 +26,9 @@ export class InteractiveContext2D extends Context2D {
 		this.eventCtx.fillColor(col).strokeColor(col);
 	}
 
-	bindClick(callback: ()=>void): this {
+	bindClick(callback: () => void): this {
 		this.eventList[this.eventCount++] = new EventListEntry(this.topEvent, callback);
-		this.topEvent = this.eventCount-1;
+		this.topEvent = this.eventCount - 1;
 		this.updateEventColor();
 
 		return this;
@@ -271,7 +271,7 @@ export class InteractiveContext2D extends Context2D {
 
 	transformMatrix(): TransformMatrix;
 	transformMatrix(val: TransformMatrix): this;
-	transformMatrix(val?: TransformMatrix): this|TransformMatrix {
+	transformMatrix(val?: TransformMatrix): this | TransformMatrix {
 		if (val) {
 			this.drawCtx.transformMatrix(val);
 			this.eventCtx.transformMatrix(val);

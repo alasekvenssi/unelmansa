@@ -1,4 +1,4 @@
-import {Creature} from "./Creature"
+import { Creature } from "./Creature"
 import * as Generator from "./Generator";
 import Vec2 from "../util/Vec2";
 import Breed from "./Breed"
@@ -10,19 +10,19 @@ export default class Population {
 		this.moveAllToStartingPosition();
 	}
 
-	sortCreatures(): void {		
+	sortCreatures(): void {
 		this.population.sort(
-			function(lhs: Creature, rhs: Creature) {
-			if(lhs.result == rhs.result) {
-				return 0;
-			}
-			else if(lhs.result < rhs.result) {
-				return 1;
-			}
-			else {
-				return -1;
-			}
-		});
+			function (lhs: Creature, rhs: Creature) {
+				if (lhs.result == rhs.result) {
+					return 0;
+				}
+				else if (lhs.result < rhs.result) {
+					return 1;
+				}
+				else {
+					return -1;
+				}
+			});
 
 		console.log("Best: ", this.population[0].result);
 	}
@@ -31,7 +31,7 @@ export default class Population {
 		this.population.push(newCreature);
 	}
 
-	removeSlowest(amount: number = this.population.length/2) {
+	removeSlowest(amount: number = this.population.length / 2) {
 		this.sortCreatures();
 
 		for (let i = 0; i < amount; ++i) {
@@ -46,11 +46,11 @@ export default class Population {
 	}
 
 	moveAllToStartingPosition() {
-		for(let creature of this.population) {
+		for (let creature of this.population) {
 			creature.result = -Infinity;
 			let center: Vec2 = creature.center();
 
-			for(let bone of creature.bones) {
+			for (let bone of creature.bones) {
 				bone.position = bone.position.sub(center);
 				bone.position.y = bone.position.y + 300;
 			}
@@ -61,8 +61,8 @@ export default class Population {
 		this.removeSlowest();
 		let oldPopulationSize = this.population.length;
 		for (let i = 0; i < oldPopulationSize; ++i) {
-			let father: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
-			let mother: Creature = this.population[Math.floor(Math.random()*oldPopulationSize)];
+			let father: Creature = this.population[Math.floor(Math.random() * oldPopulationSize)];
+			let mother: Creature = this.population[Math.floor(Math.random() * oldPopulationSize)];
 
 			let kid: Creature = undefined;
 			try {
