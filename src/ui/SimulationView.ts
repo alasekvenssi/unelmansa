@@ -10,6 +10,7 @@ import WebImage from "../graphics/browser/WebImage"
 import {Creature} from "../core/Creature"
 import {CreatureBone} from "../core/Creature"
 import Population from "../core/Population"
+import * as Consts from "../core/Consts"
 
 // Temporarily simulation is done here, to be moved!
 
@@ -25,7 +26,7 @@ export default class SimulationView extends RenderGroup {
 	scene: Scene = new Scene();
 	camera: RenderTransform;
 
-	population: Population = new Population(100);
+	population: Population = new Population(Consts.POPULATION_SIZE);
 	populationId: number = 0;
 	creatureId: number = 0;
 	creatureClone: Creature;
@@ -62,7 +63,7 @@ export default class SimulationView extends RenderGroup {
 		this.populationTxt.text = "Population: " + (this.populationId+1);
 		this.creatureTxt.text = "Creature: " + (this.creatureId+1);
 		
-		let fitness : number = 1000000;
+		let fitness : number = Infinity;
 		for(let bone of this.creatureClone.bones) {
 			fitness = Math.min(fitness, bone.position.x);
 		}
@@ -74,7 +75,7 @@ export default class SimulationView extends RenderGroup {
 	private nextCreature() {
 		this.scene.removeEntity(this.creatureClone);
 		
-		let fitness : number = 1000000;
+		let fitness : number = Infinity;
 		for(let bone of this.creatureClone.bones) {
 			fitness = Math.min(fitness, bone.position.x);
 		}
@@ -95,7 +96,7 @@ export default class SimulationView extends RenderGroup {
 
 	private updateNext() {
 		for (let i = 0; i < this.speed; i++) {
-			if (this.ticks++ >= 10*60) {
+			if (this.ticks++ >= Consts.RUN_DURATION*60) {
 				this.nextCreature();
 			}
 			this.scene.update(1/60);

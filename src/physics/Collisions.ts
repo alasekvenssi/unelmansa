@@ -1,5 +1,6 @@
 import Vec2 from "../util/Vec2";
 import * as Intersections from "./Intersections";
+import * as Consts from "../core/Consts"
 
 interface physicalBody {
 	position: Vec2;
@@ -25,7 +26,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			return;
 		}
 
-		if(lhs.mass != Infinity && rhs.mass != Infinity) {
+		if(lhs.mass != Infinity && rhs.mass != Infinity && Consts.ARE_BALLS_COLLIDABLE) {
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * rhs.mass).add(
 				lhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution*rhs.mass)).mul(1/(lhs.mass+rhs.mass));
 

@@ -20,5 +20,9 @@ export function randomChance(chance : number) : boolean {
 	return Math.random() <= chance;
 }
 
+export function random(from: number, to: number): number { // <from, to)
+	return Math.random() * (to - from) + from;
+}
+
 const Epsilon: number = 3; // decimal place
 const AbsError: number = 10**(-Epsilon);

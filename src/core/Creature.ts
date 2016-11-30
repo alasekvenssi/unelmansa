@@ -66,7 +66,7 @@ export class Creature extends Entity {
 		}
 	}
 
-	isStronglyConnected(): boolean {
+	private makeDisjointSet(): Array<DisjointNode> {
 		let disjoint : Array<DisjointNode> = new Array<DisjointNode>(this.bones.length);
 		
 		for(let i : number = 0; i < this.bones.length; ++i) {
@@ -80,20 +80,32 @@ export class Creature extends Entity {
 			disjoint[lhsId].union(disjoint[rhsId]);
 		}
 
-		return disjoint[0].getSize() == this.bones.length;
+		return disjoint;
+	}
+
+	isStronglyConnected(): boolean {
+		return (this.bones.length <= 1 ? true : this.makeDisjointSet()[0].getSize() == this.bones.length);
+	}
+
+	makeStronglyConnected(): this {
+		if(this.isStronglyConnected()) {
+			return this;
+		}
+
+		let disjoint : Array<DisjointNode> = this.makeDisjointSet();
+		for(let i : number = 1; i < disjoint.length; ++i) {
+			if(disjoint[0].isSameSet(disjoint[i]) == false) {
+				this.muscles.push(Generator.generateCreatureMuscle(this.bones[0], this.bones[i]));
+				disjoint[0].union(disjoint[i]);
+			}
+		}
+		
+		return this;
 	}
 
 	updateBonesColor(): void {
-		let maxFriction : number = 0;
-		let minFriction : number = 1;
 		for(let i : number = 0; i < this.bones.length; ++i) {
-			maxFriction = Math.max(maxFriction, this.bones[i].friction);
-			minFriction = Math.min(minFriction, this.bones[i].friction);
-		}
-
-		for(let i : number = 0; i < this.bones.length; ++i) {
-			let relative : number = (this.bones[i].friction - minFriction) / (maxFriction - minFriction);
-			this.bones[i].color = bonePseudoGradient.get(relative);
+			this.bones[i].color = bonePseudoGradient.get(this.bones[i].friction);
 		}
 	}
 
@@ -148,14 +160,35 @@ export class Creature extends Entity {
 		}
 
 		// Remove nodes
-		for(let i : number = this.bones.length-1; i >= 0; --i) {
-			if(utilMath.randomChance(Consts.MUTATION_DELETE_NODE_CHANCE)) {
-				for(let j : number = this.muscles.length-1; j >= 0; --j) {
-					if(this.muscles[j].bone1 == this.bones[i] || this.muscles[j].bone2 == this.bones[i]) {
-						this.muscles.splice(j, 1);
+		if(this.bones.length > 1) {
+			for(let i : number = this.bones.length-1; i >= 0; --i) {
+				if(utilMath.randomChance(Consts.MUTATION_DELETE_BONE_CHANCE)) {
+					for(let j : number = this.muscles.length-1; j >= 0; --j) {
+						if(this.muscles[j].bone1 == this.bones[i] || this.muscles[j].bone2 == this.bones[i]) {
+							this.muscles.splice(j, 1);
+						}
 					}
+					this.bones.splice(i, 1);
 				}
-				this.bones.splice(i, 1);
+			}
+
+			this.makeStronglyConnected();
+		}
+		
+		// Add random node
+		if(utilMath.randomChance(Consts.MUTATION_ADD_BONE_CHANCE)) {
+			this.bones.push(Generator.generateCreatureBone());
+			let edges : number = 0;
+
+			for(let i : number = 0; i < this.bones.length-1; ++i) {
+				if(utilMath.randomChance(Consts.MUTATION_CONNECTION_CHANCE)) {
+					this.muscles.push(Generator.generateCreatureMuscle(this.bones[i], this.bones[this.bones.length-1]));
+					edges++;
+				}
+			}
+
+			if(edges == 0) {
+				this.bones.pop();
 			}
 		}
 
@@ -173,6 +206,28 @@ export class Creature extends Entity {
 			}
 		}
 
+		// Random bone elasticity
+		for(let i : number = 0; i < this.bones.length; ++i) {
+			if(utilMath.randomChance(Consts.MUTATION_ELASTICITY_FRICTION_CHANCE)) {
+				let diff : number = this.bones[i].friction * (Consts.MUTATION_ELASTICITY_FRICTION_DIFF / 2) * Math.random();
+				diff *= (utilMath.randomChance(0.5) ? -1 : 1);
+			
+				let newElasticity = this.bones[i].friction + diff;
+				newElasticity = Math.min(newElasticity, 1);
+				newElasticity = Math.max(newElasticity, 0);
+
+				this.bones[i].elasticity = newElasticity;
+			}
+		}
+
+		// Random bone position
+		for(let bone of this.bones) {
+			if(utilMath.randomChance(Consts.MUTATION_CHANGE_BONE_POS_CHANCE)) {
+				this.position.x += utilMath.random(Consts.MUTATION_CHANGE_BONE_POS_MIN, Consts.MUTATION_CHANGE_BONE_POS_MAX);
+				this.position.y += utilMath.random(Consts.MUTATION_CHANGE_BONE_POS_MIN, Consts.MUTATION_CHANGE_BONE_POS_MAX);
+			}
+		}
+
 		// Random musscle strength
 		for(let i : number = 0; i < this.muscles.length; ++i) {
 			if(utilMath.randomChance(Consts.MUTATION_MUSCLE_STRENGTH_CHANCE)) {
@@ -183,23 +238,6 @@ export class Creature extends Entity {
 				newStrength = Math.max(newStrength, 0);
 
 				this.muscles[i].strength = newStrength;
-			}
-		}
-		
-		// Add random node
-		if(utilMath.randomChance(Consts.MUTATION_ADD_NODE_CHANCE)) {
-			this.bones.push(Generator.generateCreatureBone());
-			let edges : number = 0;
-
-			for(let i : number = 0; i < this.bones.length-1; ++i) {
-				if(utilMath.randomChance(Consts.MUTATION_CONNECTION_CHANCE)) {
-					this.muscles.push(Generator.generateCreatureMuscle(this.bones[i], this.bones[this.bones.length-1]));
-					edges++;
-				}
-			}
-
-			if(edges == 0) {
-				this.bones.pop();
 			}
 		}
 
