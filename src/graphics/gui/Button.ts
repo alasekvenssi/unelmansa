@@ -10,9 +10,9 @@ export default class Button implements Renderable {
 		public callback: () => void,
 		public x: number,
 		public y: number,
-		public width: number = 200,
-		public height: number = 50,
-		public font: Font = new Font("Arial", 50),
+		public width: number = 100,
+		public height: number = 25,
+		public font: Font = new Font("Arial", 25),
 		public fill: Color = new Color(0x34, 0x98, 0xdb),
 		public stroke: Color = new Color(0x29, 0x80, 0xb9)
 	) { }
@@ -23,13 +23,13 @@ export default class Button implements Renderable {
 			ctx.bindClick(this.callback);
 		}
 
-		GuiUtil.alignTranslate(ctx, this.x, this.y, this.width, this.height);
+		let bounds = GuiUtil.alignTranslate(ctx, this.x, this.y, this.width, this.height);
 
 		ctx.fillColor(this.fill).strokeColor(this.stroke).lineWidth(2);
-		ctx.drawRect(0, 0, this.width, this.height, true, true);
+		ctx.drawRect(0, 0, bounds.x, bounds.y, true, true);
 
 		ctx.fillColor(Color.White).strokeColor(Color.Black).font(this.font);
-		ctx.drawText(30, this.height / 2, this.text, "middle", true, true);
+		ctx.drawText(15, bounds.y / 2, this.text, "middle", true, false);
 
 		if (this.callback) {
 			ctx.popClick();

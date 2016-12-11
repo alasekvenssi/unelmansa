@@ -10,7 +10,7 @@ export default class Text implements Renderable {
 		public x: number,
 		public y: number,
 		public baseline: TextBaseline,
-		public font: Font = new Font("Arial", 60),
+		public font: Font = new Font("Arial", 30),
 		public fill: Color = Color.White,
 		public stroke: Color = Color.Black
 	) { }

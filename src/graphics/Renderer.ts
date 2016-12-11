@@ -21,8 +21,8 @@ export default class Renderer {
 
         this.fpsCounter.countTick();
         if (this.drawFps) {
-            this.context.fillColor(Color.Black).font(new Font("Courier New", 20));
-            this.context.drawText(10, 10, this.averageFps() + " fps", "hanging", true, false);
+            this.context.fillColor(Color.Black).font(new Font("Courier New", 14));
+            this.context.drawText(5, 5, this.averageFps() + " fps", "hanging", true, false);
         }
 
         this.start(); // request next frame
