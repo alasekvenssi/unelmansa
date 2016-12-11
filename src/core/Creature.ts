@@ -46,6 +46,14 @@ export class Creature extends Entity {
 		}
 	}
 
+	currentResult(): number {
+		let fitness: number = Infinity;
+		for (let bone of this.bones) {
+			fitness = Math.min(fitness, bone.position.x);
+		}
+		return fitness;
+	}
+
 	center(): Vec2 {
 		let avg = new Vec2();
 		for (let bone of this.bones) {
