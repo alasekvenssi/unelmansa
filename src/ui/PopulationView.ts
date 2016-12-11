@@ -31,16 +31,16 @@ export class PopulationView extends RenderGroup implements View {
 	constructor(public mainView: MainView) {
 		super();
 
-		this.populationBox = new PopulationBox(mainView.population, 20, 20, -40, -90,
+		this.populationBox = new PopulationBox(mainView.population, 20, 20, -40, -90, 70,
 			(target: number) => this.onCreatureClick(target));
 
 		//this.items.push(this.loadBtn);
 		//this.items.push(this.saveBtn);
+		this.items.push(this.populationBox);
 		this.items.push(this.skipPopulationBtn);
 		this.items.push(this.skip10PopulationsBtn);
 		this.items.push(this.populationTxt);
 		this.items.push(this.resultTxt);
-		this.items.push(this.populationBox);
 
 		this.mainView.population.rate();
 	}
@@ -80,6 +80,7 @@ export class PopulationBox implements Renderable {
 		public population: Population,
 		public x: number, public y: number,
 		public width: number, public height: number,
+		public elemSize: number,
 		public callback?: (target: number)=>void
 	) {}
 
@@ -95,8 +96,7 @@ export class PopulationBox implements Renderable {
 	}
 
 	private renderCreaturePreview(ctx: Context2D, bounds: Vec2, id: number) {
-		const BOX_WIDTH = 100;
-		const BOX_HEIGHT = 100;
+		const boxSize = this.elemSize;
 		const BOX_GAP = 8;
 
 		let creature = this.population.population[id];
@@ -107,25 +107,25 @@ export class PopulationBox implements Renderable {
 			ctx.bindClick(() => this.callback(id));
 		}
 
-		let columnCount = Math.floor((bounds.x-BOX_GAP) / (BOX_WIDTH+BOX_GAP));
+		let columnCount = Math.floor((bounds.x-BOX_GAP) / (boxSize+BOX_GAP));
 		let column = id % columnCount;
 		let row = Math.floor(id / columnCount);
 
-		let x = BOX_GAP + (BOX_WIDTH+BOX_GAP) * column;
-		let y = BOX_GAP + (BOX_HEIGHT+BOX_GAP) * row;
+		let x = BOX_GAP + (boxSize+BOX_GAP) * column;
+		let y = BOX_GAP + (boxSize+BOX_GAP) * row;
 
 		ctx.translate(x, y).fillColor(Color.White).strokeColor(Color.Black).lineWidth(1);
-		ctx.drawRect(0, 0, BOX_WIDTH, BOX_HEIGHT, true, true);
+		ctx.drawRect(0, 0, boxSize, boxSize, true, true);
 
 		let creatureBounds = creature.extremes();
-		let scaleX = (BOX_WIDTH-10) / (creatureBounds.max.x - creatureBounds.min.x);
-		let scaleY = (BOX_HEIGHT-10) / (creatureBounds.max.y - creatureBounds.min.y);
+		let scaleX = (boxSize-10) / (creatureBounds.max.x - creatureBounds.min.x);
+		let scaleY = (boxSize-10) / (creatureBounds.max.y - creatureBounds.min.y);
 		let scale = Math.min(scaleX, scaleY);
 
 		let avgX = (creatureBounds.min.x + creatureBounds.max.x) / 2;
 		let avgY = (creatureBounds.min.y + creatureBounds.max.y) / 2;
 
-		ctx.translate(BOX_WIDTH/2, BOX_HEIGHT/2).scale(scale, -scale).translate(-avgX, -avgY);
+		ctx.translate(boxSize/2, boxSize/2).scale(scale, -scale).translate(-avgX, -avgY);
 		
 		creature.render(ctx);
 
