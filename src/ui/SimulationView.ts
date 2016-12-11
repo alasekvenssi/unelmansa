@@ -67,8 +67,12 @@ export default class SimulationView extends RenderGroup implements View {
 
 	render(ctx: Context2D) {
 		let creature = this.creatureClone;
-		this.camera.transform = TransformMatrix.translate(ctx.width() / 2 - creature.center().x, ctx.height() - 90);
-		this.camera.transform = this.camera.transform.mul(TransformMatrix.scale(0.5, 0.5));
+
+		let trans = TransformMatrix.translate(ctx.width() / 2, ctx.height() - 90);
+		trans = trans.mul(TransformMatrix.scale(0.5, 0.5));
+		trans = trans.mul(TransformMatrix.translate(-creature.center().x, 0));
+
+		this.camera.transform = trans;
 
 		this.populationTxt.text = "Generation: " + (this.mainView.population.generation + 1);
 		this.creatureTxt.text = "Creature: " + (this.creatureId + 1);
