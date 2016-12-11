@@ -2,6 +2,9 @@ import { Creature } from "./Creature"
 import * as Generator from "./Generator";
 import Vec2 from "../util/Vec2";
 import Breed from "./Breed"
+import { Scene } from "./Scene"
+import * as Consts from "./Consts"
+import * as Util from "./Util"
 
 export default class Population {
 
@@ -23,8 +26,6 @@ export default class Population {
 					return -1;
 				}
 			});
-
-		console.log("Best: ", this.population[0].result);
 	}
 
 	push(newCreature: Creature) {
@@ -57,7 +58,23 @@ export default class Population {
 		}
 	}
 
-	makeFullCycle() {
+	rate() {
+		for (let creature of this.population) {
+			let clone = creature.clone();
+			this.scene.addEntity(clone);
+
+			for (let i = 0; i < Consts.RUN_DURATION * Consts.SIMULATION_RESOLUTION; i++) {
+				this.scene.update(1 / Consts.SIMULATION_RESOLUTION);
+			}
+
+			creature.result = clone.currentResult();
+			this.scene.removeEntity(clone);
+		}
+		this.sortCreatures();
+		console.log("Best: ", this.population[0].result);
+	}
+
+	eugenics() {
 		this.removeSlowest();
 		let oldPopulationSize = this.population.length;
 		for (let i = 0; i < oldPopulationSize; ++i) {
@@ -75,7 +92,11 @@ export default class Population {
 			this.push(kid);
 		}
 		this.moveAllToStartingPosition();
+		this.generation++;
 	}
 
 	population: Creature[] = new Array<Creature>();
+	generation: number = 0;
+
+	private scene: Scene = Util.creatureScene();
 }

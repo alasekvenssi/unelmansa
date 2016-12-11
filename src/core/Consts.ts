@@ -46,6 +46,7 @@ export const GENERATOR_BONE_MAX_AMOUNT = 4;
 export const ARE_BALLS_COLLIDABLE = true;
 export const PHYSICS_GRAVITY = 981;
 
-/* ================ SIMULATION VIEW ================ */
+/* ================ SIMULATION ================ */
 export const POPULATION_SIZE = 100;
 export const RUN_DURATION = 20;
+export const SIMULATION_RESOLUTION = 60;

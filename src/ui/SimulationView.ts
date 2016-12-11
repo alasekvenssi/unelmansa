@@ -11,23 +11,21 @@ import { Creature } from "../core/Creature"
 import { CreatureBone } from "../core/Creature"
 import Population from "../core/Population"
 import * as Consts from "../core/Consts"
-
-// Temporarily simulation is done here, to be moved!
+import * as CoreUtil from "../core/Util"
 
 export default class SimulationView extends RenderGroup {
-	private skipPopulationBtn = new Button("Skip population", () => this.skipPopulation(), -15 - 520, -15, 405, 100);
-	private skip10PopulationsBtn = new Button("Skip 10 population", () => this.skip10Populations(), -50, -15, 470, 100);
-	private skipCreatureBtn = new Button("Skip creature", () => this.skipCreature(), -435 - 520, -15, 355, 100);
+	private skipPopulationBtn = new Button("Skip population", () => this.skipGenerations(1), -15 - 520, -15, 405, 100);
+	private skip10PopulationsBtn = new Button("Skip 10 population", () => this.skipGenerations(10), -50, -15, 470, 100);
+	private skipCreatureBtn = new Button("Skip creature", () => this.nextCreature(), -435 - 520, -15, 355, 100);
 
 	private populationTxt = new Text("", 30, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
 	private creatureTxt = new Text("", 550, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
 	private resultText = new Text("", 1000, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
 
-	scene: Scene = new Scene();
+	scene: Scene = CoreUtil.creatureScene();
 	camera: RenderTransform;
 
 	population: Population = new Population(Consts.POPULATION_SIZE);
-	populationId: number = 0;
 	creatureId: number = 0;
 	creatureClone: Creature;
 
@@ -36,9 +34,6 @@ export default class SimulationView extends RenderGroup {
 
 	constructor() {
 		super();
-
-		this.scene.addEntity(new Air(new WebImage("sky.png")));
-		this.scene.addEntity(new Ground(new WebImage("ground.jpg")));
 
 		this.camera = new RenderTransform(new TransformMatrix(), this.scene);
 
@@ -50,6 +45,8 @@ export default class SimulationView extends RenderGroup {
 		this.items.push(this.creatureTxt);
 		this.items.push(this.resultText);
 
+		this.population.rate();
+
 		this.creatureClone = this.population.population[this.creatureId].clone()
 		this.scene.addEntity(this.creatureClone);
 
@@ -60,33 +57,20 @@ export default class SimulationView extends RenderGroup {
 		let creature = this.creatureClone;
 		this.camera.transform = TransformMatrix.translate(ctx.width() / 2 - creature.center().x, ctx.height() - 150);
 
-		this.populationTxt.text = "Population: " + (this.populationId + 1);
+		this.populationTxt.text = "Generation: " + (this.population.generation + 1);
 		this.creatureTxt.text = "Creature: " + (this.creatureId + 1);
-
-		let fitness: number = Infinity;
-		for (let bone of this.creatureClone.bones) {
-			fitness = Math.min(fitness, bone.position.x);
-		}
-		this.resultText.text = "Result: " + fitness.toFixed(0);
+		this.resultText.text = "Result: " + this.creatureClone.currentResult().toFixed(0);
 
 		super.render(ctx);
 	}
 
-	private nextCreature() {
+	nextCreature() {
 		this.scene.removeEntity(this.creatureClone);
 
-		let fitness: number = Infinity;
-		for (let bone of this.creatureClone.bones) {
-			fitness = Math.min(fitness, bone.position.x);
-		}
-
-		this.population.population[this.creatureId].result = fitness;
-
 		if (++this.creatureId >= this.population.population.length) {
-			this.population.makeFullCycle();
-
+			this.population.eugenics();
+			this.population.rate();
 			this.creatureId = 0;
-			this.populationId++;
 		}
 
 		this.ticks = 0;
@@ -103,24 +87,12 @@ export default class SimulationView extends RenderGroup {
 		}
 	}
 
-	skip10Populations() {
-		let last: number = this.populationId + 10;
-		while (this.populationId < last) {
-			this.updateNext();
+	skipGenerations(amount: number) {
+		for (let i = 0; i < amount; i++) {
+			this.population.eugenics();
+			this.population.rate();
 		}
-	}
-
-	skipPopulation() {
-		let last = this.populationId;
-		while (this.populationId == last) {
-			this.updateNext();
-		}
-	}
-
-	skipCreature() {
-		let last = this.creatureId;
-		while (this.creatureId == last) {
-			this.updateNext();
-		}
+		this.creatureId = -1;
+		this.nextCreature();
 	}
 }
