@@ -37,7 +37,7 @@ export default class Population {
 		this.sortCreatures();
 
 		for (let i = 0; i < this.population.length; i++) {
-			if(MathUtil.randomChance(MathUtil.tanh(3*i / this.population.length))) {
+			if(MathUtil.randomChance(MathUtil.tanh(i / amount))) {
 				this.population.splice(i,1);
 				amount--;
 			}
@@ -84,7 +84,16 @@ export default class Population {
 	}
 
 	eugenics() {
-		this.removeSlowest();
+		if(Consts.ENABLE_MASS_DESTRUCTION && (this.generation + 1) % 100 == 0) {
+			this.removeSlowest(this.population.length * Consts.MASS_DESTRUCTION_FACTOR);
+
+			while (this.population.length < Consts.POPULATION_SIZE) {
+				this.push(Generator.generateCreature());
+			}
+		}
+		else {
+			this.removeSlowest();
+		}
 		let oldPopulationSize = this.population.length;
 
 		while (this.population.length < Consts.FRACTION_OF_BREEDED_POPULATION * Consts.POPULATION_SIZE) {

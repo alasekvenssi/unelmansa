@@ -50,9 +50,11 @@ export const GROUND_FRICTION = 0.5;
 export const AIR_RESISTANCE = 0.5;
 
 /* ================ POPULATION ================ */
-export const POPULATION_SIZE = 100;
+export const POPULATION_SIZE = 7*17;
 export const FRACTION_OF_BREEDED_POPULATION = 0.8;
+export const ENABLE_MASS_DESTRUCTION = true;
+export const MASS_DESTRUCTION_FACTOR = 0.95;
 
 /* ================ SIMULATION ================ */
 export const RUN_DURATION = 20;
-export const SIMULATION_RESOLUTION = 60;
+export const SIMULATION_RESOLUTION = 30;
