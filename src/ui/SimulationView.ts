@@ -14,25 +14,24 @@ import * as Consts from "../core/Consts"
 import * as CoreUtil from "../core/Util"
 
 export default class SimulationView extends RenderGroup {
-	private skipPopulationBtn = new Button("Skip population", () => this.skipGenerations(1), -15 - 520, -15, 405, 100);
-	private skip10PopulationsBtn = new Button("Skip 10 population", () => this.skipGenerations(10), -50, -15, 470, 100);
-	private skipCreatureBtn = new Button("Skip creature", () => this.nextCreature(), -435 - 520, -15, 355, 100);
+	private skipCreatureBtn = new Button("Skip creature", () => this.nextCreature(), -475, -7, 175, 50);
+	private skipPopulationBtn = new Button("Skip population", () => this.skipGenerations(1), -265, -7, 202, 50);
+	private skip10PopulationsBtn = new Button("Skip 10 populations", () => this.skipGenerations(10), -7, -7, 250, 50);
 
-	private populationTxt = new Text("", 30, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
-	private creatureTxt = new Text("", 550, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
-	private resultText = new Text("", 1000, -65, "middle", new Font("Arial", 60, "normal", FontWeight.Bold));
+	private populationTxt = new Text("", 15, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
+	private creatureTxt = new Text("", 225, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
+	private resultText = new Text("", 500, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
 
 	scene: Scene = CoreUtil.creatureScene();
 	camera: RenderTransform;
 
-	population: Population = new Population(Consts.POPULATION_SIZE);
 	creatureId: number = 0;
 	creatureClone: Creature;
 
 	ticks: number = 0;
 	speed: number = 1;
 
-	constructor() {
+	constructor(public population: Population = new Population(Consts.POPULATION_SIZE)) {
 		super();
 
 		this.camera = new RenderTransform(new TransformMatrix(), this.scene);
@@ -55,7 +54,8 @@ export default class SimulationView extends RenderGroup {
 
 	render(ctx: Context2D) {
 		let creature = this.creatureClone;
-		this.camera.transform = TransformMatrix.translate(ctx.width() / 2 - creature.center().x, ctx.height() - 150);
+		this.camera.transform = TransformMatrix.translate(ctx.width() / 2 - creature.center().x, ctx.height() - 90);
+		this.camera.transform = this.camera.transform.mul(TransformMatrix.scale(0.5, 0.5));
 
 		this.populationTxt.text = "Generation: " + (this.population.generation + 1);
 		this.creatureTxt.text = "Creature: " + (this.creatureId + 1);
