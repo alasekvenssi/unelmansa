@@ -117,7 +117,7 @@ export class PopulationBox implements Renderable {
 		let avgX = (creatureBounds.min.x + creatureBounds.max.x) / 2;
 		let avgY = (creatureBounds.min.y + creatureBounds.max.y) / 2;
 
-		ctx.translate(BOX_WIDTH/2, BOX_HEIGHT/2).scale(scale, scale).translate(-avgX, -avgY);
+		ctx.translate(BOX_WIDTH/2, BOX_HEIGHT/2).scale(scale, -scale).translate(-avgX, -avgY);
 		
 		creature.render(ctx);
 
