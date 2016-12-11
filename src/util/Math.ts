@@ -25,8 +25,8 @@ export function random(from: number, to: number): number { // <from, to)
 }
 
 export function tanh(x: number): number {
-    var a = Math.exp(+x), b = Math.exp(-x);
-    return a == Infinity ? 1 : b == Infinity ? -1 : (a - b) / (a + b);
+    var exp = Math.exp(2*x);
+    return exp - 1 == Infinity ? 1 : exp + 1 == Infinity ? -1 : (exp - 1) / (exp + 1);
 }
 
 

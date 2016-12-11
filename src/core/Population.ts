@@ -39,13 +39,13 @@ export default class Population {
 		for (let i = 0; i < this.population.length; i++) {
 			if(MathUtil.randomChance(MathUtil.tanh(3*i / this.population.length))) {
 				this.population.splice(i,1);
-				amount -= 1;
+				amount--;
 			}
 		}
 
 		while(amount > 0) {
 			this.population.pop();
-			amount -= 1;	
+			amount--;	
 		}
 	}
 
