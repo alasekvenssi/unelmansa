@@ -1,4 +1,4 @@
-import { Creature } from "./Creature"
+import { Creature, CreatureBone, CreatureMuscle } from "./Creature"
 import * as Generator from "./Generator";
 import Vec2 from "../util/Vec2";
 import Breed from "./Breed"
@@ -99,4 +99,113 @@ export default class Population {
 	generation: number = 0;
 
 	private scene: Scene = Util.creatureScene();
+
+	save(): string {
+		let packed = new PopulationPacked();
+		packed.population = new Array<CreaturePacked>(this.population.length);
+		packed.generation = this.generation;
+
+		for (let i = 0; i < this.population.length; i++) {
+			let creature = this.population[i];
+			let packedCreature = new CreaturePacked();
+			packed.population[i] = packedCreature;
+
+			packedCreature.bones = new Array<CreatureBonePacked>(creature.bones.length);
+			packedCreature.muscles = new Array<CreatureMusclePacked>(creature.muscles.length);
+
+			for (let j = 0; j < creature.bones.length; j++) {
+				let bone = creature.bones[j];
+				let packedBone = new CreatureBonePacked();
+				packedCreature.bones[j] = packedBone;
+
+				packedBone.position = [bone.position.x, bone.position.y];
+				packedBone.radius = bone.radius;
+				packedBone.mass = bone.mass;
+				packedBone.elasticity = bone.elasticity;
+				packedBone.friction = bone.friction;
+			}
+
+			for (let j = 0; j < creature.muscles.length; j++) {
+				let muscle = creature.muscles[j];
+				let packedMuscle = new CreatureMusclePacked();
+				packedCreature.muscles[j] = packedMuscle;
+
+				packedMuscle.bone1 = creature.bones.indexOf(muscle.bone1);
+				packedMuscle.bone2 = creature.bones.indexOf(muscle.bone2);
+				packedMuscle.minLength = muscle.minLength;
+				packedMuscle.maxLength = muscle.maxLength;
+				packedMuscle.strength = muscle.strength;
+				packedMuscle.timerInterval = muscle.timerInterval;
+				packedMuscle.expandFactor = muscle.expandFactor;
+			}
+		}
+
+		return JSON.stringify(packed);
+	}
+
+	load(json: string) {
+		let packed = <PopulationPacked>JSON.parse(json);
+		this.population = new Array<Creature>(packed.population.length);
+		this.generation = packed.generation;
+
+		for (let i = 0; i < packed.population.length; i++) {
+			let packedCreature = packed.population[i];
+			let creature = new Creature(
+				new Array<CreatureBone>(packedCreature.bones.length),
+				new Array<CreatureMuscle>(packedCreature.muscles.length)
+			);
+			this.population[i] = creature;
+
+			for (let j = 0; j < creature.bones.length; j++) {
+				let packedBone = packedCreature.bones[j];
+
+				creature.bones[j] = new CreatureBone(
+					new Vec2(packedBone.position[0], packedBone.position[1]),
+					packedBone.radius,
+					packedBone.mass,
+					packedBone.elasticity,
+					packedBone.friction
+				);
+			}
+
+			for (let j = 0; j < creature.muscles.length; j++) {
+				let packedMuscle = packedCreature.muscles[j];
+
+				creature.muscles[j] = new CreatureMuscle(
+					creature.bones[packedMuscle.bone1],
+					creature.bones[packedMuscle.bone2],
+					packedMuscle.minLength,
+					packedMuscle.maxLength,
+					packedMuscle.strength,
+					packedMuscle.timerInterval,
+					packedMuscle.expandFactor
+				);
+			}
+		}
+	}
+}
+
+class PopulationPacked {
+	population: CreaturePacked[];
+	generation: number;
+}
+class CreaturePacked {
+	bones: CreatureBonePacked[];
+	muscles: CreatureMusclePacked[];
+}
+class CreatureBonePacked {
+	position: number[];
+	radius: number = 1;
+	mass: number = 1;
+	elasticity: number = 0.75;
+	friction: number = 0;
+}
+class CreatureMusclePacked {
+	bone1: number;
+	bone2: number;
+	minLength: number;
+	maxLength: number;
+	strength: number;
+	timerInterval: number;
+	expandFactor: number;
 }
