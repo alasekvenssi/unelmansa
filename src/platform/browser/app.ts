@@ -10,10 +10,13 @@ import Color from "../../util/Color"
 import WebImage from "../../graphics/browser/WebImage"
 import { InteractiveContext2D } from "../../graphics/InteractiveContext2D"
 import SimulationView from "../../ui/SimulationView"
+import * as CoreUtil from "../../core/Util"
+
+CoreUtil.setResources(new WebImage("sky.png"), new WebImage("ground.jpg"));
 
 let simView = new SimulationView();
 
 let view = new InteractiveCanvasWindow(window, 2);
-let renderer = new Renderer(view.context, simView, 1, true);
+let renderer = new Renderer(view.context, simView, true);
 
 renderer.start();

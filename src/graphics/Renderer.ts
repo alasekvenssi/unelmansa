@@ -8,10 +8,10 @@ export default class Renderer {
     private frameRequestID: number;
     private fpsCounter = new FpsCounter(10);
 
-    constructor(public context: Context2D, public item: Renderable, public scale: number = 1, public drawFps: boolean = false) { }
+    constructor(public context: Context2D, public item: Renderable, public drawFps: boolean = false) { }
 
     protected renderLoop() {
-        this.context.reset().scale(this.scale, this.scale);
+        this.context.reset();
 
         if (this.item) {
             this.context.save();
