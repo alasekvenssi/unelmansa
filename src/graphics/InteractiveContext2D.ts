@@ -11,9 +11,10 @@ class EventListEntry {
 };
 
 export class InteractiveContext2D extends Context2D {
+	private maxEventIndex = 15 + 15*16 + 15*256;
 
 	private eventList: Array<EventListEntry> = new Array<EventListEntry>();
-	private topEvent: number = 0xFFFFFF;
+	private topEvent: number = this.maxEventIndex;
 	private eventCount: number = 0;
 
 	constructor(public drawCtx: Context2D, public eventCtx: Context2D) {
@@ -22,12 +23,28 @@ export class InteractiveContext2D extends Context2D {
 	}
 
 	private updateEventColor() {
-		let col = Color.fromInt24(this.topEvent);
+		let col = this.indexToColor(this.topEvent);
 		this.eventCtx.fillColor(col).strokeColor(col);
+	}
+
+	private indexToColor(index: number): Color {
+		let r = ((index & 0xF) << 4) + 8;
+		let g = (((index >> 4) & 0xF) << 4) + 8;
+		let b = (((index >> 8) & 0xF) << 4) + 8;
+		return new Color(r, g, b);
+	}
+
+	private indexFromColor(color: Color): number {
+		return (color.r >> 4) + ((color.g >> 4) << 4) + ((color.b >> 4) << 8);
 	}
 
 	bindClick(callback: () => void): this {
 		this.eventList[this.eventCount++] = new EventListEntry(this.topEvent, callback);
+
+		if (this.eventCount >= this.maxEventIndex) {
+			throw "Event index overflow";
+		}
+
 		this.topEvent = this.eventCount - 1;
 		this.updateEventColor();
 
@@ -43,7 +60,7 @@ export class InteractiveContext2D extends Context2D {
 
 	reset(): this {
 		this.eventCount = 0;
-		this.topEvent = 0xFFFFFF;
+		this.topEvent = this.maxEventIndex;
 
 		this.drawCtx.reset();
 		this.updateEventColor();
@@ -52,7 +69,7 @@ export class InteractiveContext2D extends Context2D {
 	}
 
 	click(x: number, y: number): this {
-		let index = this.eventCtx.getPixel(x, y).toInt24();
+		let index = this.indexFromColor(this.eventCtx.getPixel(x, y));
 
 		while (index >= 0 && index < this.eventCount) {
 			this.eventList[index].callback();
@@ -91,7 +108,7 @@ export class InteractiveContext2D extends Context2D {
 	}
 	drawText(x: number, y: number, text: string, baseline: string, fill: boolean, stroke: boolean): this {
 		this.drawCtx.drawText(x, y, text, baseline, fill, stroke);
-		this.eventCtx.drawText(x, y, text, baseline, fill, stroke);
+		this.eventCtx.drawText(x, y, text, baseline, true, false);
 		return this;
 	}
 
