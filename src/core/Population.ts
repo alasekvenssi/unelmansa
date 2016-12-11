@@ -35,18 +35,17 @@ export default class Population {
 
 	removeSlowest(amount: number = this.population.length / 2) {
 		this.sortCreatures();
-		console.log("To kill:", amount);
 
 		for (let i = 0; i < this.population.length; i++) {
-			if(MathUtil.randomChance(MathUtil.tanh(2*i / this.population.length))) {
-				console.log("KILL");
+			if(MathUtil.randomChance(MathUtil.tanh(3*i / this.population.length))) {
 				this.population.splice(i,1);
-				amount-=1;
+				amount -= 1;
 			}
 		}
 
-		for (let i = 0; i < amount; ++i) {
+		while(amount > 0) {
 			this.population.pop();
+			amount -= 1;	
 		}
 	}
 
@@ -115,7 +114,7 @@ export default class Population {
 		}
 
 		for (var creature of this.population) {
-			creature = creature.mutate();
+			creature.mutate();
 		}
 		this.moveAllToStartingPosition();
 		this.generation++;
