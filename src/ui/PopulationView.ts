@@ -19,6 +19,8 @@ import MainView from "./MainView"
 import { View } from "./View"
 
 export class PopulationView extends RenderGroup implements View {
+	private loadBtn = new Button("Load", () => this.load(), -569, -7, 87, 50);
+	private saveBtn = new Button("Save", () => this.save(), -475, -7, 87, 50);
 	private skipPopulationBtn = new Button("Skip generation", () => this.skipGenerations(1), -265, -7, 202, 50);
 	private skip10PopulationsBtn = new Button("Skip 10 generations", () => this.skipGenerations(10), -7, -7, 250, 50);
 	private populationBox: PopulationBox;
@@ -32,6 +34,8 @@ export class PopulationView extends RenderGroup implements View {
 		this.populationBox = new PopulationBox(mainView.population, 20, 20, -40, -90,
 			(target: number) => this.onCreatureClick(target));
 
+		//this.items.push(this.loadBtn);
+		//this.items.push(this.saveBtn);
 		this.items.push(this.skipPopulationBtn);
 		this.items.push(this.skip10PopulationsBtn);
 		this.items.push(this.populationTxt);
@@ -66,6 +70,9 @@ export class PopulationView extends RenderGroup implements View {
 		this.mainView.simulationView.showCreature(id);
 		this.mainView.show(this.mainView.simulationView);
 	}
+
+	load() {} // TODO
+	save() {}
 }
 
 export class PopulationBox implements Renderable {
