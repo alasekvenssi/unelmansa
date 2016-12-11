@@ -278,9 +278,9 @@ export class CreatureBone extends Entity {
 		return new Intersections.Circle(this.position, this.radius); // Circle
 	}
 
-	render(context: Context2D): void {
+	render(context: Context2D): void { // Temporarily removed stroke for better FPS
 		context.fillColor(this.color).strokeColor(Color.Black).lineWidth(4).drawCircle(
-			this.position.x, this.position.y, this.radius, true, true
+			this.position.x, this.position.y, this.radius, true, false
 		);
 	}
 
