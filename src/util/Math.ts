@@ -25,8 +25,11 @@ export function random(from: number, to: number): number { // <from, to)
 }
 
 export function tanh(x: number) {
-	return (Math.E**(2*x) - 1)/(Math.E**(2*x) + 1);
+    var a = Math.exp(+x), b = Math.exp(-x);
+    return a == Infinity ? 1 : b == Infinity ? -1 : (a - b) / (a + b);
 }
+
+
 
 const Epsilon: number = 3; // decimal place
 const AbsError: number = 10 ** (-Epsilon);
