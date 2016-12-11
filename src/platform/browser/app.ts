@@ -9,13 +9,12 @@ import Vec2 from "../../util/Vec2"
 import Color from "../../util/Color"
 import WebImage from "../../graphics/browser/WebImage"
 import { InteractiveContext2D } from "../../graphics/InteractiveContext2D"
-import SimulationView from "../../ui/SimulationView"
-import { PopulationView } from "../../ui/PopulationView"
+import MainView from "../../ui/MainView"
 import * as CoreUtil from "../../core/Util"
 
 CoreUtil.setResources(new WebImage("sky.png"), new WebImage("ground.jpg"));
 
-let mainView = new PopulationView();
+let mainView = new MainView();
 
 let view = new InteractiveCanvasWindow(window, 1);
 let renderer = new Renderer(view.context, mainView, true);
