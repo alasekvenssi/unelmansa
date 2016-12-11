@@ -24,5 +24,9 @@ export function random(from: number, to: number): number { // <from, to)
 	return Math.random() * (to - from) + from;
 }
 
+export function tanh(x: number) {
+	return (Math.E**(2*x) - 1)/(Math.E**(2*x) + 1);
+}
+
 const Epsilon: number = 3; // decimal place
 const AbsError: number = 10 ** (-Epsilon);
