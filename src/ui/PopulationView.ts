@@ -93,6 +93,7 @@ export class PopulationBox implements Renderable {
 		const BOX_GAP = 8;
 
 		let creature = this.population.population[id];
+		creature.updateBonesColor();
 
 		ctx.save();
 		if (this.callback) {

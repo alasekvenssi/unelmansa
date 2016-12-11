@@ -53,7 +53,7 @@ export default class SimulationView extends RenderGroup implements View {
 
 		this.mainView.population.rate();
 
-		this.creatureClone = this.mainView.population.population[this.creatureId].clone()
+		this.creatureClone = this.mainView.population.population[this.creatureId].clone();
 		this.scene.addEntity(this.creatureClone);
 	}
 
