@@ -1,5 +1,5 @@
 /* ================ Mutation ================ */
-export const MUTATION_CHANCE = 0.1;
+export const MUTATION_CHANCE = 0.01;
 
 export const MUTATION_RELATIVE_FRICTION_DIFF = 0.15;
 export const MUTATION_BONE_FRICTION_CHANCE = 0.2;
@@ -48,7 +48,7 @@ export const PHYSICS_GRAVITY = 981;
 
 /* ================ POPULATION ================ */
 export const POPULATION_SIZE = 100;
-export const FRACTION_OF_BREEDED_POPULATION = 0.1;
+export const FRACTION_OF_BREEDED_POPULATION = 0.8;
 
 /* ================ SIMULATION ================ */
 export const RUN_DURATION = 20;
