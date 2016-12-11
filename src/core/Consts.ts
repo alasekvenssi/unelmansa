@@ -45,6 +45,9 @@ export const GENERATOR_BONE_MAX_AMOUNT = 4;
 /* ================ PHYSICS ================ */
 export const ARE_BALLS_COLLIDABLE = true;
 export const PHYSICS_GRAVITY = 981;
+export const GROUND_ELASTICITY = 0.5;
+export const GROUND_FRICTION = 0.5;
+export const AIR_RESISTANCE = 0.5;
 
 /* ================ POPULATION ================ */
 export const POPULATION_SIZE = 100;

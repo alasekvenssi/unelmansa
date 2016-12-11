@@ -101,7 +101,7 @@ export default class Population {
 
 			let kid: Creature = undefined;
 			try {
-				kid = Breed(mother, father);
+				kid = Breed(mother, father).mutate();
 			}
 			catch (e) {
 				continue;
@@ -113,9 +113,6 @@ export default class Population {
 			this.push(Generator.generateCreature());
 		}
 
-		for (var creature of this.population) {
-			creature.mutate();
-		}
 		this.moveAllToStartingPosition();
 		this.generation++;
 	}

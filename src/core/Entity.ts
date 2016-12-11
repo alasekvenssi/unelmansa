@@ -33,8 +33,8 @@ export abstract class Entity implements Renderable, Simulable {
 }
 
 export class Ground extends Entity {
-    constructor(public image: Image = undefined, _elasticity: number = 1) {
-        super(new Vec2(0, 0), Infinity, _elasticity, 0.5);
+    constructor(public image: Image = undefined, _elasticity: number = Consts.GROUND_ELASTICITY) {
+        super(new Vec2(0, 0), Infinity, _elasticity, Consts.GROUND_FRICTION);
     }
 
     bounding(): Intersections.Bounding {
@@ -73,7 +73,7 @@ export class Ground extends Entity {
 }
 
 export class Air extends Entity {
-    constructor(public image: Image = undefined, public resistance: number = 0.5) {
+    constructor(public image: Image = undefined, public resistance: number = Consts.AIR_RESISTANCE) {
         super();
     }
 
