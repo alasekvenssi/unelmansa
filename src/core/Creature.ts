@@ -54,6 +54,18 @@ export class Creature extends Entity {
 		return fitness;
 	}
 
+	extremes(): Intersections.AABB {
+		let aabb = new Intersections.AABB(new Vec2(Infinity, Infinity), new Vec2(-Infinity, -Infinity));
+
+		for (let bone of this.bones) {
+			aabb.min.x = Math.min(aabb.min.x, bone.position.x - bone.radius);
+			aabb.min.y = Math.min(aabb.min.y, bone.position.y - bone.radius);
+			aabb.max.x = Math.max(aabb.max.x, bone.position.x + bone.radius);
+			aabb.max.y = Math.max(aabb.max.y, bone.position.y + bone.radius);
+		}
+		return aabb;
+	}
+
 	center(): Vec2 {
 		let avg = new Vec2();
 		for (let bone of this.bones) {
