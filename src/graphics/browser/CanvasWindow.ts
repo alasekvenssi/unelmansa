@@ -41,9 +41,14 @@ export class InteractiveCanvasWindow {
 	public eventCanvas: HTMLCanvasElement;
 	public context: InteractiveContext2D;
 
-	constructor(public hostWindow: Window = window, protected resolution: number = 1) {
-		this.eventCanvas = hostWindow.document.createElement("canvas");
-		this.drawCanvas = makeFullCanvas(this.hostWindow, "10");
+	constructor(public hostWindow: Window = window, protected resolution: number = 1, debugClickmap: boolean = false) {
+		if (debugClickmap) {
+			this.drawCanvas = hostWindow.document.createElement("canvas");
+			this.eventCanvas = makeFullCanvas(this.hostWindow, "10");
+		} else {
+			this.eventCanvas = hostWindow.document.createElement("canvas");
+			this.drawCanvas = makeFullCanvas(this.hostWindow, "10");
+		}
 
 		this.hostWindow.addEventListener("resize", () => this.onResize());
 		this.hostWindow.addEventListener("click", (evt) => this.onClick(evt));
