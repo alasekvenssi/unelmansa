@@ -17,6 +17,6 @@ CoreUtil.setResources(new WebImage("sky.png"), new WebImage("ground.jpg"));
 let mainView = new MainView();
 
 let view = new InteractiveCanvasWindow(window, 1);
-let renderer = new Renderer(view.context, mainView, true);
+let renderer = new Renderer(view.context, mainView, false);
 
 renderer.start();
