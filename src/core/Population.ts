@@ -5,6 +5,7 @@ import Breed from "./Breed"
 import { Scene } from "./Scene"
 import * as Consts from "./Consts"
 import * as Util from "./Util"
+import * as MathUtil from "../util/Math"
 
 export default class Population {
 
@@ -34,6 +35,15 @@ export default class Population {
 
 	removeSlowest(amount: number = this.population.length / 2) {
 		this.sortCreatures();
+		console.log("To kill:", amount);
+
+		for (let i = 0; i < this.population.length; i++) {
+			if(MathUtil.randomChance(MathUtil.tanh(2*i / this.population.length))) {
+				console.log("KILL");
+				this.population.splice(i,1);
+				amount-=1;
+			}
+		}
 
 		for (let i = 0; i < amount; ++i) {
 			this.population.pop();
@@ -77,19 +87,35 @@ export default class Population {
 	eugenics() {
 		this.removeSlowest();
 		let oldPopulationSize = this.population.length;
-		for (let i = 0; i < oldPopulationSize; ++i) {
-			let father: Creature = this.population[Math.floor(Math.random() * oldPopulationSize)];
-			let mother: Creature = this.population[Math.floor(Math.random() * oldPopulationSize)];
+
+		while (this.population.length < Consts.FRACTION_OF_BREEDED_POPULATION * Consts.POPULATION_SIZE) {
+			let fatherIndex = 0;
+			let motherIndex = 0;
+
+			while(fatherIndex == motherIndex && oldPopulationSize != 1) {
+				fatherIndex = Math.floor(Math.random() * oldPopulationSize);
+				motherIndex = Math.floor(Math.random() * oldPopulationSize);
+			}
+
+			let father: Creature = this.population[fatherIndex];
+			let mother: Creature = this.population[motherIndex];
 
 			let kid: Creature = undefined;
 			try {
-				kid = Breed(mother, father).mutate();
+				kid = Breed(mother, father);
 			}
 			catch (e) {
-				i--;
 				continue;
 			}
 			this.push(kid);
+		}
+
+		while (this.population.length < Consts.POPULATION_SIZE) {
+			this.push(Generator.generateCreature());
+		}
+
+		for (var creature of this.population) {
+			creature = creature.mutate();
 		}
 		this.moveAllToStartingPosition();
 		this.generation++;
