@@ -20,6 +20,7 @@ export class InteractiveContext2D extends Context2D {
 	private eventList: Array<EventListEntry> = new Array<EventListEntry>();
 	private topEvent: number = this.maxEventIndex;
 	private eventCount: number = 0;
+	protected topEventHistory = new Array<number>();
 
 	constructor(public drawCtx: Context2D, public eventCtx: Context2D) {
 		super();
@@ -70,6 +71,7 @@ export class InteractiveContext2D extends Context2D {
 		this.eventCount = 0;
 		this.topEvent = this.maxEventIndex;
 
+		this.topEventHistory = new Array<number>();
 		this.drawCtx.reset();
 		this.updateEventColor();
 		this.eventCtx.resetTransform().drawRect(0, 0, this.width(), this.height(), true, false);
@@ -315,12 +317,16 @@ export class InteractiveContext2D extends Context2D {
 	}
 
 	save(): this {
+		this.topEventHistory.push(this.topEvent);
 		this.drawCtx.save();
 		this.eventCtx.save();
 		return this;
 	}
 
 	restore(): this {
+		this.topEvent = this.topEventHistory.pop();
+		this.updateEventColor();
+
 		this.drawCtx.restore();
 		this.eventCtx.restore();
 		return this;
