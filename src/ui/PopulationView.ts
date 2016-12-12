@@ -31,7 +31,7 @@ export class PopulationView extends RenderGroup implements View {
 	constructor(public mainView: MainView) {
 		super();
 
-		this.populationBox = new PopulationBox(mainView.population, 20, 20, -40, -90, 70,
+		this.populationBox = new PopulationBox(mainView.population, 10, 10, -20, -100, 55,
 			(target: number) => this.onCreatureClick(target));
 
 		//this.items.push(this.loadBtn);
@@ -95,7 +95,7 @@ export class PopulationBox implements Renderable {
 
 	private renderCreaturePreview(ctx: Context2D, bounds: Vec2, id: number) {
 		const boxSize = this.elemSize;
-		const BOX_GAP = 8;
+		const boxGap = 4;
 
 		let creature = this.population.population[id];
 		creature.updateBonesColor();
@@ -105,27 +105,36 @@ export class PopulationBox implements Renderable {
 			ctx.bindClick(() => this.callback(id));
 		}
 
-		let columnCount = Math.floor((bounds.x-BOX_GAP) / (boxSize+BOX_GAP));
+		let columnCount = Math.floor((bounds.x-boxGap) / (boxSize+boxGap));
 		let column = id % columnCount;
 		let row = Math.floor(id / columnCount);
 
-		let x = BOX_GAP + (boxSize+BOX_GAP) * column;
-		let y = BOX_GAP + (boxSize+BOX_GAP) * row;
+		let offsetX = (bounds.x - (columnCount*(boxSize+boxGap) - boxGap)) / 2;
+
+		let x = (boxSize+boxGap) * column + offsetX;
+		let y = (boxSize+boxGap) * row;
 
 		ctx.translate(x, y).fillColor(Color.White).strokeColor(Color.Black).lineWidth(1);
 		ctx.drawRect(0, 0, boxSize, boxSize, true, true);
 
 		let creatureBounds = creature.extremes();
 		let scaleX = (boxSize-10) / (creatureBounds.max.x - creatureBounds.min.x);
-		let scaleY = (boxSize-10) / (creatureBounds.max.y - creatureBounds.min.y);
+		let scaleY = (boxSize-22) / (creatureBounds.max.y - creatureBounds.min.y);
 		let scale = Math.min(scaleX, scaleY);
 
 		let avgX = (creatureBounds.min.x + creatureBounds.max.x) / 2;
 		let avgY = (creatureBounds.min.y + creatureBounds.max.y) / 2;
 
-		ctx.translate(boxSize/2, boxSize/2).scale(scale, -scale).translate(-avgX, -avgY);
-		
+		ctx.save();
+		ctx.translate(boxSize/2, (boxSize-12)/2).scale(scale, -scale).translate(-avgX, -avgY);
 		creature.render(ctx);
+		ctx.restore();
+
+		let fitness = creature.result.toFixed(0);
+
+		ctx.font(new Font("Arial", 10));
+		ctx.fillColor(new Color(0, 0, 0, 150)).drawRect(0, boxSize-12, boxSize, 12, true, false);
+		ctx.fillColor(Color.White).drawText(2, boxSize-6, fitness, "middle", true, false);
 
 		if (this.callback) {
 			ctx.popClick();
