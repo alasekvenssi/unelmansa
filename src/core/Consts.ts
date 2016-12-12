@@ -43,7 +43,7 @@ export const GENERATOR_BONE_MIN_AMOUNT = 3;
 export const GENERATOR_BONE_MAX_AMOUNT = 4;
 
 /* ================ PHYSICS ================ */
-export const ARE_BALLS_COLLIDABLE = false;
+export const ARE_BALLS_COLLIDABLE = true;
 export const PHYSICS_GRAVITY = 981;
 export const GROUND_ELASTICITY = 0.5;
 export const GROUND_FRICTION = 0.5;
@@ -54,7 +54,7 @@ export const POPULATION_SIZE = 200;
 export const FRACTION_OF_BREEDED_POPULATION = 0.8;
 export const ENABLE_MASS_DESTRUCTION = true;
 export const MASS_DESTRUCTION_FACTOR = 0.99;
-export const MASS_DESTRUCTION_INTERVAL = 100;
+export const MASS_DESTRUCTION_INTERVAL = 50;
 
 
 /* ================ SIMULATION ================ */

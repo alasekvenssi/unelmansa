@@ -84,7 +84,7 @@ export default class Population {
 	}
 
 	eugenics() {
-		if(Consts.ENABLE_MASS_DESTRUCTION && (this.generation + 1) % 100 == 0) {
+		if(Consts.ENABLE_MASS_DESTRUCTION && (this.generation + 1) % Consts.MASS_DESTRUCTION_INTERVAL == 0) {
 			this.removeSlowest(this.population.length * Consts.MASS_DESTRUCTION_FACTOR);
 
 			while (this.population.length < Consts.POPULATION_SIZE) {
