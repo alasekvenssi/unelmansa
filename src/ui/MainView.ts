@@ -16,6 +16,7 @@ export default class MainView implements View {
 	currentView: View;
 
 	constructor() {
+		this.population.rate();
 		this.populationView = new PopulationView(this);
 		this.simulationView = new SimulationView(this);
 		this.currentView = this.populationView;

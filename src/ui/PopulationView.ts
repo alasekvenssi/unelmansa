@@ -41,8 +41,6 @@ export class PopulationView extends RenderGroup implements View {
 		this.items.push(this.skip10PopulationsBtn);
 		this.items.push(this.populationTxt);
 		this.items.push(this.resultTxt);
-
-		this.mainView.population.rate();
 	}
 
 	onShow(): void {}

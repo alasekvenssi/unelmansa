@@ -57,7 +57,7 @@ export default class Population {
 
 	moveAllToStartingPosition() {
 		for (let creature of this.population) {
-			creature.result = -Infinity;
+			// creature.result = -Infinity;
 			let center: Vec2 = creature.center();
 
 			for (let bone of creature.bones) {
@@ -69,6 +69,11 @@ export default class Population {
 
 	rate() {
 		for (let creature of this.population) {
+
+			if (creature.result != -Infinity) {
+				continue;
+			}
+
 			let clone = creature.clone();
 			this.scene.addEntity(clone);
 
@@ -85,7 +90,7 @@ export default class Population {
 
 	eugenics() {
 		if(Consts.ENABLE_MASS_DESTRUCTION && (this.generation + 1) % Consts.MASS_DESTRUCTION_INTERVAL == 0) {
-			this.removeSlowest(this.population.length * Consts.MASS_DESTRUCTION_FACTOR);
+			this.removeSlowest(Math.floor(this.population.length * Consts.MASS_DESTRUCTION_FACTOR));
 
 			while (this.population.length < Consts.POPULATION_SIZE) {
 				this.push(Generator.generateCreature());
