@@ -23,8 +23,8 @@ export default class SimulationView extends RenderGroup implements View {
 	private skip10PopulationsBtn = new Button("Skip 10 generations", () => this.skipGenerations(10), -7, -7, 250, 50);
 
 	private populationTxt = new Text("", 15, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
-	private creatureTxt = new Text("", 270, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
-	private resultText = new Text("", 500, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
+	private creatureTxt = new Text("", 290, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
+	private resultTxt = new Text("", 500, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
 
 	scene: Scene = CoreUtil.creatureScene();
 	camera: RenderTransform;
@@ -42,14 +42,14 @@ export default class SimulationView extends RenderGroup implements View {
 		this.camera = new RenderTransform(new TransformMatrix(), this.scene);
 
 		this.items.push(this.camera);
+		this.items.push(this.populationTxt);
+		this.items.push(this.creatureTxt);
+		this.items.push(this.resultTxt);
 		this.items.push(this.skipPopulationBtn);
 		this.items.push(this.skip10PopulationsBtn);
 		this.items.push(this.goBackBtn);
 		this.items.push(this.prevCreatureBtn);
 		this.items.push(this.nextCreatureBtn);
-		this.items.push(this.populationTxt);
-		this.items.push(this.creatureTxt);
-		this.items.push(this.resultText);
 
 		this.creatureClone = this.mainView.population.population[this.creatureId].clone();
 		this.scene.addEntity(this.creatureClone);
@@ -74,7 +74,7 @@ export default class SimulationView extends RenderGroup implements View {
 
 		this.populationTxt.text = "Generation: " + (this.mainView.population.generation + 1);
 		this.creatureTxt.text = "Creature: " + (this.creatureId + 1);
-		this.resultText.text = "Result: " + this.creatureClone.currentResult().toFixed(0);
+		this.resultTxt.text = "Result: " + this.creatureClone.currentResult().toFixed(0);
 
 		super.render(ctx);
 	}

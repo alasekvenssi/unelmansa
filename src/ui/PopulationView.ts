@@ -26,7 +26,7 @@ export class PopulationView extends RenderGroup implements View {
 	private populationBox: PopulationBox;
 
 	private populationTxt = new Text("", 15, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
-	private resultTxt = new Text("", 270, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
+	private resultTxt = new Text("", 290, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
 
 	constructor(public mainView: MainView) {
 		super();
@@ -34,13 +34,13 @@ export class PopulationView extends RenderGroup implements View {
 		this.populationBox = new PopulationBox(mainView.population, 10, 10, -20, -100, 55,
 			(target: number) => this.onCreatureClick(target));
 
-		//this.items.push(this.loadBtn);
-		//this.items.push(this.saveBtn);
 		this.items.push(this.populationBox);
-		this.items.push(this.skipPopulationBtn);
-		this.items.push(this.skip10PopulationsBtn);
 		this.items.push(this.populationTxt);
 		this.items.push(this.resultTxt);
+		//this.items.push(this.loadBtn);
+		//this.items.push(this.saveBtn);
+		this.items.push(this.skipPopulationBtn);
+		this.items.push(this.skip10PopulationsBtn);
 	}
 
 	onShow(): void {}
