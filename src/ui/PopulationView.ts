@@ -133,8 +133,8 @@ export class PopulationBox implements Renderable {
 		let fitness = creature.result.toFixed(0);
 
 		ctx.font(new Font("Arial", 10));
-		ctx.fillColor(new Color(0, 0, 0, 150)).drawRect(0, boxSize-12, boxSize, 12, true, false);
-		ctx.fillColor(Color.White).drawText(2, boxSize-6, fitness, "middle", true, false);
+		ctx.fillColor(new Color(100, 100, 100)).drawRect(0, boxSize-11, boxSize, 11, true, false);
+		ctx.fillColor(Color.White).drawText(2, boxSize-5, fitness, "middle", true, false);
 
 		if (this.callback) {
 			ctx.popClick();
