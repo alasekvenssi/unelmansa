@@ -1,7 +1,7 @@
 import { Renderable, RenderGroup, RenderTransform } from "../graphics/Renderable"
 import Button from "../graphics/gui/Button"
 import Text from "../graphics/gui/Text"
-import { Context2D } from "../graphics/Context2D"
+import { Context2D, EventType } from "../graphics/Context2D"
 import TransformMatrix from "../util/TransformMatrix"
 import { Font, FontWeight } from "../util/Font"
 import Color from "../util/Color"
@@ -102,7 +102,7 @@ export class PopulationBox implements Renderable {
 
 		ctx.save();
 		if (this.callback) {
-			ctx.bindClick(() => this.callback(id));
+			ctx.bindEvent(EventType.Click, () => this.callback(id));
 		}
 
 		let columnCount = Math.floor((bounds.x-boxGap) / (boxSize+boxGap));
@@ -137,7 +137,7 @@ export class PopulationBox implements Renderable {
 		ctx.fillColor(Color.White).drawText(2, boxSize-5, fitness, "middle", true, false);
 
 		if (this.callback) {
-			ctx.popClick();
+			ctx.popEvent();
 		}
 		ctx.restore();
 	}

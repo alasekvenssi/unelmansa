@@ -1,5 +1,5 @@
 import { Renderable } from "../Renderable"
-import { Context2D } from "../Context2D"
+import { Context2D, EventType } from "../Context2D"
 import Color from "../../util/Color"
 import { Font } from "../../util/Font"
 import * as GuiUtil from "./Util"
@@ -20,7 +20,7 @@ export default class Button implements Renderable {
 	render(ctx: Context2D) {
 		ctx.save();
 		if (this.callback) {
-			ctx.bindClick(this.callback);
+			ctx.bindEvent(EventType.Click, this.callback);
 		}
 
 		let bounds = GuiUtil.alignTranslate(ctx, this.x, this.y, this.width, this.height);
@@ -32,7 +32,7 @@ export default class Button implements Renderable {
 		ctx.drawText(15, bounds.y / 2, this.text, "middle", true, false);
 
 		if (this.callback) {
-			ctx.popClick();
+			ctx.popEvent();
 		}
 		ctx.restore();
 	}

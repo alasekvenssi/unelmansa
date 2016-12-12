@@ -10,6 +10,10 @@ export type LineCap = "butt" | "round" | "square";
 export type LineJoin = "miter" | "round" | "bevel";
 export type TextBaseline = "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom";
 
+export enum EventType {
+	Click
+};
+
 export abstract class Context2D {
 	abstract width(): number;
 	abstract height(): number;
@@ -108,8 +112,7 @@ export abstract class Context2D {
 		return this.beginPath(x1, y1).pathLine(x2, y2).drawPath(fill, stroke);
 	}
 
-
-	bindClick(callback: () => void): this { return this; }
-	popClick(): this { return this; }
-	click(x: number, y: number): this { return this; }
+	bindEvent(type: EventType, callback: (data?: any) => void): this { return this; }
+	popEvent(count?: number): this { return this; }
+	callEvent(type: EventType, x: number, y: number, data?: any): this { return this; }
 }

@@ -1,4 +1,4 @@
-import { LineCap, LineJoin, TextBaseline, Context2D } from "./Context2D"
+import { LineCap, LineJoin, TextBaseline, EventType, Context2D } from "./Context2D"
 import Color from "../util/Color"
 import Vec2 from "../util/Vec2"
 import { Font } from "../util/Font"
@@ -7,7 +7,11 @@ import { Image } from "./Image"
 import { Gradient } from "./Gradient"
 
 class EventListEntry {
-	constructor(public upper: number, public callback: () => void) { }
+	constructor(
+		public upper: number,
+		public type: EventType,
+		public callback: (data?: any) => void
+	) { }
 };
 
 export class InteractiveContext2D extends Context2D {
@@ -38,8 +42,8 @@ export class InteractiveContext2D extends Context2D {
 		return (color.r >> 4) + ((color.g >> 4) << 4) + ((color.b >> 4) << 8);
 	}
 
-	bindClick(callback: () => void): this {
-		this.eventList[this.eventCount++] = new EventListEntry(this.topEvent, callback);
+	bindEvent(type: EventType, callback: (data?: any) => void): this {
+		this.eventList[this.eventCount++] = new EventListEntry(this.topEvent, type, callback);
 
 		if (this.eventCount >= this.maxEventIndex) {
 			throw "Event index overflow";
@@ -51,10 +55,14 @@ export class InteractiveContext2D extends Context2D {
 		return this;
 	}
 
-	popClick(): this {
-		this.topEvent = this.eventList[this.topEvent].upper;
-		this.updateEventColor();
-
+	popEvent(count?: number): this {
+		if (typeof count == "undefined") {
+			count = 1;
+		}
+		for (let i = 0; i < count; i++) {
+			this.topEvent = this.eventList[this.topEvent].upper;
+			this.updateEventColor();
+		}
 		return this;
 	}
 
@@ -68,12 +76,15 @@ export class InteractiveContext2D extends Context2D {
 		return this;
 	}
 
-	click(x: number, y: number): this {
+	callEvent(type: EventType, x: number, y: number, data?: any): this {
 		let index = this.indexFromColor(this.eventCtx.getPixel(x, y));
 
 		while (index >= 0 && index < this.eventCount) {
-			this.eventList[index].callback();
-			index = this.eventList[index].upper;
+			let cur = this.eventList[index];
+			if (cur.type == type) {
+				cur.callback(data);
+			}
+			index = cur.upper;
 		}
 		return this;
 	}

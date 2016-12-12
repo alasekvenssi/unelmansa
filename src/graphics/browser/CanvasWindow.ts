@@ -1,3 +1,4 @@
+import { EventType } from "../Context2D"
 import CanvasContext2D from "./CanvasContext2D"
 import { InteractiveContext2D } from "../InteractiveContext2D"
 
@@ -66,7 +67,11 @@ export class InteractiveCanvasWindow {
 	}
 
 	protected onClick(evt: any) {
-		this.context.click(evt.clientX * this.resolution, evt.clientY * this.resolution);
+		this.callEvent(EventType.Click, evt.clientX, evt.clientY);
+	}
+
+	protected callEvent(type: EventType, x: number, y: number, data?: any) {
+		this.context.callEvent(type, x * this.resolution, y * this.resolution, data);
 	}
 
 	width(): number { return this.drawCanvas.width; }
