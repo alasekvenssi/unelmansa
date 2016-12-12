@@ -31,9 +31,6 @@ export default class Button implements Renderable {
 		ctx.fillColor(Color.White).strokeColor(Color.Black).font(this.font);
 		ctx.drawText(15, bounds.y / 2, this.text, "middle", true, false);
 
-		if (this.callback) {
-			ctx.popEvent();
-		}
 		ctx.restore();
 	}
 }

@@ -136,9 +136,6 @@ export class PopulationBox implements Renderable {
 		ctx.fillColor(new Color(100, 100, 100)).drawRect(0, boxSize-11, boxSize, 11, true, false);
 		ctx.fillColor(Color.White).drawText(2, boxSize-5, fitness, "middle", true, false);
 
-		if (this.callback) {
-			ctx.popEvent();
-		}
 		ctx.restore();
 	}
 }
