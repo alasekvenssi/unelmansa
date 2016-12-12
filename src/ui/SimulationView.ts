@@ -58,7 +58,7 @@ export default class SimulationView extends RenderGroup implements View {
 	}
 
 	onShow(): void {
-		this.intervalId = setInterval(() => this.updateNext(), 1000 / 60);
+		this.intervalId = setInterval(() => this.updateNext(), 1000 / Consts.SIMULATION_RESOLUTION);
 	}
 
 	onHide(): void {
@@ -105,10 +105,10 @@ export default class SimulationView extends RenderGroup implements View {
 
 	private updateNext() {
 		for (let i = 0; i < this.speed; i++) {
-			if (this.ticks++ >= Consts.RUN_DURATION * 60) {
+			if (this.ticks++ >= Consts.RUN_DURATION * Consts.SIMULATION_RESOLUTION) {
 				this.nextCreature();
 			}
-			this.scene.update(1 / 60);
+			this.scene.update(1 / Consts.SIMULATION_RESOLUTION);
 		}
 	}
 

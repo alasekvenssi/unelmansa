@@ -37,7 +37,7 @@ export default class Population {
 		this.sortCreatures();
 
 		for (let i = 0; i < this.population.length; i++) {
-			if(MathUtil.randomChance(MathUtil.tanh(i / amount))) {
+			if(MathUtil.randomChance(MathUtil.tanh(2*i / this.population.length))) {
 				this.population.splice(i,1);
 				amount--;
 			}
