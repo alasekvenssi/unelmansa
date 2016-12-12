@@ -28,11 +28,12 @@ export default class Button implements Renderable {
 		ctx.save();
 		if (this.callback) {
 			ctx.bindEvent(EventType.Click, this.callback);
-			ctx.bindEvent(EventType.MouseDown, () => this.down = true);
-			ctx.bindEvent(EventType.MouseUp, () => this.down = false);
-			ctx.bindEvent(EventType.MouseEnter, () => this.over = true);
-			ctx.bindEvent(EventType.MouseLeave, () => this.over = this.down = false);
 		}
+		
+		ctx.bindEvent(EventType.MouseDown, () => this.down = true);
+		ctx.bindEvent(EventType.MouseUp, () => this.down = false);
+		ctx.bindEvent(EventType.MouseEnter, () => this.over = true);
+		ctx.bindEvent(EventType.MouseLeave, () => this.over = this.down = false);
 
 		if (this.down) {
 			ctx.fillColor(this.fillDown).strokeColor(this.strokeDown);
