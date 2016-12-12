@@ -11,7 +11,7 @@ export type LineJoin = "miter" | "round" | "bevel";
 export type TextBaseline = "top" | "hanging" | "middle" | "alphabetic" | "ideographic" | "bottom";
 
 export enum EventType {
-	Click
+	Click, MouseDown, MouseUp, MouseMove, MouseEnter, MouseLeave
 };
 
 export abstract class Context2D {

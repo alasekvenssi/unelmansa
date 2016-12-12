@@ -20,6 +20,8 @@ export class InteractiveContext2D extends Context2D {
 	private eventList: Array<EventListEntry> = new Array<EventListEntry>();
 	private topEvent: number = this.maxEventIndex;
 	private eventCount: number = 0;
+	private lastMouseOverIndex: number = this.maxEventIndex;
+	private lastMouseDownIndex: number = this.maxEventIndex;
 	protected topEventHistory = new Array<number>();
 
 	constructor(public drawCtx: Context2D, public eventCtx: Context2D) {
@@ -81,6 +83,27 @@ export class InteractiveContext2D extends Context2D {
 	callEvent(type: EventType, x: number, y: number, data?: any): this {
 		let index = this.indexFromColor(this.eventCtx.getPixel(x, y));
 
+		if (type == EventType.MouseMove) {
+			let lastIndex = this.lastMouseOverIndex;
+			this.lastMouseOverIndex = index;
+
+			if (lastIndex != index) {
+				this.callEventIndex(EventType.MouseLeave, lastIndex, data);
+				this.callEventIndex(EventType.MouseEnter, index, data);
+			}
+		} else if (type == EventType.MouseUp) {
+			if (this.lastMouseDownIndex == index) {
+				this.callEventIndex(EventType.Click, index, data);
+			}
+		} else if (type == EventType.MouseDown) {
+			this.lastMouseDownIndex = index;
+		}
+
+		this.callEventIndex(type, index, data);
+		return this;
+	}
+
+	private callEventIndex(type: EventType, index: number, data?: any) {
 		while (index >= 0 && index < this.eventCount) {
 			let cur = this.eventList[index];
 			if (cur.type == type) {
@@ -88,7 +111,6 @@ export class InteractiveContext2D extends Context2D {
 			}
 			index = cur.upper;
 		}
-		return this;
 	}
 
 

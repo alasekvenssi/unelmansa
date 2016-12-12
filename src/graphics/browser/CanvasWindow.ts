@@ -52,7 +52,9 @@ export class InteractiveCanvasWindow {
 		}
 
 		this.hostWindow.addEventListener("resize", () => this.onResize());
-		this.hostWindow.addEventListener("click", (evt) => this.onClick(evt));
+		this.hostWindow.addEventListener("mousedown", (evt) => this.onMouseDown(evt));
+		this.hostWindow.addEventListener("mouseup", (evt) => this.onMouseUp(evt));
+		this.hostWindow.addEventListener("mousemove", (evt) => this.onMouseMove(evt));
 		this.onResize();
 
 		this.context = new InteractiveContext2D(
@@ -66,8 +68,14 @@ export class InteractiveCanvasWindow {
 		this.drawCanvas.height = this.eventCanvas.height = this.hostWindow.innerHeight * this.resolution;
 	}
 
-	protected onClick(evt: any) {
-		this.callEvent(EventType.Click, evt.clientX, evt.clientY);
+	protected onMouseDown(evt: any) {
+		this.callEvent(EventType.MouseDown, evt.clientX, evt.clientY, evt);
+	}
+	protected onMouseUp(evt: any) {
+		this.callEvent(EventType.MouseUp, evt.clientX, evt.clientY, evt);
+	}
+	protected onMouseMove(evt: any) {
+		this.callEvent(EventType.MouseMove, evt.clientX, evt.clientY, evt);
 	}
 
 	protected callEvent(type: EventType, x: number, y: number, data?: any) {
