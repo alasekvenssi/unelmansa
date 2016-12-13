@@ -16,9 +16,7 @@ interface physicalBody {
 
 export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 	if (lhs.mass == Infinity && rhs.mass != Infinity) {
-		let tmp = lhs;
-		lhs = rhs;
-		rhs = tmp;
+		[lhs, rhs] = [rhs, lhs];
 	}
 
 	let lBounds = lhs.bounding();
