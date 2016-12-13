@@ -18,6 +18,9 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 	if (lhs.mass == Infinity && rhs.mass != Infinity) {
 		[lhs, rhs] = [rhs, lhs];
 	}
+	if (lhs.mass != Infinity && rhs.mass != Infinity && !Consts.ARE_BALLS_COLLIDABLE) {
+		return;
+	}
 
 	let lBounds = lhs.bounding();
 	let rBounds = rhs.bounding();
@@ -33,7 +36,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 		let coefficientOfStaticFriction: number = Math.sqrt(lhs.friction ** 2 + rhs.friction ** 2);
 		let normal: Vec2 = normalVector(lBounds, rBounds);
 
-		if (lhs.mass != Infinity && rhs.mass != Infinity && Consts.ARE_BALLS_COLLIDABLE) {
+		if (lhs.mass != Infinity && rhs.mass != Infinity) {
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * rhs.mass).add(
 				lhs.velocity.projection(normal).mul(lhs.mass - coefficientOfRestitution * rhs.mass)).mul(1 / (lhs.mass + rhs.mass));
 
