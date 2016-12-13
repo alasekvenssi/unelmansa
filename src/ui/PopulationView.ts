@@ -82,6 +82,10 @@ export class PopulationBox implements Renderable {
 		public callback?: (target: number)=>void
 	) {}
 
+	private creatureOver: Creature = null;
+	private creatureClone: Creature = null;
+	private scene: Scene = null;
+
 	render(ctx: Context2D) {
 		ctx.save();
 
@@ -98,12 +102,33 @@ export class PopulationBox implements Renderable {
 		const boxGap = 4;
 
 		let creature = this.population.population[id];
+
+		let mouseOver = (creature == this.creatureOver);
+		if (mouseOver) {
+			this.scene.update(1 / Consts.SIMULATION_RESOLUTION);
+			this.creatureClone.result = creature.result;
+			creature = this.creatureClone;
+		}
 		creature.updateBonesColor();
 
 		ctx.save();
+
+		// Bind events
+
 		if (this.callback) {
 			ctx.bindEvent(EventType.Click, () => this.callback(id));
 		}
+
+		ctx.bindEvent(EventType.MouseEnter, () => {
+			this.creatureOver = creature;
+			this.creatureClone = creature.clone();
+			this.scene = CoreUtil.creatureScene(this.creatureClone);
+		});
+		ctx.bindEvent(EventType.MouseLeave, () => {
+			this.creatureOver = this.creatureClone = this.scene = null;
+		});
+
+		// Calculate position and draw box
 
 		let columnCount = Math.floor((bounds.x-boxGap) / (boxSize+boxGap));
 		let column = id % columnCount;
@@ -114,8 +139,11 @@ export class PopulationBox implements Renderable {
 		let x = (boxSize+boxGap) * column + offsetX;
 		let y = (boxSize+boxGap) * row;
 
-		ctx.translate(x, y).fillColor(Color.White).strokeColor(Color.Black).lineWidth(1);
+		ctx.translate(x, y).strokeColor(Color.Black).lineWidth(1);
+		ctx.fillColor(mouseOver ? new Color(206, 229, 253) : new Color(228, 241, 254));
 		ctx.drawRect(0, 0, boxSize, boxSize, true, true);
+
+		// Draw rescaled creature
 
 		let creatureBounds = creature.extremes();
 		let scaleX = (boxSize-10) / (creatureBounds.max.x - creatureBounds.min.x);
@@ -123,17 +151,20 @@ export class PopulationBox implements Renderable {
 		let scale = Math.min(scaleX, scaleY);
 
 		let avgX = (creatureBounds.min.x + creatureBounds.max.x) / 2;
-		let avgY = (creatureBounds.min.y + creatureBounds.max.y) / 2;
+		let minY = creatureBounds.min.y;
 
 		ctx.save();
-		ctx.translate(boxSize/2, (boxSize-12)/2).scale(scale, -scale).translate(-avgX, -avgY);
+		ctx.translate(boxSize/2, boxSize-15).scale(scale, -scale).translate(-avgX, -minY);
 		creature.render(ctx);
 		ctx.restore();
+
+		// Draw fitness value
 
 		let fitness = creature.result.toFixed(0);
 
 		ctx.font(new Font("Arial", 10));
-		ctx.fillColor(new Color(100, 100, 100)).drawRect(0, boxSize-11, boxSize, 11, true, false);
+		ctx.fillColor(mouseOver ? new Color(70, 70, 70) : new Color(100, 100, 100));
+		ctx.drawRect(0, boxSize-11, boxSize, 11, true, false);
 		ctx.fillColor(Color.White).drawText(2, boxSize-5, fitness, "middle", true, false);
 
 		ctx.restore();
