@@ -9,5 +9,16 @@
 	
 	<script type="text/javascript" src="require-2.3.2.js"></script>
 	<script type="text/javascript" src="app.js"></script>
-	<script type="text/javascript">require(["platform/browser/app"]);</script>
+	<script type="text/javascript">
+		require(["platform/browser/app"]);
+		
+		// Debug
+		var app, consts, view, creatures;
+		function initDebug() {
+			app = require("platform/browser/app");
+			consts = require("core/Consts");
+			view = app.mainView.simulationView;
+			creatures = app.mainView.population.population;
+	}
+	</script>
 </html>
