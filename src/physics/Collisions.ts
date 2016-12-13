@@ -15,16 +15,25 @@ interface physicalBody {
 }
 
 export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
-	if (Intersections.areIntersecting(lhs.bounding(), rhs.bounding())) {
+	if (lhs.mass == Infinity && rhs.mass != Infinity) {
+		let tmp = lhs;
+		lhs = rhs;
+		rhs = tmp;
+	}
 
-		let coefficientOfRestitution: number = (lhs.elasticity + rhs.elasticity) / 2;
-		let coefficientOfDynamicFriction: number = (lhs.friction + rhs.friction) / 2;
-		let coefficientOfStaticFriction: number = Math.sqrt(lhs.friction ** 2 + rhs.friction ** 2);
-		let normal: Vec2 = normalVector(lhs.bounding(), rhs.bounding());
+	let lBounds = lhs.bounding();
+	let rBounds = rhs.bounding();
+
+	if (Intersections.areIntersecting(lBounds, rBounds)) {
 
 		if (lhs.mass == Infinity && rhs.mass == Infinity) {
 			return;
 		}
+
+		let coefficientOfRestitution: number = (lhs.elasticity + rhs.elasticity) / 2;
+		let coefficientOfDynamicFriction: number = (lhs.friction + rhs.friction) / 2;
+		let coefficientOfStaticFriction: number = Math.sqrt(lhs.friction ** 2 + rhs.friction ** 2);
+		let normal: Vec2 = normalVector(lBounds, rBounds);
 
 		if (lhs.mass != Infinity && rhs.mass != Infinity && Consts.ARE_BALLS_COLLIDABLE) {
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul((coefficientOfRestitution + 1) * rhs.mass).add(
@@ -39,7 +48,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			let rhsVelocityTangent: Vec2 = rhs.velocity.projection(new Vec2(-normal.y, normal.x));
 
 
-			let interpenetration: Vec2 = Intersections.interpenetrationVector(lhs.bounding(), rhs.bounding());
+			let interpenetration: Vec2 = Intersections.interpenetrationVector(lBounds, rBounds);
 			lhs.position = lhs.position.add(interpenetration.mul(rhs.mass / (lhs.mass + rhs.mass)));
 			rhs.position = rhs.position.sub(interpenetration.mul(lhs.mass / (lhs.mass + rhs.mass)));
 
@@ -55,7 +64,7 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			let lhsAccelerationOrthogontal: Vec2 = lhs.acceleration.projection(normal);
 			let lhsAccelerationTangent: Vec2 = lhs.acceleration.projection(new Vec2(-normal.y, normal.x));
 
-			lhs.position = lhs.position.add(Intersections.interpenetrationVector(lhs.bounding(), rhs.bounding()));
+			lhs.position = lhs.position.add(Intersections.interpenetrationVector(lBounds, rBounds));
 
 			let lhsVelocityOrthogontal: Vec2 = rhs.velocity.projection(normal).mul(coefficientOfRestitution + 1).sub(
 				lhs.velocity.projection(normal).mul(coefficientOfRestitution));
@@ -74,10 +83,6 @@ export default function Collide(lhs: physicalBody, rhs: physicalBody): void {
 			}
 
 			lhs.velocity = lhsVelocityOrthogontal.add(lhsVelocityTangent);
-		}
-
-		else if (lhs.mass == Infinity && rhs.mass != Infinity) {
-			Collide(rhs, lhs);
 		}
 	}
 }
