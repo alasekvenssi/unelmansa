@@ -50,8 +50,15 @@ export class Ground extends Entity {
     }
 
     render(context: Context2D): void {
+        let matrix = context.transformMatrix(); // hacky calculations of visible area
+        let minX = -matrix[0][2] / matrix[0][0];
+        let maxX = minX + context.width() / matrix[0][0];
+
+        let minI = Math.floor(minX / 200) - 1;
+        let maxI = Math.ceil(maxX / 200) + 1;
+
         if (this.image) {
-            for (let i = -30; i <= 30; i++) {
+            for (let i = minI; i <= maxI; i++) {
                 context.save().translate(i * 200 - 1, 0).scale(1, -1);
                 context.drawImage(this.image, 0, 0, 200, 200);
                 context.restore();
@@ -60,7 +67,7 @@ export class Ground extends Entity {
             context.fillRGBA(0, 127, 0).drawRect(-100000, -100000, 200000, 100000, true, false);
         }
 
-        for (let i = -30; i <= 30; i++) {
+        for (let i = minI; i <= maxI; i++) {
             context.fillColor(Color.Black).drawRect(i * 200 - 1, -100000, 2, 100000, true, false);
 
             context.save().translate(i * 200 - 1, 0).scale(1, -1);
