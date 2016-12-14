@@ -58,10 +58,15 @@ export class PopulationView extends RenderGroup implements View {
 	}
 
 	skipGenerations(amount: number) {
+		let timer = "skipGenerations(" + amount + ")";
+		console.time(timer);
+
 		for (let i = 0; i < amount; i++) {
 			this.mainView.population.eugenics();
 			this.mainView.population.rate();
 		}
+
+		console.timeEnd(timer);
 	}
 
 	onCreatureClick(id: number) {
@@ -109,7 +114,6 @@ export class PopulationBox implements Renderable {
 			this.creatureClone.result = creature.result;
 			creature = this.creatureClone;
 		}
-		creature.updateBonesColor();
 
 		ctx.save();
 
