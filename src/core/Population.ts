@@ -29,11 +29,11 @@ export default class Population {
 			});
 	}
 
-	push(newCreature: Creature) {
+	push(newCreature: Creature): void {
 		this.population.push(newCreature);
 	}
 
-	removeSlowest(amount: number = this.population.length / 2) {
+	removeSlowest(amount: number = this.population.length / 2): void {
 		this.sortCreatures();
 
 		for (let i = 0; i < this.population.length; i++) {
@@ -49,13 +49,13 @@ export default class Population {
 		}
 	}
 
-	addRandomlyGeneratedCreatures(amount: number = 1) {
+	addRandomlyGeneratedCreatures(amount: number = 1): void {
 		for (let i = 0; i < amount; ++i) {
 			this.push(Generator.generateCreature());
 		}
 	}
 
-	moveAllToStartingPosition() {
+	moveAllToStartingPosition(): void {
 		for (let creature of this.population) {
 			// creature.result = -Infinity;
 			let center: Vec2 = creature.center();
@@ -67,7 +67,7 @@ export default class Population {
 		}
 	}
 
-	rate() {
+	rate(): void {
 		for (let creature of this.population) {
 
 			if (creature.result != -Infinity) {
@@ -88,7 +88,7 @@ export default class Population {
 		console.log("Best: ", this.population[0].result);
 	}
 
-	eugenics() {
+	eugenics(): void {
 		if(Consts.ENABLE_MASS_DESTRUCTION && (this.generation + 1) % Consts.MASS_DESTRUCTION_INTERVAL == 0) {
 			this.removeSlowest(Math.floor(this.population.length * Consts.MASS_DESTRUCTION_FACTOR));
 
@@ -179,7 +179,7 @@ export default class Population {
 		return JSON.stringify(packed);
 	}
 
-	load(json: string) {
+	load(json: string): void {
 		let packed = <PopulationPacked>JSON.parse(json);
 		this.population = new Array<Creature>(packed.population.length);
 		this.generation = packed.generation;

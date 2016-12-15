@@ -13,12 +13,13 @@
 		require(["platform/browser/app"]);
 		
 		// Debug
-		var app, consts, view, creatures;
+		var app, consts, view, creatures, population;
 		function initDebug() {
 			app = require("platform/browser/app");
 			consts = require("core/Consts");
 			view = app.mainView.simulationView;
 			creatures = app.mainView.population.population;
-	}
+			population = app.mainView.population;
+		}
 	</script>
 </html>

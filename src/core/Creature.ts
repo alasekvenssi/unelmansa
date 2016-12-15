@@ -172,20 +172,18 @@ export class Creature extends Entity {
 		}
 
 		// Remove nodes
-		if (this.bones.length > 1) {
-			for (let i: number = this.bones.length - 1; i >= 0; --i) {
-				if (utilMath.randomChance(Consts.MUTATION_DELETE_BONE_CHANCE)) {
-					for (let j: number = this.muscles.length - 1; j >= 0; --j) {
-						if (this.muscles[j].bone1 == this.bones[i] || this.muscles[j].bone2 == this.bones[i]) {
-							this.muscles.splice(j, 1);
-						}
+		for (let i: number = this.bones.length - 1; i >= 0; --i) {
+			if (this.bones.length > 1 && utilMath.randomChance(Consts.MUTATION_DELETE_BONE_CHANCE)) {
+				for (let j: number = this.muscles.length - 1; j >= 0; --j) {
+					if (this.muscles[j].bone1 == this.bones[i] || this.muscles[j].bone2 == this.bones[i]) {
+						this.muscles.splice(j, 1);
 					}
-					this.bones.splice(i, 1);
 				}
+				this.bones.splice(i, 1);
 			}
-
-			this.makeStronglyConnected();
 		}
+
+		this.makeStronglyConnected();
 
 		// Add random node
 		if (utilMath.randomChance(Consts.MUTATION_ADD_BONE_CHANCE)) {
@@ -250,6 +248,39 @@ export class Creature extends Entity {
 				newStrength = Math.max(newStrength, 0);
 
 				this.muscles[i].strength = newStrength;
+			}
+		}
+
+		// Random muscle min len
+		for(let i: number = 0; i < this.muscles.length; ++i) {
+			if(utilMath.randomChance(Consts.MUTATION_MUSCLE_MIN_LEN_CHANCE)) {
+				let diff: number = this.muscles[i].minLength * (Consts.MUTATION_MUSCLE_REALTIVE_LEN_DIFF / 2) * Math.random();
+				diff *= (utilMath.randomChance(0.5) ? -1 : 1);
+
+				let newMinLen = this.muscles[i].minLength + diff;
+				newMinLen = Math.max(newMinLen, 0);
+
+				this.muscles[i].minLength = newMinLen;
+				if(this.muscles[i].minLength > this.muscles[i].maxLength) {
+					[this.muscles[i].minLength, this.muscles[i].maxLength] = [this.muscles[i].maxLength, this.muscles[i].minLength];
+				}
+
+			}
+		}
+
+		// Random muscle max len
+		for(let i: number = 0; i < this.muscles.length; ++i) {
+			if(utilMath.randomChance(Consts.MUTATION_MUSCLE_MAX_LEN_CHANGE)) {
+				let diff: number = this.muscles[i].maxLength * (Consts.MUTATION_MUSCLE_REALTIVE_LEN_DIFF / 2) * Math.random();
+				diff *= (utilMath.randomChance(0.5) ? -1 : 1);
+
+				let newMaxLen = this.muscles[i].maxLength + diff;
+				newMaxLen = Math.max(0, newMaxLen);
+
+				this.muscles[i].maxLength = newMaxLen;
+				if(this.muscles[i].minLength > this.muscles[i].maxLength) {
+					[this.muscles[i].minLength, this.muscles[i].maxLength] = [this.muscles[i].maxLength, this.muscles[i].minLength];
+				}
 			}
 		}
 

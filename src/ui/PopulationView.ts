@@ -37,8 +37,8 @@ export class PopulationView extends RenderGroup implements View {
 		this.items.push(this.populationBox);
 		this.items.push(this.populationTxt);
 		this.items.push(this.resultTxt);
-		//this.items.push(this.loadBtn);
-		//this.items.push(this.saveBtn);
+		// this.items.push(this.loadBtn);
+		// this.items.push(this.saveBtn);
 		this.items.push(this.skipPopulationBtn);
 		this.items.push(this.skip10PopulationsBtn);
 	}
