@@ -6,6 +6,7 @@ import { Scene } from "./Scene"
 import * as Consts from "./Consts"
 import * as Util from "./Util"
 import * as MathUtil from "../util/Math"
+import * as Compress from "./Compress"
 
 export default class Population {
 
@@ -137,50 +138,11 @@ export default class Population {
 	private scene: Scene = Util.creatureScene();
 
 	save(): string {
-		let packed = new PopulationPacked();
-		packed.population = new Array<CreaturePacked>(this.population.length);
-		packed.generation = this.generation;
-
-		for (let i = 0; i < this.population.length; i++) {
-			let creature = this.population[i];
-			let packedCreature = new CreaturePacked();
-			packed.population[i] = packedCreature;
-
-			packedCreature.bones = new Array<CreatureBonePacked>(creature.bones.length);
-			packedCreature.muscles = new Array<CreatureMusclePacked>(creature.muscles.length);
-
-			for (let j = 0; j < creature.bones.length; j++) {
-				let bone = creature.bones[j];
-				let packedBone = new CreatureBonePacked();
-				packedCreature.bones[j] = packedBone;
-
-				packedBone.position = [bone.position.x, bone.position.y];
-				packedBone.radius = bone.radius;
-				packedBone.mass = bone.mass;
-				packedBone.elasticity = bone.elasticity;
-				packedBone.friction = bone.friction;
-			}
-
-			for (let j = 0; j < creature.muscles.length; j++) {
-				let muscle = creature.muscles[j];
-				let packedMuscle = new CreatureMusclePacked();
-				packedCreature.muscles[j] = packedMuscle;
-
-				packedMuscle.bone1 = creature.bones.indexOf(muscle.bone1);
-				packedMuscle.bone2 = creature.bones.indexOf(muscle.bone2);
-				packedMuscle.minLength = muscle.minLength;
-				packedMuscle.maxLength = muscle.maxLength;
-				packedMuscle.strength = muscle.strength;
-				packedMuscle.timerInterval = muscle.timerInterval;
-				packedMuscle.expandFactor = muscle.expandFactor;
-			}
-		}
-
-		return JSON.stringify(packed);
+		return JSON.stringify(Compress.compressPopulation(this));
 	}
 
 	load(json: string): void {
-		let packed = <PopulationPacked>JSON.parse(json);
+		let packed = <Compress.PopulationPacked>JSON.parse(json);
 		this.population = new Array<Creature>(packed.population.length);
 		this.generation = packed.generation;
 
@@ -219,29 +181,4 @@ export default class Population {
 			}
 		}
 	}
-}
-
-class PopulationPacked {
-	population: CreaturePacked[];
-	generation: number;
-}
-class CreaturePacked {
-	bones: CreatureBonePacked[];
-	muscles: CreatureMusclePacked[];
-}
-class CreatureBonePacked {
-	position: number[];
-	radius: number = 1;
-	mass: number = 1;
-	elasticity: number = 0.75;
-	friction: number = 0;
-}
-class CreatureMusclePacked {
-	bone1: number;
-	bone2: number;
-	minLength: number;
-	maxLength: number;
-	strength: number;
-	timerInterval: number;
-	expandFactor: number;
 }
