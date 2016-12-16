@@ -46,37 +46,37 @@ export const GENERATOR_BONE_MIN_AMOUNT = 3;
 export const GENERATOR_BONE_MAX_AMOUNT = 4;
 
 /* ================ CreatureDiff ================ */
-export const CREATUREDIFF_BONE_ELASTICITY_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_FRICTION_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_MASS_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_POS_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_RADIUS_DIFF_THRESHOLD = 0;
+export const CREATUREDIFF_BONE_ELASTICITY_DIFF_THRESHOLD = 0; // Jeżeli różnica elastyczności dwóch kości będzie większa niż ta zmienna to licznik punktów zwiększy się o CREATUREDIFF_BONE_DIFF_POINTS
+export const CREATUREDIFF_BONE_FRICTION_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
+export const CREATUREDIFF_BONE_MASS_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
+export const CREATUREDIFF_BONE_POS_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
+export const CREATUREDIFF_BONE_RADIUS_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
 
-export const CREATUREDIFF_BONE_ELASTICITY_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_FRICTION_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_MASS_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_POS_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_BONE_RADIUS_AVG_DIFF_THRESHOLD = 0;
+export const CREATUREDIFF_BONE_ELASTICITY_AVG_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej z różnicą że chodzi o średnią arytmetyczną
+export const CREATUREDIFF_BONE_FRICTION_AVG_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
+export const CREATUREDIFF_BONE_MASS_AVG_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
+export const CREATUREDIFF_BONE_POS_AVG_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
+export const CREATUREDIFF_BONE_RADIUS_AVG_DIFF_THRESHOLD = 0; // Analogicznie jak wyżej
 
-export const CREATUREDIFF_BONE_DIFF_POINTS = 0;
+export const CREATUREDIFF_BONE_DIFF_POINTS = 0; // Ilość punktów dodawanych do licznika
 
-export const CREATUREDIFF_MUSCLE_EXP_FACTOR_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_INTERVAL_TIME_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_MAX_LEN_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_MIN_LEN_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_STR_DIFF_THRESHOLD = 0;
+export const CREATUREDIFF_MUSCLE_EXP_FACTOR_DIFF_THRESHOLD = 0; // Jeżeli różnica expandFactor dwóch mięśni będzie większa niż ta zmienna to licznik punktów zwiększy się o CREATUREDIFF_MUSCLE_DIFF_POINTS
+export const CREATUREDIFF_MUSCLE_INTERVAL_TIME_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
+export const CREATUREDIFF_MUSCLE_MAX_LEN_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
+export const CREATUREDIFF_MUSCLE_MIN_LEN_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
+export const CREATUREDIFF_MUSCLE_STR_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
 
-export const CREATUREDIFF_MUSCLE_EXP_FACTOR_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_INTERVAL_TIME_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_MAX_LEN_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_MIN_LEN_AVG_DIFF_THRESHOLD = 0;
-export const CREATUREDIFF_MUSCLE_STR_AVG_DIFF_THRESHOLD = 0;
+export const CREATUREDIFF_MUSCLE_EXP_FACTOR_AVG_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej z różnicą że chodzi o średnią arytmetyczną
+export const CREATUREDIFF_MUSCLE_INTERVAL_TIME_AVG_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
+export const CREATUREDIFF_MUSCLE_MAX_LEN_AVG_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
+export const CREATUREDIFF_MUSCLE_MIN_LEN_AVG_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
+export const CREATUREDIFF_MUSCLE_STR_AVG_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
 
-export const CREATUREDIFF_MUSCLE_BONES_DIFF_POINTS = 0;
-export const CREATUREDIFF_MUSCLE_DIFF_POINTS = 0;
+export const CREATUREDIFF_MUSCLE_BONES_DIFF_POINTS = 0; // Ilość punktów dodawanych do licznika gdy dwa mięśnie łączą różne kości
+export const CREATUREDIFF_MUSCLE_DIFF_POINTS = 0; // Ilość punktów dodawanych za różnicę w właściwościach mięśni, gdy mięśnie łączą te same kości
 
-export const CREATUREDIFF_MULTIPLIER = 0;
-export const CREATUREDIFF_THRESHOLD = 0;
+export const CREATUREDIFF_MULTIPLIER = 0; // Ilość karnych punktów jest liczona ze wzoru 1/(diff + 1) * CREATUREDIFF_MULTIPLIER
+export const CREATUREDIFF_THRESHOLD = 0;  // Jeżeli ilość punktów będzie mniejsza niż ta zmienna to funckja zwróci zerową liczbę punktów
 
 /* ================ PHYSICS ================ */
 export const ARE_BALLS_COLLIDABLE = true;
