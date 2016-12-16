@@ -1,0 +1,52 @@
+@import url(http://fonts.googleapis.com/css?family=Special+Elite);
+
+@keyframes introAnim {
+    0%   { content: "Alasekvenssi"; opacity: 1; }
+    15%  { content: "Alasekvenssi"; opacity: 1; }
+    30%  { content: "Alasekvenssi"; opacity: 0; }
+    
+    31%  { content: "Presents"; opacity: 0; }
+    45%  { content: "Presents"; opacity: 1; }
+    60%  { content: "Presents"; opacity: 0; }
+    
+    61%  { content: "Unelmansa"; opacity: 0; }
+    80%  { content: "Unelmansa"; opacity: 1; }
+    97%  { content: "Unelmansa"; opacity: 0; }
+    
+    100% { content: "Jedrzej cos zrobil"; opacity: 0.3; } /* Legit */
+}
+
+@keyframes OverlayAnim {
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+#Overlay {
+    animation: OverlayAnim 1s 5s;
+    animation-fill-mode: forwards; 
+    background: black;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+#Content:after {
+    font-family: 'Special Elite', cursive;
+    animation: introAnim 5s;
+    color: white;
+    content: ' ';
+    font-size: 50px;
+    font-weight: bold;
+    left: 50%;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    white-space: pre;
+}
