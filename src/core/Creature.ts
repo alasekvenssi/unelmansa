@@ -328,27 +328,27 @@ export class Creature extends Entity {
 		let boneMassDiffAvg           = 0;
 		let bonePosDiffAvg            = 0;
 		let boneRadiusDiffAvg         = 0;
+		let diff                      = 0;
 		let muscleExpFactorAvgDiff    = 0;
 		let muscleIntervalTimeAvgDiff = 0;
 		let muscleMaxLenAvgDiff       = 0;
 		let muscleMinLenAvgDiff       = 0;
 		let muscleStrAvgDiff          = 0;
-		let diff                      = 0;
 
 		for (let i = 0; i < lhs.bones.length; ++i) {
 			let bone1 = lhs.bones[i];
 			let bone2 = rhs.bones[i];
 
-			let bonePosDiff        = new Vec2(bone1.position.x, bone1.position.y).distance(new Vec2(bone2.position.x, bone2.position.y));
 			let boneElasticityDiff = Math.abs(bone1.elasticity - bone2.elasticity);
 			let boneFrictionDiff   = Math.abs(bone1.friction - bone2.friction);
 			let boneMassDiff       = Math.abs(bone1.mass - bone2.mass);
+			let bonePosDiff        = new Vec2(bone1.position.x, bone1.position.y).distance(new Vec2(bone2.position.x, bone2.position.y));
 			let boneRadiusDiff     = Math.abs(bone1.radius - bone2.radius);
 
-			if(bonePosDiff        > Consts.CREATUREDIFF_BONE_POS_DIFF_THRESHOLD)        { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS; }
 			if(boneElasticityDiff > Consts.CREATUREDIFF_BONE_ELASTICITY_DIFF_THRESHOLD) { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS; }
 			if(boneFrictionDiff   > Consts.CREATUREDIFF_BONE_FRICTION_DIFF_THRESHOLD)   { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS; }
 			if(boneMassDiff       > Consts.CREATUREDIFF_BONE_MASS_DIFF_THRESHOLD)       { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS; }
+			if(bonePosDiff        > Consts.CREATUREDIFF_BONE_POS_DIFF_THRESHOLD)        { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS; }
 			if(boneRadiusDiff     > Consts.CREATUREDIFF_BONE_RADIUS_DIFF_THRESHOLD)     { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS; }
 
 			boneElasticityDiffAvg += boneElasticityDiff / lhs.bones.length;
@@ -389,10 +389,10 @@ export class Creature extends Entity {
 			muscleStrAvgDiff          += muscleStrDiff          / lhs.muscles.length;
 		}
 
-		if(bonePosDiffAvg            > Consts.CREATUREDIFF_BONE_POS_AVG_DIFF_THRESHOLD)             { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
 		if(boneElasticityDiffAvg     > Consts.CREATUREDIFF_BONE_ELASTICITY_AVG_DIFF_THRESHOLD)      { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
 		if(boneFrictionDiffAvg       > Consts.CREATUREDIFF_BONE_FRICTION_AVG_DIFF_THRESHOLD)        { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
 		if(boneMassDiffAvg           > Consts.CREATUREDIFF_BONE_MASS_AVG_DIFF_THRESHOLD)            { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
+		if(bonePosDiffAvg            > Consts.CREATUREDIFF_BONE_POS_AVG_DIFF_THRESHOLD)             { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
 		if(boneRadiusDiffAvg         > Consts.CREATUREDIFF_BONE_RADIUS_AVG_DIFF_THRESHOLD)          { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
 		if(muscleExpFactorAvgDiff    > Consts.CREATUREDIFF_MUSCLE_EXP_FACTOR_AVG_DIFF_THRESHOLD)    { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
 		if(muscleIntervalTimeAvgDiff > Consts.CREATUREDIFF_MUSCLE_INTERVAL_TIME_AVG_DIFF_THRESHOLD) { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }

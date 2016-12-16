@@ -85,6 +85,23 @@ export default class Population {
 			creature.result = clone.currentResult();
 			this.scene.removeEntity(clone);
 		}
+
+		for (let i = 0; i < this.population.length; ++i) {
+			let lhs = this.population[i];
+			let delta = 0;
+			
+			for(let j = 0; j < this.population.length; ++j) {
+				let rhs = this.population[j];
+			
+				if(lhs.result > rhs.result) {
+					continue;
+				}
+
+				Math.max(1/(lhs.diff(rhs) + 1) * Consts.CREATUREDIFF_MULTIPLIER, delta);
+			}
+			lhs.result -= delta;
+		}
+
 		this.sortCreatures();
 		console.log("Best: ", this.population[0].result);
 	}
