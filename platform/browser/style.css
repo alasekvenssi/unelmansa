@@ -24,7 +24,7 @@
 #Overlay {
     animation: OverlayAnim 1s 5s;
     animation-fill-mode: forwards; 
-    background: black;
+    background: #111;
     height: 100%;
     left: 0;
     margin: 0;
@@ -38,13 +38,14 @@
 #Content:after {
     font-family: 'Special Elite', cursive;
     animation: introAnim 5s;
-    color: white;
+    color: #eee;
     content: ' ';
     font-size: 50px;
     font-weight: bold;
     left: 50%;
     position: absolute;
     text-align: center;
+    text-shadow: 2px 2px 4px #aaa;
     text-transform: uppercase;
     top: 50%;
     transform: translate(-50%, -50%);
