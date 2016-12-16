@@ -308,7 +308,7 @@ export class Creature extends Entity {
 			let lhsIdx = [lhs.bones.indexOf(lhsMuscle.bone1), lhs.bones.indexOf(lhsMuscle.bone2)];
 			let rhsIdx = [rhs.bones.indexOf(rhsMuscle.bone1), rhs.bones.indexOf(rhsMuscle.bone2)];
 
-			if(lhsIdx[0] > rhsIdx[1]) {[lhsIdx[0], lhsIdx[1]] = [lhsIdx[1], lhsIdx[0]]; }
+			if(lhsIdx[0] > lhsIdx[1]) {[lhsIdx[0], lhsIdx[1]] = [lhsIdx[1], lhsIdx[0]]; }
 			if(rhsIdx[0] > rhsIdx[1]) {[rhsIdx[0], rhsIdx[1]] = [rhsIdx[1], rhsIdx[0]]; }
 		
 			if(lhsIdx[0] != rhsIdx[0]) {
@@ -365,6 +365,9 @@ export class Creature extends Entity {
 			let muscle1Idx = [lhs.bones.indexOf(muscle1.bone1), lhs.bones.indexOf(muscle1.bone2)];
 			let muscle2Idx = [rhs.bones.indexOf(muscle2.bone1), rhs.bones.indexOf(muscle2.bone2)];
 		
+			if(muscle1Idx[0] > muscle1Idx[1]) {[muscle1Idx[0], muscle1Idx[1]] = [muscle1Idx[1], muscle1Idx[0]]; }
+			if(muscle2Idx[0] > muscle2Idx[1]) {[muscle2Idx[0], muscle2Idx[1]] = [muscle2Idx[1], muscle2Idx[0]]; }
+
 			if(muscle1Idx[0] != muscle2Idx[0] || muscle1Idx[1] != muscle2Idx[1]) {
 				diff += Consts.CREATUREDIFF_MUSCLE_BONES_DIFF_POINTS;
 				continue;

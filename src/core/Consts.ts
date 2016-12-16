@@ -72,7 +72,7 @@ export const CREATUREDIFF_MUSCLE_MAX_LEN_AVG_DIFF_THRESHOLD = 0; // Analogicznie
 export const CREATUREDIFF_MUSCLE_MIN_LEN_AVG_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
 export const CREATUREDIFF_MUSCLE_STR_AVG_DIFF_THRESHOLD = 0; // Analogicznie Jak wyżej
 
-export const CREATUREDIFF_MUSCLE_BONES_DIFF_POINTS = 0; // Ilość punktów dodawanych do licznika gdy dwa mięśnie łączą różne kości
+export const CREATUREDIFF_MUSCLE_BONES_DIFF_POINTS = 0; // Ilość punktów dodawanych do licznika gdy dwa mięśnie łączą różne kości muscle1.bone1 != muscle2.bone1 || muscle1.bone2 != muscle2.bone2
 export const CREATUREDIFF_MUSCLE_DIFF_POINTS = 0; // Ilość punktów dodawanych za różnicę w właściwościach mięśni, gdy mięśnie łączą te same kości
 
 export const CREATUREDIFF_MULTIPLIER = 0; // Ilość karnych punktów jest liczona ze wzoru 1/(diff + 1) * CREATUREDIFF_MULTIPLIER
