@@ -3,15 +3,18 @@ function skipIntro() {
     document.body.removeChild(overlay);
 }
 
+function initDebug() {
+    this.app = require("platform/browser/app");
+    this.consts = require("core/Consts");
+    this.view = app.mainView.simulationView;
+    this.creatures = app.mainView.population.population;
+    this.population = app.mainView.population;
+}
+
 document.onkeydown = function(e) {
     skipIntro();
     document.onkeydown =-function(e) {}; 
 };
 
 require(["platform/browser/app"]);
-
-var app = require("platform/browser/app");
-var consts = require("core/Consts");
-var view = app.mainView.simulationView;
-var creatures = app.mainView.population.population;
-var population = app.mainView.population;
+setTimeout(initDebug, 1000);
