@@ -14,6 +14,14 @@ function initDebug() {
     this.population = app.mainView.population;
 }
 
+function showMinusPoints() {
+    var arr = []
+    for(var i = 0; i < creatures.length; ++i) {
+        arr.push(creatures[i].minusPoints);
+    }
+    console.log(arr);
+}
+
 document.onkeydown = function(e) {
     skipIntro();
     document.onkeydown =-function(e) {}; 

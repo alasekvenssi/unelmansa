@@ -403,8 +403,10 @@ export class Creature extends Entity {
 		if(muscleMinLenAvgDiff       > Consts.CREATUREDIFF_MUSCLE_MIN_LEN_AVG_DIFF_THRESHOLD)       { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
 		if(muscleStrAvgDiff          > Consts.CREATUREDIFF_MUSCLE_STR_AVG_DIFF_THRESHOLD)           { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
 
-		return diff < Consts.CREATUREDIFF_THRESHOLD ? 0 : diff;
+		return diff > Consts.CREATUREDIFF_THRESHOLD ? Infinity : diff;
 	}
+
+	public minusPoints: number = 0;
 }
 
 export class CreatureBone extends Entity {

@@ -70,7 +70,6 @@ export default class Population {
 
 	rate(): void {
 		for (let creature of this.population) {
-
 			if (creature.result != -Infinity) {
 				continue;
 			}
@@ -86,20 +85,19 @@ export default class Population {
 			this.scene.removeEntity(clone);
 		}
 
+		this.sortCreatures();
+
 		for (let i = 0; i < this.population.length; ++i) {
 			let lhs = this.population[i];
 			let delta = 0;
 			
-			for(let j = 0; j < this.population.length; ++j) {
+			for(let j = 0; j < i; ++j) {
 				let rhs = this.population[j];
-			
-				if(lhs.result > rhs.result) {
-					continue;
-				}
-
-				Math.max(1/(lhs.diff(rhs) + 1) * Consts.CREATUREDIFF_MULTIPLIER, delta);
+				delta = Math.max(Consts.CREATUREDIFF_MULTIPLIER/(lhs.diff(rhs) + 1), delta);
 			}
+
 			lhs.result -= delta;
+			lhs.minusPoints = delta;
 		}
 
 		this.sortCreatures();
