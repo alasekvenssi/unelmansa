@@ -1,6 +1,9 @@
 function skipIntro() {
-    var overlay = document.getElementById("Overlay");
-    document.body.removeChild(overlay);
+    if(this.flag == null) {
+        var overlay = document.getElementById("Overlay");
+        document.body.removeChild(overlay);
+        this.flag = true;
+    }
 }
 
 function initDebug() {
@@ -15,6 +18,11 @@ document.onkeydown = function(e) {
     skipIntro();
     document.onkeydown =-function(e) {}; 
 };
+
+document.onclick = function(e) {
+    skipIntro();
+    document.onclick = function(e) {};
+}
 
 require(["platform/browser/app"]);
 setTimeout(initDebug, 1000);
