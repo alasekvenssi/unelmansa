@@ -379,11 +379,11 @@ export class Creature extends Entity {
 			let muscleMinLenDiff       = Math.abs(muscle1.minLength - muscle2.minLength);
 			let muscleStrDiff          = Math.abs(muscle1.strength  - muscle2.strength);
 
-			if(muscleExpFactorDiff    > Consts.CREATUREDIFF_MUSCLE_EXP_FACTOR_DIFF_THRESHOLD)    { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-			if(muscleIntervalTimeDiff > Consts.CREATUREDIFF_MUSCLE_INTERVAL_TIME_DIFF_THRESHOLD) { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-			if(muscleMaxLenDiff       > Consts.CREATUREDIFF_MUSCLE_MAX_LEN_DIFF_THRESHOLD)       { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-			if(muscleMinLenDiff       > Consts.CREATUREDIFF_MUSCLE_MIN_LEN_DIFF_THRESHOLD)       { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-			if(muscleStrDiff          > Consts.CREATUREDIFF_MUSCLE_STR_DIFF_THRESHOLD)           { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
+			if(muscleExpFactorDiff    > Consts.CREATUREDIFF_MUSCLE_EXP_FACTOR_DIFF_THRESHOLD)    { diff += muscleExpFactorDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+			if(muscleIntervalTimeDiff > Consts.CREATUREDIFF_MUSCLE_INTERVAL_TIME_DIFF_THRESHOLD) { diff += muscleIntervalTimeDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+			if(muscleMaxLenDiff       > Consts.CREATUREDIFF_MUSCLE_MAX_LEN_DIFF_THRESHOLD)       { diff += muscleMaxLenDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+			if(muscleMinLenDiff       > Consts.CREATUREDIFF_MUSCLE_MIN_LEN_DIFF_THRESHOLD)       { diff += muscleMinLenDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+			if(muscleStrDiff          > Consts.CREATUREDIFF_MUSCLE_STR_DIFF_THRESHOLD)           { diff += muscleStrDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
 			
 			muscleExpFactorAvgDiff    += muscleExpFactorDiff    / lhs.muscles.length;
 			muscleIntervalTimeAvgDiff += muscleIntervalTimeDiff / lhs.muscles.length;
@@ -392,17 +392,20 @@ export class Creature extends Entity {
 			muscleStrAvgDiff          += muscleStrDiff          / lhs.muscles.length;
 		}
 
-		if(boneElasticityDiffAvg     > Consts.CREATUREDIFF_BONE_ELASTICITY_AVG_DIFF_THRESHOLD)      { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
-		if(boneFrictionDiffAvg       > Consts.CREATUREDIFF_BONE_FRICTION_AVG_DIFF_THRESHOLD)        { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
-		if(boneMassDiffAvg           > Consts.CREATUREDIFF_BONE_MASS_AVG_DIFF_THRESHOLD)            { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
-		if(bonePosDiffAvg            > Consts.CREATUREDIFF_BONE_POS_AVG_DIFF_THRESHOLD)             { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
-		if(boneRadiusDiffAvg         > Consts.CREATUREDIFF_BONE_RADIUS_AVG_DIFF_THRESHOLD)          { diff += Consts.CREATUREDIFF_BONE_DIFF_POINTS;   }
-		if(muscleExpFactorAvgDiff    > Consts.CREATUREDIFF_MUSCLE_EXP_FACTOR_AVG_DIFF_THRESHOLD)    { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-		if(muscleIntervalTimeAvgDiff > Consts.CREATUREDIFF_MUSCLE_INTERVAL_TIME_AVG_DIFF_THRESHOLD) { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-		if(muscleMaxLenAvgDiff       > Consts.CREATUREDIFF_MUSCLE_MAX_LEN_AVG_DIFF_THRESHOLD)       { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-		if(muscleMinLenAvgDiff       > Consts.CREATUREDIFF_MUSCLE_MIN_LEN_AVG_DIFF_THRESHOLD)       { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
-		if(muscleStrAvgDiff          > Consts.CREATUREDIFF_MUSCLE_STR_AVG_DIFF_THRESHOLD)           { diff += Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS; }
+		if(boneElasticityDiffAvg     > Consts.CREATUREDIFF_BONE_ELASTICITY_AVG_DIFF_THRESHOLD)      { diff += boneElasticityDiffAvg /*Consts.CREATUREDIFF_BONE_DIFF_POINTS*/;   }
+		if(boneFrictionDiffAvg       > Consts.CREATUREDIFF_BONE_FRICTION_AVG_DIFF_THRESHOLD)        { diff += boneFrictionDiffAvg /*Consts.CREATUREDIFF_BONE_DIFF_POINTS*/;   }
+		if(boneMassDiffAvg           > Consts.CREATUREDIFF_BONE_MASS_AVG_DIFF_THRESHOLD)            { diff += boneMassDiffAvg /*Consts.CREATUREDIFF_BONE_DIFF_POINTS*/;   }
+		if(bonePosDiffAvg            > Consts.CREATUREDIFF_BONE_POS_AVG_DIFF_THRESHOLD)             { diff += bonePosDiffAvg /*Consts.CREATUREDIFF_BONE_DIFF_POINTS*/;   }
+		if(boneRadiusDiffAvg         > Consts.CREATUREDIFF_BONE_RADIUS_AVG_DIFF_THRESHOLD)          { diff += boneRadiusDiffAvg /*Consts.CREATUREDIFF_BONE_DIFF_POINTS*/;   }
+		if(muscleExpFactorAvgDiff    > Consts.CREATUREDIFF_MUSCLE_EXP_FACTOR_AVG_DIFF_THRESHOLD)    { diff += muscleExpFactorAvgDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+		if(muscleIntervalTimeAvgDiff > Consts.CREATUREDIFF_MUSCLE_INTERVAL_TIME_AVG_DIFF_THRESHOLD) { diff += muscleIntervalTimeAvgDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+		if(muscleMaxLenAvgDiff       > Consts.CREATUREDIFF_MUSCLE_MAX_LEN_AVG_DIFF_THRESHOLD)       { diff += muscleMaxLenAvgDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+		if(muscleMinLenAvgDiff       > Consts.CREATUREDIFF_MUSCLE_MIN_LEN_AVG_DIFF_THRESHOLD)       { diff += muscleMinLenAvgDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
+		if(muscleStrAvgDiff          > Consts.CREATUREDIFF_MUSCLE_STR_AVG_DIFF_THRESHOLD)           { diff += muscleStrAvgDiff /*Consts.CREATUREDIFF_MUSCLE_DIFF_POINTS*/; }
 
+
+		// console.log(minusPoints);
+		diff *= lhs.bones.length;
 		return diff > Consts.CREATUREDIFF_THRESHOLD ? Infinity : diff;
 	}
 

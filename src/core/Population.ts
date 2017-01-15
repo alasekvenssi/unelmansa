@@ -93,9 +93,11 @@ export default class Population {
 			
 			for(let j = 0; j < i; ++j) {
 				let rhs = this.population[j];
-				delta = Math.max(Consts.CREATUREDIFF_MULTIPLIER/(lhs.diff(rhs) + 1), delta);
+				delta += Consts.CREATUREDIFF_MULTIPLIER/(lhs.diff(rhs) + 1);//Math.max(Consts.CREATUREDIFF_MULTIPLIER/(lhs.diff(rhs) + 1), delta);
 			}
 
+			// console.log(delta)
+			delta *= 50/lhs.bones.length;
 			lhs.result -= delta;
 			lhs.minusPoints = delta;
 		}
