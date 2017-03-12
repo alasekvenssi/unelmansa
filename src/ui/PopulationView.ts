@@ -1,5 +1,6 @@
 import { Renderable, RenderGroup, RenderTransform } from "../graphics/Renderable"
 import Button from "../graphics/gui/Button"
+import Chart from "../graphics/gui/Chart"
 import Text from "../graphics/gui/Text"
 import { Context2D, EventType } from "../graphics/Context2D"
 import TransformMatrix from "../util/TransformMatrix"
@@ -25,6 +26,8 @@ export class PopulationView extends RenderGroup implements View {
 	private skip10PopulationsBtn = new Button("Skip 10 generations", () => this.skipGenerations(10), -7, -7, 250, 50);
 	private populationBox: PopulationBox;
 
+	private bestOfChart = new Chart(40, -100);
+
 	private populationTxt = new Text("", 15, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
 	private resultTxt = new Text("", 290, -30, "middle", new Font("Arial", 30, "normal", FontWeight.Bold));
 
@@ -37,6 +40,7 @@ export class PopulationView extends RenderGroup implements View {
 		this.items.push(this.populationBox);
 		this.items.push(this.populationTxt);
 		this.items.push(this.resultTxt);
+		this.items.push(this.bestOfChart);
 		// this.items.push(this.loadBtn);
 		// this.items.push(this.saveBtn);
 		this.items.push(this.skipPopulationBtn);
@@ -48,8 +52,7 @@ export class PopulationView extends RenderGroup implements View {
 
 	render(ctx: Context2D) {
 		this.populationTxt.text = "Generation: " + (this.mainView.population.generation + 1);
-		this.resultTxt.text = "Best result: " + this.bestCreature().result.toFixed(0);
-
+		this.resultTxt.text = "Best result: " + this.bestCreature().resultWithoutPenalties.toFixed(0);
 		super.render(ctx);
 	}
 
@@ -67,6 +70,7 @@ export class PopulationView extends RenderGroup implements View {
 		}
 
 		console.timeEnd(timer);
+		this.bestOfChart.addPoint(this.mainView.population.generation + 1, this.bestCreature().resultWithoutPenalties);
 	}
 
 	onCreatureClick(id: number) {
@@ -111,7 +115,7 @@ export class PopulationBox implements Renderable {
 		let mouseOver = (creature == this.creatureOver);
 		if (mouseOver) {
 			this.scene.update(1 / Consts.SIMULATION_RESOLUTION);
-			this.creatureClone.result = creature.result;
+			// this.creatureClone.result = creature.result;
 			creature = this.creatureClone;
 		}
 
@@ -164,7 +168,7 @@ export class PopulationBox implements Renderable {
 
 		// Draw fitness value
 
-		let fitness = creature.result.toFixed(0);
+		let fitness = creature.resultWithoutPenalties.toFixed(0);
 
 		ctx.font(new Font("Arial", 10));
 		ctx.fillColor(mouseOver ? new Color(70, 70, 70) : new Color(100, 100, 100));

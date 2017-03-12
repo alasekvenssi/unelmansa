@@ -38,11 +38,13 @@ export default class Population {
 		this.sortCreatures();
 
 		for (let i = 0; i < this.population.length; i++) {
-			if(MathUtil.randomChance(MathUtil.tanh(2*i / this.population.length))) {
+			if(this.population[i].result < Consts.NO_HOPE_VALUE || MathUtil.randomChance(MathUtil.tanh(Consts.KILLING_CHANCE_FACTOR * i / this.population.length))) {
 				this.population.splice(i,1);
 				amount--;
+				i--;
 			}
 		}
+		console.log(amount);
 
 		while(amount > 0) {
 			this.population.pop();
@@ -82,16 +84,25 @@ export default class Population {
 			}
 
 			creature.result = clone.currentResult();
+			creature.resultWithoutPenalties = clone.currentResult();
 			this.scene.removeEntity(clone);
 		}
 
 		this.sortCreatures();
 
-		for (let i = 0; i < this.population.length; ++i) {
+		let howManyComparisons: number = Consts.HOW_MANY_COMPARISONS;
+		if((this.generation + 1) % Consts.COMPARE_EVERYONE_INTERVAL == 0) {
+			howManyComparisons = this.population.length;
+		}
+
+		for (let i = 0; i <  this.population.length; ++i) {
 			let lhs = this.population[i];
 			let delta = 0;
 			
-			for(let j = 0; j < i; ++j) {
+			for(let j = 0; j < Math.min(howManyComparisons, i); ++j) {
+				if(j == i) {
+					continue;
+				}
 				let rhs = this.population[j];
 				delta += Consts.CREATUREDIFF_MULTIPLIER/(lhs.diff(rhs) + 1);//Math.max(Consts.CREATUREDIFF_MULTIPLIER/(lhs.diff(rhs) + 1), delta);
 			}

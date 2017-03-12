@@ -22,7 +22,8 @@ export class Creature extends Entity {
 	constructor(
 		public bones: CreatureBone[] = new Array<CreatureBone>(),
 		public muscles: CreatureMuscle[] = new Array<CreatureMuscle>(),
-		public result: number = -Infinity
+		public result: number = -Infinity,
+		public resultWithoutPenalties: number = -Infinity
 	) {
 		super();
 	}
