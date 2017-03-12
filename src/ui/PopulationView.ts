@@ -67,10 +67,10 @@ export class PopulationView extends RenderGroup implements View {
 		for (let i = 0; i < amount; i++) {
 			this.mainView.population.eugenics();
 			this.mainView.population.rate();
+			this.bestOfChart.addPoint(this.mainView.population.generation + 1, this.bestCreature().resultWithoutPenalties);
 		}
 
 		console.timeEnd(timer);
-		this.bestOfChart.addPoint(this.mainView.population.generation + 1, this.bestCreature().resultWithoutPenalties);
 	}
 
 	onCreatureClick(id: number) {

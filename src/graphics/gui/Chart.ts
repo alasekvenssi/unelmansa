@@ -43,7 +43,7 @@ export default class Chart implements Renderable {
 		this.maxX = Math.max(this.maxX, x + 10);
 		this.minY = Math.min(this.minY, y - 10);
 		this.maxY = Math.max(this.maxY, y + 100);
-		this.points.push(new Vec2(x,y));	
+		this.points.push(new Vec2(x,y));
 	}
 
 	getRealPointCoords(x: number, y: number, bounds: Vec2): Vec2 {
@@ -59,22 +59,6 @@ export default class Chart implements Renderable {
 
 	render(ctx: Context2D) {
 		ctx.save();
-		// if (this.callback) {
-		// 	ctx.bindEvent(EventType.Click, this.callback);
-		// }
-		
-		// ctx.bindEvent(EventType.MouseDown, () => this.down = true);
-		// ctx.bindEvent(EventType.MouseUp, () => this.down = false);
-		// ctx.bindEvent(EventType.MouseEnter, () => this.over = true);
-		// ctx.bindEvent(EventType.MouseLeave, () => this.over = this.down = false);
-
-		// if (this.down) {
-		// 	ctx.fillColor(this.fillDown).strokeColor(this.strokeDown);
-		// } else if (this.over) {
-		// 	ctx.fillColor(this.fillOver).strokeColor(this.strokeOver);
-		// } else {
-		// 	ctx.fillColor(this.fill).strokeColor(this.stroke);
-		// }
 
 		let bounds = GuiUtil.alignTranslate(ctx, this.x, this.y, this.width, this.height);
 		ctx.fillColor(this.fill).strokeColor(this.stroke)
@@ -89,13 +73,11 @@ export default class Chart implements Renderable {
 
 		ctx.fillColor(new Color(0x00, 0x00, 0x00)).strokeColor(new Color(0x00, 0x00, 0x00))
 		let equation = (x: number) => x**(2);
-        	console.log(this.points.length);
         for(let x = 1; x < this.points.length; x += 1) {
 	        this.drawLine(ctx, this.points[x-1], this.points[x], bounds);
         }
 
 		ctx.fillColor(Color.White).strokeColor(Color.Black).font(this.font);
-		// ctx.drawText(15, bounds.y / 2, this.text, "middle", true, false);
 
 		ctx.restore();
 	}
