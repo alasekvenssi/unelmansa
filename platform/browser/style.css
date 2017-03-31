@@ -13,7 +13,6 @@
     80%  { content: "Unelmansa"; opacity: 1; }
     97%  { content: "Unelmansa"; opacity: 0; }
     
-    100% { content: "Jedrzej cos zrobil"; opacity: 0.3; } /* Legit */
 }
 
 @keyframes OverlayAnim {
