@@ -1,5 +1,5 @@
 /* ================ Mutation ================ */
-export const MUTATION_CHANCE = 0.1;
+export const MUTATION_CHANCE = 0.01;
 
 export const MUTATION_RELATIVE_FRICTION_DIFF = 0.3;
 export const MUTATION_BONE_FRICTION_CHANCE = 0.4;
@@ -42,8 +42,8 @@ export const GENERATOR_MUSCLE_MAX_INTERVAL = 8;
 export const GENERATOR_MUSCLE_MIN_EXPAND_FACTOR = 0.16;
 export const GENERATOR_MUSCLE_MAX_EXPAND_FACTOR = 0.80;
 
-export const GENERATOR_BONE_MIN_AMOUNT = 2;
-export const GENERATOR_BONE_MAX_AMOUNT = 2;
+export const GENERATOR_BONE_MIN_AMOUNT = 3;
+export const GENERATOR_BONE_MAX_AMOUNT = 3;
 
 /* ================ CreatureDiff ================ */
 export const CREATUREDIFF_BONE_ELASTICITY_DIFF_THRESHOLD = 0.1; // Jeżeli różnica elastyczności dwóch kości będzie większa niż ta zmienna to licznik punktów zwiększy się o CREATUREDIFF_BONE_DIFF_POINTS
@@ -87,7 +87,7 @@ export const AIR_RESISTANCE = 0.5;
 
 /* ================ POPULATION ================ */
 export const POPULATION_SIZE = 200;
-export const FRACTION_OF_BREEDED_POPULATION = 0.5;
+export const FRACTION_OF_BREEDED_POPULATION = 0.7;
 export const ENABLE_MASS_DESTRUCTION = true;
 export const MASS_DESTRUCTION_FACTOR = 0.99;
 export const MASS_DESTRUCTION_INTERVAL = 200;
