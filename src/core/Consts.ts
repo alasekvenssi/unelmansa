@@ -86,7 +86,7 @@ export const GROUND_FRICTION = 0.5;
 export const AIR_RESISTANCE = 0.5;
 
 /* ================ POPULATION ================ */
-export const POPULATION_SIZE = 400;
+export const POPULATION_SIZE = 200;
 export const FRACTION_OF_BREEDED_POPULATION = 0.7;
 export const ENABLE_MASS_DESTRUCTION = true;
 export const MASS_DESTRUCTION_FACTOR = 0.99;
