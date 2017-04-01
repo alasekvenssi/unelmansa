@@ -42,8 +42,8 @@ export const GENERATOR_MUSCLE_MAX_INTERVAL = 8;
 export const GENERATOR_MUSCLE_MIN_EXPAND_FACTOR = 0.16;
 export const GENERATOR_MUSCLE_MAX_EXPAND_FACTOR = 0.80;
 
-export const GENERATOR_BONE_MIN_AMOUNT = 3;
-export const GENERATOR_BONE_MAX_AMOUNT = 3;
+export const GENERATOR_BONE_MIN_AMOUNT = 4;
+export const GENERATOR_BONE_MAX_AMOUNT = 4;
 
 /* ================ CreatureDiff ================ */
 export const CREATUREDIFF_BONE_ELASTICITY_DIFF_THRESHOLD = 0.1; // Jeżeli różnica elastyczności dwóch kości będzie większa niż ta zmienna to licznik punktów zwiększy się o CREATUREDIFF_BONE_DIFF_POINTS
