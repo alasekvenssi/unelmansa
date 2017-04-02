@@ -36,6 +36,7 @@ export class PopulationView extends RenderGroup implements View {
 
 		this.populationBox = new PopulationBox(mainView.population, 10, 10, -20, -100, 55,
 			(target: number) => this.onCreatureClick(target));
+		this.bestOfChart.addPoint(this.mainView.population.generation + 1, this.bestCreature().resultWithoutPenalties);
 
 		this.items.push(this.populationBox);
 		this.items.push(this.populationTxt);
@@ -53,7 +54,6 @@ export class PopulationView extends RenderGroup implements View {
 	render(ctx: Context2D) {
 		this.populationTxt.text = "Generation: " + (this.mainView.population.generation + 1);
 		this.resultTxt.text = "Best result: " + this.bestCreature().resultWithoutPenalties.toFixed(0);
-		this.bestOfChart.addPoint(this.mainView.population.generation + 1, this.bestCreature().resultWithoutPenalties);
 		super.render(ctx);
 	}
 
