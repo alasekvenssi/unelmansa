@@ -168,7 +168,7 @@ export class PopulationBox implements Renderable {
 
 		// Draw fitness value
 
-		let fitness = creature.resultWithoutPenalties.toFixed(0);
+		let fitness = creature.result.toFixed(0);
 
 		ctx.font(new Font("Arial", 10));
 		ctx.fillColor(mouseOver ? new Color(70, 70, 70) : new Color(100, 100, 100));
