@@ -115,7 +115,7 @@ export class PopulationBox implements Renderable {
 		let mouseOver = (creature == this.creatureOver);
 		if (mouseOver) {
 			this.scene.update(1 / Consts.SIMULATION_RESOLUTION);
-			// this.creatureClone.result = creature.result;
+			this.creatureClone.result = creature.result;
 			creature = this.creatureClone;
 		}
 
